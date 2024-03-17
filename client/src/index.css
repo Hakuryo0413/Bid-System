@@ -1,0 +1,25 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: 'FontSpring Demo Priego';
+  src: url('../public/fonts/fontspring-demo-priego.woff2') format('woff2'),
+    url('../public/fonts/fontspring-demo-priego.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BD Lifeless';
+  src: url('../public/fonts/BDLifelessGrotesk-Medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'BD Lifeless', sans-serif;
+  background-color: #f4f7ff;
+}
+
+
