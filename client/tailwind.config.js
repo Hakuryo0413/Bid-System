@@ -25,14 +25,15 @@ export default withMT({
         limeGreen: "#0AD20A",
         buttonBlue: "#C4DDFF",
         bgBlue: "#82b4f8",
-        background: "#f4f7ff",
+        background: "#111A29",
         loginText: "#39147B",
-        activeButton: "#007aff",
+        signupText: "#4EAD8B",
+        activeButton: "#4DA979",
         h6: "#6A7785",
         headline: "#302C42",
         button: "#7339AB",
         buttonbg: "#0E0F18",
-        textColor: "#0E0F18"
+        textColor: "#ffffff"
       },
     },
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],

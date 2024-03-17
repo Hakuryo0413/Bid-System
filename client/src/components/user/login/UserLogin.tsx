@@ -26,9 +26,7 @@ export default function UserLogin() {
   );
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
-
   const token = localStorage.getItem("token");
-
 
   const {
     register,
@@ -46,7 +44,7 @@ export default function UserLogin() {
   const getEmployerDetails = async () => {
     const data = await employerData();
     setEmployerDetails(data);
-  }
+  };
 
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
@@ -57,7 +55,10 @@ export default function UserLogin() {
         if (isLoggedIn === true) {
           if (employerDetails?.role === "Giám đốc") {
             navigate("/director/statistics-points");
-          } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
+          } else if (
+            employerDetails?.role === "Trưởng điểm tập kết" ||
+            employerDetails?.role === "Trưởng điểm giao dịch"
+          ) {
             navigate("/manager/employee");
           } else {
             navigate("/employer/home");
@@ -75,7 +76,10 @@ export default function UserLogin() {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (employerDetails?.role === "Giám đốc") {
             navigate("/director/statistics-orders");
-          } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
+          } else if (
+            employerDetails?.role === "Trưởng điểm tập kết" ||
+            employerDetails?.role === "Trưởng điểm giao dịch"
+          ) {
             navigate("/manager/employee");
           } else {
             navigate("/employer/home");
@@ -102,8 +106,6 @@ export default function UserLogin() {
     }
   }, [isLoggedIn]);
 
-
-
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
       .then((response) => {
@@ -123,72 +125,50 @@ export default function UserLogin() {
       });
   };
   return (
-    <div className="flex justify-center min-h-screen bg-background">
-      <div className="flex justify-center items-center">
-        <div className="lg:block hidden">
-          <img
-            src="https://i.imgur.com/5KtEikT.png"
-            alt="Img"
-            className="max-w-450 max-h-450 w-4/5"
-          />
-          <img
-            src="https://i.imgur.com/7XTdnaF.png"
-            alt="Img"
-            className="mt-[-180px] max-w-450 max-h-450 w-1/5"
-          />
-        </div>
-
-      </div>
-      <div className="flex flex-wrap justify-center items-center ">
-        <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Đăng nhập</h2>
-          <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
-            <div>
-              <label className="text-sm" htmlFor="email">
-                Tên đăng nhập
-              </label>
-              <input
-                id="username"
-                type="text  "
-                placeholder="Nhập tên đăng nhập"
-                {...register("username")}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500  "
-              />
-              {errors.username && (
-                <p className="text-red-500 text-sm">{errors.username.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="text-sm" htmlFor="password">
-                Mật khẩu
-              </label>
-              <input
-
-                type="password"
-                placeholder="Nhập mật khẩu"
-                {...register("password")}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500 "
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="w-full px-3 py-2 text-sm  bg-activeButton text-white rounded hover:bg-buttonPurple flex justify-center items-center "
-            >
-              Đăng nhập
-            </button>
-          </form>
-
-          <div className="flex justify-center">
-            <img src="https://i.imgur.com/TSDO2cW.gif"
-              alt="img"
-              className="h-auto w-auto" />
+    <div className="justify-center py-52 flex min-h-screen bg-background">
+      <div className="w-2/5">
+        <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
+          <h2 className="text-5xl font-bold mb-12 text-white">Đăng nhập</h2>
+          <div>
+            <label className="text-lg font-light text-white" htmlFor="email">
+              Số điện thoại/ CCCD/ Mã số thuế
+            </label>
+            <input
+              id="username"
+              type="text"
+              {...register("username")}
+              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-500 rounded-lg focus:outline-none"
+            />
+            {errors.username && (
+              <p className="text-red-500 text-sm">{errors.username.message}</p>
+            )}
           </div>
-        </div>
+          <div>
+            <label className="text-lg font-thin text-white" htmlFor="password">
+              Mật khẩu
+            </label>
+            <input
+              type="password"
+              {...register("password")}
+              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-500 rounded-lg focus:outline-none"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full px-3 py-2 h-12  text-lg  bg-activeButton text-white rounded-lg hover:bg-buttonPurple flex justify-center items-center "
+          >
+            Đăng nhập
+          </button>
+          <div className="flex justify-center items-center">
+            <span className="text-white">Bạn chưa có tài khoản?</span>
+            <a href="/signup" className="mx-2 text-signupText hover:underline">
+              Đăng ký
+            </a>
+          </div>
+        </form>
       </div>
       <ToastContainer />
     </div>

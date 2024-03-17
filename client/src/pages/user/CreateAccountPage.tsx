@@ -1,3 +1,4 @@
+import React from 'react'
 import CreateAccount from "../../components/user/signup/createAccount";
 
 function CreateAccountPage() {
@@ -9,4 +10,3 @@ function CreateAccountPage() {
   }
   
   export default CreateAccountPage;
-  

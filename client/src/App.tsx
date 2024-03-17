@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/*" element={<HomeRouter />} />
-          <Route path="/employer/*" element={<UserRouter />} />
+          <Route path="/*" element={<UserRouter />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
