@@ -125,7 +125,7 @@ export default function UserLogin() {
       });
   };
   return (
-    <div className="justify-center py-52 flex min-h-screen bg-background">
+    <div className="justify-center py-36 flex min-h-screen bg-background">
       <div className="w-2/5">
         <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
           <h2 className="text-5xl font-bold mb-12 text-white">Đăng nhập</h2>
@@ -137,7 +137,7 @@ export default function UserLogin() {
               id="username"
               type="text"
               {...register("username")}
-              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-500 rounded-lg focus:outline-none"
+              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -150,7 +150,7 @@ export default function UserLogin() {
             <input
               type="password"
               {...register("password")}
-              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-500 rounded-lg focus:outline-none"
+              className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -158,7 +158,7 @@ export default function UserLogin() {
           </div>
           <button
             type="submit"
-            className="w-full px-3 py-2 h-12  text-lg  bg-activeButton text-white rounded-lg hover:bg-buttonPurple flex justify-center items-center "
+            className="w-full px-3 py-2 h-12  text-lg  bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center "
           >
             Đăng nhập
           </button>

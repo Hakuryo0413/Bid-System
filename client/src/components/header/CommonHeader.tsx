@@ -6,7 +6,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 //************************************
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
-const navigation = [{ name: "Trang chủ", href: "/", current: false }];
+const navigation = [
+  { name: "DS công bố", href: "/", current: false },
+  { name: "Sim sắp đấu giá", href: "/", current: false },
+  { name: "Phòng đấu giá", href: "/", current: false },
+  { name: "Kết quả đấu giá", href: "/", current: false },
+];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
 function classNames(...classes: string[]) {
@@ -34,20 +39,20 @@ function CommonHeader() {
               {/* Tên của trang web */}
               <a
                 href="/homepage"
-                className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-2xl font-logo"
+                className="sm:flex-1 sm:justify-start text-white flex w-full justify-center text-bold text-2xl font-logo"
               >
                 Đấu giá sim
               </a>
               {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
               {/* Navigation trên kích thước lớn hơn kích thước điện thoại (small).*/}
-              <div className="flex-4 hidden sm:block">
-                <div className="flex space-x-4">
+              <div className="flex-4 hidden sm:block ">
+                <div className="flex space-x-4 ">
                   {navigation.map((item) => (
                     <a
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        "text-black hover:opacity-75",
+                        "text-white hover:text-currentText",
                         "rounded-md px-3 py-2 text-base font-mediun"
                       )}
                       aria-current={item.current ? "page" : undefined}
@@ -58,13 +63,12 @@ function CommonHeader() {
                 </div>
               </div>
 
-             
               <div className="absolute right-0 flex-1 sm:relative sm:block">
-                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-buttonBlue hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-activeButton hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href="/signup">Đăng ký</a>
                 </Disclosure.Button>
-                 {/* Nút đăng nhập --> Chuyển hướng sang trang đăng nhập tài khoản. */}
-                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-buttonBlue hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                {/* Nút đăng nhập --> Chuyển hướng sang trang đăng nhập tài khoản. */}
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-activeButton hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href="/login">Đăng nhập</a>
                 </Disclosure.Button>
               </div>

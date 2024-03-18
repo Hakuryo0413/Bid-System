@@ -1,12 +1,16 @@
-import React from 'react'
-import UserLogin from '../../components/user/login/UserLogin'
+import React from "react";
+import UserLogin from "../../components/user/login/UserLogin";
+import CommonHeader from "../../components/header/CommonHeader";
+import UserSideFooter from "../../components/footer/UserSideFooter";
 
 const UserLoginPage = () => {
   return (
     <div>
-      <UserLogin/>
+      <CommonHeader />
+      <UserLogin />
+      <UserSideFooter/>
     </div>
-  )
-}
+  );
+};
 
-export default UserLoginPage
+export default UserLoginPage;
