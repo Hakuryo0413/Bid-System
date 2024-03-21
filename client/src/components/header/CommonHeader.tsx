@@ -39,10 +39,11 @@ function CommonHeader() {
               {/* Tên của trang web */}
               <a
                 href="/homepage"
-                className="sm:flex-1 sm:justify-start text-white flex w-full justify-center text-bold text-2xl font-logo"
+                className="sm:flex-1 sm:justify-start text-white flex w-full justify-center text-bold text-4xl font-logo"
               >
-                Đấu giá sim
+                DGS
               </a>
+
               {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
               {/* Navigation trên kích thước lớn hơn kích thước điện thoại (small).*/}
               <div className="flex-4 hidden sm:block ">

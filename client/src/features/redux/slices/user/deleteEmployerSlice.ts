@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { employerInterface } from '../../../../types/EmployerInterface';
+import { userInterface } from '../../../../types/UserInterface';
 
 interface deleteEmployerState {
-  employers: employerInterface[]; 
+  employers: userInterface[]; 
   change: boolean;  
 }
 
@@ -16,7 +16,7 @@ const deleteEmployerSlice = createSlice({
   name: "deleteEmployers",
   initialState,
   reducers: {
-    setEmployerJobs: (state, action: PayloadAction<employerInterface[]>) => {
+    setEmployerJobs: (state, action: PayloadAction<userInterface[]>) => {
       state.employers = action.payload;
     },
     clearEmployerJobs: (state) => {

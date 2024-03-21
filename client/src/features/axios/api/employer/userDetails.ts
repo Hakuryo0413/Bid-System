@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
-import { employerInterface } from "../../../../types/EmployerInterface";
+import { userInterface } from "../../../../types/UserInterface";
 
 //************************************
 // Description: Hàm liên quan lấy dữ liệu và xóa nhân viên.
