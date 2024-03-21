@@ -6,11 +6,13 @@ export interface LoginPayload {
 
 export interface SignupPayload extends LoginPayload {
   name: string;
-  phone: string;
+  email: string;
   confirmPassword: string;
-  transaction: string;
   consolidation: string;
   role: string;
+  address: string;
+  representerName: string;
+  pos: string;
 }
 
 

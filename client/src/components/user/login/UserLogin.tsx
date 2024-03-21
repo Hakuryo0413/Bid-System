@@ -12,10 +12,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/employer/userAuthentication";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
-import { employerInterface } from "../../../types/EmployerInterface";
+import { userInterface } from "../../../types/UserInterface";
 
 //************************************
-// Description: Phần Đăng nhập tài khoảng
+// Description: Phần Đăng nhập tài khoản
 //************************************
 
 export default function UserLogin() {
@@ -24,7 +24,7 @@ export default function UserLogin() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
-  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+  const [employerDetails, setEmployerDetails] = useState<userInterface>();
 
   const token = localStorage.getItem("token");
 
@@ -131,7 +131,7 @@ export default function UserLogin() {
           <h2 className="text-5xl font-bold mb-12 text-white">Đăng nhập</h2>
           <div>
             <label className="text-lg font-light text-white" htmlFor="email">
-              Số điện thoại/ CCCD/ Mã số thuế
+              Số điện thoại / CCCD
             </label>
             <input
               id="username"
@@ -158,7 +158,7 @@ export default function UserLogin() {
           </div>
           <button
             type="submit"
-            className="w-full px-3 py-2 h-12  text-lg  bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center "
+            className="w-full   mt-20  h-12  text-lg  bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center "
           >
             Đăng nhập
           </button>

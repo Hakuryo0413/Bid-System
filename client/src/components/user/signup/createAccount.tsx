@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupPayload } from "../../../types/PayloadInterface";
 import { userRegisterValidationSchema } from "../../../utils/validation";
-import { employerInterface } from "../../../types/EmployerInterface";
+import { userInterface } from "../../../types/UserInterface";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
 import { IoIosArrowBack } from "react-icons/io";
@@ -36,7 +36,15 @@ export function CreateAccount() {
         </a>
       </div>
       <div className="justify-center py-12  min-h-screen">
-        <h2 className="text-center	 text-5xl font-thin mb-4 text-white">VPA</h2>
+        <div className="flex justify-center">
+          <img
+            src={require("../../../assets/images/logo.png")}
+            className="object-cover  h-20 rounded-3xl"
+          />
+          <h2 className="text-center mt-5 mx-2	 text-5xl font-thin mb-4 text-white">
+            DGS
+          </h2>
+        </div>
         <h2 className="text-center	 text-5xl font-bold mb-4 text-white">
           Bạn là cá nhân hay tổ chức ?
         </h2>
@@ -48,7 +56,11 @@ export function CreateAccount() {
         </p>
         <div className="flex justify-center m-12">
           <div className="bg-card h-96 w-72 rounded-3xl mr-6">
-            <Link onMouseEnter={handleHover} onMouseLeave={handleLeave} to={"canhan"}>
+            <Link
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
+              to={"canhan"}
+            >
               {/* Use Link for navigation */}
               <div className="flex">
                 <h2 className="text-2xl   mx-4 mt-2 text-white">Cá nhân</h2>
@@ -61,7 +73,11 @@ export function CreateAccount() {
             </Link>
           </div>
           <div className="bg-card h-96 w-72 rounded-3xl ml-6">
-            <Link onMouseEnter={handleHover} onMouseLeave={handleLeave} to={"tochuc"}>
+            <Link
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
+              to={"tochuc"}
+            >
               {/* Use Link for navigation */}
               <div className="flex">
                 <h2 className="text-2xl   mx-4 mt-2 text-white">Tổ chức</h2>
