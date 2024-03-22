@@ -11,6 +11,8 @@ const navigation = [
   { name: "Sim sắp đấu giá", href: "/", current: false },
   { name: "Phòng đấu giá", href: "/", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
+  { name: "DS cá nhân", href: "/", current: false },
+  { name: "DS tổ chức", href: "/", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
@@ -18,7 +20,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-function CommonHeader() {
+function AdminHeader() {
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
@@ -103,5 +105,5 @@ function CommonHeader() {
   );
 }
 
-export default CommonHeader;
+export default AdminHeader;
 export {};
