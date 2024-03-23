@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
  
 export default function UserSideFooter() {
   return (
-    <footer className="absolute w-full bg-background">
+    <footer className="w-full bg-background mt-auto">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="grid  grid-cols-1 justify-between gap-4 md:grid-cols-2">
           <Typography variant="h5" className="mb-6 text-textColor">

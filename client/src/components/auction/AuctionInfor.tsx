@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { AuctionInterface } from "../../types/AuctionInterface";
+import { RoomInterface } from "../../types/RoomInterface";
+import ParticipantsList from "./ParticipantsList";
 
-// interface AuctionInforProps {
-//     id: string;
-//   }
+interface AuctionInforProps {
+    code: string;
+}
   
-export default function AuctionInfor() {
+const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
-  const [AuctionInfor, setAuctionInfor] = useState<AuctionInterface>(); // State để lưu trữ mã vận đơn
+  const [AuctionInfor, setAuctionInfor] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
   const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
 
 //   useEffect(() => {
@@ -39,7 +40,7 @@ export default function AuctionInfor() {
   });
 
   return (
-    <div className="bg-background px-8 lg:px-64">
+    <div className="bg-background px-8 lg:px-64 pb-8 flex-grow">
         <div>
             <p className="flex lg:py-4 py-4 text-white text-[20px] font-bold">
                 Thông tin đấu giá
@@ -86,8 +87,8 @@ export default function AuctionInfor() {
             </p>
 
             <div className="flex justify-end pb-4">
-                <input type="text" className="bg-background lg:w-[40%] w-full rounded-lg px-4 py-2 border-2 border-white placeholder-white"
-                        placeholder="Nhập tên người dùng, email, ... cần tìm"/>
+                <input type="text" className="bg-background lg:w-[40%] w-full rounded-lg px-4 py-2 border-2 border-white placeholder-gray-600 text-white"
+                        placeholder="Nhập thông tin cần tìm"/>
                 <button
                 type="submit"
                 className="text-white w-[100px] items-center bg-activeButton rounded-lg ml-2 hover:bg-green-900"
@@ -96,8 +97,8 @@ export default function AuctionInfor() {
                 </button>
             </div>
 
-            <div className="border-white border-2 py-4 px-8 rounded-lg bg-bgBlue">
-                 
+            <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-bgBlue">
+                <ParticipantsList participants={AuctionInfor?.participants ?? []}/>
             </div>
 
         </div>
@@ -105,3 +106,5 @@ export default function AuctionInfor() {
     </div>
   );
 };
+
+export default AuctionInfor
