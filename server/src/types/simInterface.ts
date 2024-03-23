@@ -1,6 +1,6 @@
 import { Date, Types } from "mongoose";
 
-export interface historyInterface {
+export interface simInterface {
     _id?: Types.ObjectId,
     number?: string,
     provider?: string,

@@ -1,6 +1,6 @@
 import { Date, Types } from "mongoose";
 
-export interface accountInterface {
+export interface notificationInterface {
     _id?: Types.ObjectId,
     account?: string,
     content?: string,

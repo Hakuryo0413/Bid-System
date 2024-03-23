@@ -15,7 +15,8 @@ const notificationSchema = new Schema({
         type: Boolean
     },
     created_at:{
-        type: Date
+        type: Date,
+        default: Date.now()
     }
     
 })

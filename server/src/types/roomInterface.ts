@@ -1,6 +1,6 @@
 import { Date, Types } from "mongoose";
 
-export interface accountInterface {
+export interface roomInterface {
     _id?: Types.ObjectId,
     code?: string,
     participants?: string[],

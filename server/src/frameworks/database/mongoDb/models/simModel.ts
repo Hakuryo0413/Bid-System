@@ -21,7 +21,8 @@ const simSchema = new Schema({
         type: Number
     },
     created_at:{
-        type: Date
+        type: Date,
+        default: Date.now()
     }
     
 })
