@@ -12,7 +12,7 @@ function HomeRouter() {
   return (
     <div>
       <Routes>
-        <Route path="*" element={<AuctionInforPage />} />
+        <Route path="*" element={<Home />} />
         <Route path="/login" element={<UserLoginPage />} />
         <Route path="/signup" element={<CreateAccountPage />} />
         <Route path="/signup/canhan" element={<CreateCaNhanPage />} />

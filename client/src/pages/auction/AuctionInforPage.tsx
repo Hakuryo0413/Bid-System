@@ -3,11 +3,15 @@ import AdminHeader from '../../components/header/AdminHeader'
 import UserSideFooter from '../../components/footer/UserSideFooter'
 import AuctionInfor from '../../components/auction/AuctionInfor';
 
-function AuctionInforPage() {
+interface AuctionInforPageProps {
+  code: string;
+}
+
+const AuctionInforPage: React.FC<AuctionInforPageProps> = ({ code }) => {
   return (
     <div>
         <AdminHeader/>
-        <AuctionInfor/>
+        <AuctionInfor code={code}/>
         <UserSideFooter/>
     </div>
   )
