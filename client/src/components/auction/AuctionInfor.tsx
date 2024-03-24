@@ -42,7 +42,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
   });
 
   return (
-    <div className="bg-background px-8 lg:px-64 pb-8 flex-grow">
+    <div className="bg-background px-[5%] pb-8 flex-grow">
         <div>
             <p className="flex lg:py-4 py-4 text-white text-[20px] font-bold">
                 Thông tin đấu giá
@@ -65,13 +65,13 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
                         placeholder="Nhập thông tin cần tìm"/>
                 <button
                 type="submit"
-                className="text-white w-[100px] items-center bg-activeButton rounded-lg ml-2 hover:bg-green-900"
+                className="text-white w-[100px] items-center bg-activeButton rounded-lg ml-2 hover:bg-green-900 hidden lg:block"
                 >
                 Tìm kiếm
                 </button>
             </div>
 
-            <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-bgBlue">
+            <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-white">
                 <ParticipantsList participants={AuctionInfor?.participants ?? []}/>
             </div>
 
