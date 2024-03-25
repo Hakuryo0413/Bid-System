@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { RoomInterface } from "../../types/RoomInterface";
 import ParticipantsList from "./ParticipantsList";
+import HappeningAuction from "./HappeningAuction";
+import CompletedAuction from "./CompletedAuction";
 
 interface AuctionInforProps {
     code: string;
@@ -40,45 +42,17 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
   });
 
   return (
-    <div className="bg-background px-8 lg:px-64 pb-8 flex-grow">
+    <div className="bg-background px-[5%] pb-8 flex-grow">
         <div>
             <p className="flex lg:py-4 py-4 text-white text-[20px] font-bold">
                 Thông tin đấu giá
             </p>
 
-            <div className="border-white border-2 py-4 px-8  rounded-lg bg-bgBlue">
-                <div className="grid lg:grid-cols-2">
-                    <p className="text-white mb-2">
-                        Số điện thoại:
-                    </p>
-                    <p className="text-white mb-2">
-                        Tên nhà mạng:
-                    </p>
-                </div>
-
-                <div className="grid lg:grid-cols-2">
-                    <p className="text-white mb-2">
-                        Thời gian đấu giá:
-                    </p>
-                    <p className="text-white mb-2">
-                        Số người tham gia:
-                    </p>
-                </div>
-                
-                
-
-                <div className="border-2 border-white mb-2"></div>
-
-                <div className="grid lg:grid-cols-2">
-                    <p className="text-white my-2 lg:my-0">
-                        Người đấu giá thành công: 
-                    </p>
-                    <p className="text-white">
-                        Giá cao nhất:
-                    </p>
-                </div>
-
-            </div>
+            {AuctionInfor?.time_limit ?? 0 > 0 ? (
+                <HappeningAuction />     
+            ) : (
+                <CompletedAuction />
+            )}
         </div>
 
         <div className="pt-4">
@@ -91,13 +65,13 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
                         placeholder="Nhập thông tin cần tìm"/>
                 <button
                 type="submit"
-                className="text-white w-[100px] items-center bg-activeButton rounded-lg ml-2 hover:bg-green-900"
+                className="text-white w-[100px] items-center bg-activeButton rounded-lg ml-2 hover:bg-green-900 hidden lg:block"
                 >
                 Tìm kiếm
                 </button>
             </div>
 
-            <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-bgBlue">
+            <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-white">
                 <ParticipantsList participants={AuctionInfor?.participants ?? []}/>
             </div>
 

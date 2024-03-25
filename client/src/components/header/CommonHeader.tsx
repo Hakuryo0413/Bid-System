@@ -54,16 +54,16 @@ function CommonHeader() {
               </div>
 
               <div className="absolute right-0 flex lg:relative lg:block">
-                <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:bg-activeButton hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:text-currentText text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href="/signup">Đăng ký</a>
                 </Disclosure.Button>
                 {/* Nút đăng nhập --> Chuyển hướng sang trang đăng nhập tài khoản. */}
-                <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:bg-activeButton hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:text-currentText text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href="/login">Đăng nhập</a>
                 </Disclosure.Button>
                 <div className="flex lg:hidden">
                   {/* Nút mở navigation đối với điện thoại*/}
-                  <Disclosure.Button className="flex float-right items-center rounded-lg p-2 text-white hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button className="flex float-right items-center rounded-lg p-2 text-white hover:bg-white hover:bg-opacity-30 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -86,8 +86,8 @@ function CommonHeader() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    "bg-bgBlue text-textColor",
-                    "hover:bg-gray-200 opacity-75",
+                    "bg-white bg-opacity-20 text-textColor",
+                    "hover:text-currentText",
                     "block rounded-lg px-3 py-2 text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
