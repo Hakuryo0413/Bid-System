@@ -1,42 +1,47 @@
 import { roomModel } from "../frameworks/database/mongoDb/models/roomModel";
 import { roomInterface } from "../types/roomInterface";
 
-export class roomEntity{
-    private model: roomModel;
+export class roomEntity {
+  private model: roomModel;
 
-    constructor(model : roomModel){
-        this.model = model;
+  constructor(model: roomModel) {
+    this.model = model;
+  }
+
+  public async getRoomByCode(code: string): Promise<roomInterface | null> {
+    const room = this.model.findOne({ code: code });
+    return room;
+  }
+
+  public async getRoomByEmail(email: string): Promise<roomInterface[] | null>{
+    const rooms = await this.model.find({ 'participants.account': email });
+    return rooms;
+  }
+
+  public async createRoom(room: roomInterface): Promise<roomInterface | null> {
+    const newRoom = this.model.create(room);
+          return newRoom;
+  }
+
+  public async getAllRoom(): Promise<roomInterface[] | null> {
+    const allRooms = this.model.find();
+    return allRooms;
+  }
+
+  public async updateRoom(
+    id: string,
+    updates: Partial<roomInterface>
+  ): Promise<roomInterface | null> {
+    const currentDetails = await this.model.findById(id);
+
+    if (currentDetails) {
+      Object.assign(currentDetails, updates);
+      const updatedRoom = await currentDetails.save();
+      return updatedRoom;
     }
 
-    public async getRoomByCode(code: string): Promise<roomInterface | null>{
-        const room = this.model.findOne({code: code});
-        return room;
-    }
-
-    public async createRoom(room: roomInterface): Promise<roomInterface | null>{
-        const newRoom = this.model.create(room);
-        return newRoom;
-    }
-
-    public async getAllRoom():Promise<roomInterface[] | null>{
-        const allRooms = this.model.find();
-        return allRooms;
-    }
-
-    public async updateRoom(
-        id: string,
-        updates: Partial<roomInterface>
-      ): Promise<roomInterface | null> {
-        const currentDetails = await this.model.findById(id);
-        
-        if (currentDetails) {
-          Object.assign(currentDetails, updates);
-          const updatedRoom = await currentDetails.save();
-          return updatedRoom;
-        }
-    
-        return null; 
-      }
+    return null;
+  }
 
 
 }

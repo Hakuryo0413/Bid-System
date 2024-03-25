@@ -13,6 +13,9 @@ const roomSchema = new Schema({
     time_limit:{
         type: Number
     },
+    user_highest_price:{
+        type: String
+    },
     price:{
         type: Number
     },

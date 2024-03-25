@@ -22,4 +22,4 @@ const notificationSchema = new Schema({
 })
 
 export const Notification = model("Notification",notificationSchema)
-export type NotificationModel = typeof Notification;
+export type notificationModel = typeof Notification;

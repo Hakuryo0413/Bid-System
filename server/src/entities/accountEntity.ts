@@ -1,10 +1,10 @@
-import { AccountModel } from "../frameworks/database/mongoDb/models/accountModel";
+import { accountModel } from "../frameworks/database/mongoDb/models/accountModel";
 import { accountInterface } from "../types/accountInterface";
 
 export class accountEntity{
-    private model: AccountModel;
+    private model: accountModel;
 
-    constructor(model: AccountModel){
+    constructor(model: accountModel){
         this.model = model;
     }
 

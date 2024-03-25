@@ -1,9 +1,9 @@
-import { NotificationModel } from "../frameworks/database/mongoDb/models/notificationModel";
+import { notificationModel } from "../frameworks/database/mongoDb/models/notificationModel";
 import { notificationInterface } from "../types/notificationInterface";
 
 export class notificationEntity{
-    private model: NotificationModel;
-    constructor(model: NotificationModel){
+    private model: notificationModel;
+    constructor(model: notificationModel){
         this.model = model;
     }
 
