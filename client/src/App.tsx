@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/*" element={<HomeRouter />} />
-          <Route path="/*" element={<UserRouter />} />
+          <Route path="/user/*" element={<UserRouter />} />
           <Route path="/auction/*" element={<AuctionRouter/>} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
