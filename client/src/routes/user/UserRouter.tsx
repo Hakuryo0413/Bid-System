@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import UserLoginPage from "../../pages/user/UserLoginPage";
-import CreateAccountPage from "../../pages/user/CreateAccountPage";
+import CreateAccountPage from "../../pages/home/CreateAccountPage";
 
 import UserHomePage from "../../pages/user/UserHomePage";
 

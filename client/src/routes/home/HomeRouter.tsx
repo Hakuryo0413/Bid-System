@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../../pages/home/Home";
-import UserLoginPage from "../../pages/user/UserLoginPage";
-import CreateAccountPage from "../../pages/user/CreateAccountPage";
-import CreateCaNhanPage from "../../pages/user/CreateCaNhanPage";
-import CreateToChucPage from "../../pages/user/CreateToChucPage";
-import AuctionInforPage from "../../pages/auction/AuctionInforPage";
 
+import AuctionInforPage from "../../pages/auction/AuctionInforPage";
+import UserLoginPage from "../../pages/home/UserLoginPage";
+import CreateAccountPage from "../../pages/home/CreateAccountPage";
+import CreateCaNhanPage from "../../pages/home/CreateCaNhanPage";
+import CreateToChucPage from "../../pages/home/CreateToChucPage";
 
 function HomeRouter() {
   return (
@@ -17,7 +17,6 @@ function HomeRouter() {
         <Route path="/signup" element={<CreateAccountPage />} />
         <Route path="/signup/canhan" element={<CreateCaNhanPage />} />
         <Route path="/signup/tochuc" element={<CreateToChucPage />} />
-
       </Routes>
     </div>
   );
