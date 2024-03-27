@@ -13,19 +13,25 @@ export class roomEntity {
     return room;
   }
 
-  public async getRoomByEmail(email: string): Promise<roomInterface[] | null>{
+  public async getRoomByEmail(email: string): Promise<roomInterface[] | null> {
     const rooms = await this.model.find({ 'participants.account': email });
     return rooms;
   }
 
   public async createRoom(room: roomInterface): Promise<roomInterface | null> {
     const newRoom = this.model.create(room);
-          return newRoom;
+    return newRoom;
   }
 
   public async getAllRoom(): Promise<roomInterface[] | null> {
     const allRooms = this.model.find();
     return allRooms;
+  }
+
+  public async deleteRoom(id: string): Promise<void> {
+    const room = await this.model.findById(id);
+    if (!room) throw new Error("room not found");
+    await this.model.findByIdAndDelete(id);
   }
 
   public async updateRoom(
@@ -43,5 +49,9 @@ export class roomEntity {
     return null;
   }
 
+  public async getRoomOngoing(time : Date):Promise<roomInterface[] | null>{
+    const rooms: any = await this.model.findOne({time: time});
+    return rooms;
+  }
 
 }

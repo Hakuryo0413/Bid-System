@@ -30,12 +30,23 @@ export const roomRepositoryMongoDB = (model: roomModel) =>{
         return allRooms;
     }
 
+    const getRoomOngoing = async(time :Date)=>{
+        const rooms = await RoomEntity.getRoomOngoing(time);
+        return rooms;
+    }
+
+    const deleteRoom = async(id: string) =>{
+        await RoomEntity.deleteRoom(id);
+    }
+
     return{
         getRoomByCode,
         getRoomByEmail,
         createRoom,
         updateRoom,
-        getAllRoom
+        getAllRoom,
+        getRoomOngoing,
+        deleteRoom
     }
 }
 

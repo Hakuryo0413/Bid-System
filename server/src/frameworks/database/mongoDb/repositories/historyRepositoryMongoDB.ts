@@ -10,8 +10,8 @@ export const historyRepositoryMongoDB = (model: historyModel) =>{
         return history;
     }
 
-    const getHistoryByEmail = async (email: string) =>{
-        const history = await HistoryEntity.getHistoryByEmail(email);
+    const getHistoryByAccount = async (email: string) =>{
+        const history = await HistoryEntity.getHistoryByAccount(email);
         return history;
     }
 
@@ -32,7 +32,7 @@ export const historyRepositoryMongoDB = (model: historyModel) =>{
 
     return{
         getHistoryById,
-        getHistoryByEmail,
+        getHistoryByAccount,
         createHistory,
         updateHistory,
         getAllHistory

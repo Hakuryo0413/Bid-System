@@ -31,4 +31,10 @@ export class notificationEntity{
     
         return null; 
     }
+
+    public async deleteNotification(id: string):Promise<void>{
+        const notification = await this.model.findById(id);
+        if (!notification) throw new Error("notification not found");
+        await this.model.findByIdAndDelete(id);
+    }
 }

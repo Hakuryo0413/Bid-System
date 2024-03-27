@@ -41,6 +41,7 @@ export const simRepositoryMongoDB = (model: simModel) =>{
     return{
         getSimById,
         getSimByNumber,
+        getSimByProvider,
         createSim,
         deleteSim,
         deleteSimByNumber,

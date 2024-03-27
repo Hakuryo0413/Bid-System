@@ -13,7 +13,7 @@ export class historyEntity{
         return history;
     }
 
-    public async getHistoryByEmail(email: string):Promise<historyInterface[] | null>{
+    public async getHistoryByAccount(email: string):Promise<historyInterface[] | null>{
         const histories: any = this.model.find({email: email});
         return histories;
     }

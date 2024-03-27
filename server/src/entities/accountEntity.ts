@@ -18,6 +18,11 @@ export class accountEntity{
         return account;
     }
 
+    public async getAccountByRole(role: string): Promise<accountInterface[] | null>{
+        const accounts = await this.model.find({role: role});
+        return accounts;
+    }
+
     public async createAccount(account: accountInterface): Promise<accountInterface>{
         const newAccount = this.model.create(account);
         return newAccount;
@@ -36,8 +41,14 @@ export class accountEntity{
         }
     
         return null; 
-      }
+    }
 
+    public async deleteAccount(id: string): Promise<void>{
+        const account = await this.model.findById(id);
+        if (!account) throw new Error("account not found");
+        await this.model.findByIdAndDelete(id);
+    }
+    
     public async getAllAccount():Promise<accountInterface[] | null>{
         const allAccount = this.model.find();
         return allAccount;

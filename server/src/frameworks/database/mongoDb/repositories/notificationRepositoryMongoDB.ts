@@ -20,10 +20,15 @@ export const notificationRepositoryMongoDB = (model: notificationModel) =>{
         return updatedNotification;
     }
 
+    const deleteNotification = async (id: string)=>{
+        await NotificationEntity.deleteNotification(id);
+    }
+
     return{
         createNotification,
         updateNotification,
-        getNotificationByAccount
+        getNotificationByAccount,
+        deleteNotification
     }
 }
 
