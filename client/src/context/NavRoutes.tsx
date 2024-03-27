@@ -5,6 +5,10 @@ import {
   FaFacebookMessenger,
   FaUser,
 } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa6";
+import { GoHistory } from "react-icons/go";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { FaSimCard } from "react-icons/fa";
 
 //************************************
 // Description: Xử lý navigation
@@ -16,28 +20,29 @@ const icon = {
 
 export const NavRoutes = [
   {
-    layout: "admin",
+    layout: "user",
     pages: [
       {
-        icon: <FaBriefcase {...icon} />,
-        name: "Dự án",
-        path: "/employer/all-jobs",
+        icon: <FaRegUser {...icon} />,
+        name: "Thông tin tài khoản",
+        path: "/user/profile",
       },
       {
-        icon: <FaEnvelope {...icon} />,
-        name: "Đơn yêu cầu",
-        path: "/employer/applications",
+        icon: <MdOutlineShoppingCart {...icon} />,
+        name: "Giỏ hàng",
+        path: "/user/applications",
       },
       {
-        icon: <FaFacebookMessenger {...icon} />,
-        name: "Tin nhắn",
-        path: "/employer/messenger",
+        icon: <FaSimCard {...icon} />,
+        name: "Sim chờ đấu giá",
+        path: "/user/messenger",
       },
       {
-        icon: <FaUser {...icon} />,
-        name: "Hồ sơ",
-        path: "/employer/profile",
+        icon: <GoHistory {...icon} />,
+        name: "Lịch sử đấu giá",
+        path: "/user/payment",
       },
+     
     ],
   },
 ];
