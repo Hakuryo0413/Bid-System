@@ -38,6 +38,11 @@ export const simRepositoryMongoDB = (model: simModel) =>{
         return allSims;
     }
 
+    const updateSim = async (id: string, updates: Partial<simInterface>) =>{
+        const updatedSim = await SimEntity.updateSim(id,updates);
+        return updatedSim;
+    }
+
     return{
         getSimById,
         getSimByNumber,
@@ -45,7 +50,8 @@ export const simRepositoryMongoDB = (model: simModel) =>{
         createSim,
         deleteSim,
         deleteSimByNumber,
-        getAllSim
+        getAllSim,
+        updateSim
     }
 }
 

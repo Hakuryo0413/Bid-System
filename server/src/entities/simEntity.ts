@@ -44,4 +44,19 @@ export class simEntity{
         const allSim: any = await this.model.find();
         return allSim;
     }
+
+    public async updateSim(
+        id: string,
+        updates: Partial<simInterface>
+      ): Promise<simInterface | null> {
+        const currentDetails = await this.model.findById(id);
+    
+        if (currentDetails) {
+          Object.assign(currentDetails, updates);
+          const updatedSim: any = await currentDetails.save();
+          return updatedSim;
+        }
+    
+        return null;
+      }
 }

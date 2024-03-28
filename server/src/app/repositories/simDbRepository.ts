@@ -38,6 +38,11 @@ export const simDbRepository = (
         return allSims;
     }
 
+    const updateSim = async (id: string, updates: Partial<simInterface>) => {
+        const updatedSim = await repository.updateSim(id, updates);
+        return updatedSim;
+    }
+
     return{
         getSimById,
         getSimByNumber,
@@ -45,7 +50,8 @@ export const simDbRepository = (
         createSim,
         deleteSim,
         deleteSimByNumber,
-        getAllSim
+        getAllSim,
+        updateSim
     }
 }
 
