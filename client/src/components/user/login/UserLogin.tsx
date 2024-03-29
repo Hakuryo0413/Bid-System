@@ -4,14 +4,14 @@ import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
 import { userLoginValidationSchema } from "../../../utils/validation";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../features/redux/slices/user/tokenSlice";
+import { setToken } from "../../../features/redux/slices/account/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { RootState } from "../../../features/redux/reducers/Reducer";
-import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
+import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login } from "../../../features/axios/api/employer/userAuthentication";
-import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { login } from "../../../features/axios/api/account/AccountAuthentication";
+// import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
 
 //************************************

@@ -5,15 +5,15 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 const api = setupAxiosInterceptors();
 
 
-const deleteJob = async (username: string): Promise<any> => {
+const deleteJob = async (id: string): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.deleteEmployer}/${username}`,
+            url: `${apiConfig.deleteAccountId}/${id}`,
             method: "delete",
         };
         await api(config);
     } catch (error) {
-        throw new Error("error while deleting the job");
+        throw new Error("error while deleting the account");
     }
 };
 

@@ -1,18 +1,12 @@
 import { Application } from "express";
-import authenticationMiddleware from "../middleware/authenticationMiddleware";
-import employerRoute from "./employer";
-import consolidationRoute from "./consolidation";
-import transactionRoute from "./transaction";
-import orderRoute from "./order";
-import employerAuthRoute from "./employerAuth";
+import accountAuthRoute from "./accountAuth";
+import accountRoute from "./account";
+
 
 const routes = (app: Application) => {
-    app.use('/api/employer-auth',employerAuthRoute());
-    app.use('/api/employer', employerRoute());
-    app.use('/api/consolidation',consolidationRoute());
-    app.use('/api/transaction',transactionRoute());
-    app.use('/api/order',orderRoute());
     
+    app.use('/api/account-auth',accountAuthRoute());
+    app.use('/api/account',accountRoute());
 }
 
 export default routes;

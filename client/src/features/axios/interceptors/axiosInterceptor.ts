@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import store from "../../redux/store/Store";
-import { clearToken } from "../../redux/slices/user/tokenSlice";
+import { clearToken } from "../../redux/slices/account/tokenSlice";
 import configKeys from "../../../utils/config";
 
 const setupAxiosInterceptors = (): AxiosInstance => {

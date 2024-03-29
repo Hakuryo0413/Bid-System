@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { employerData } from "../../../axios/api/employer/userDetails";
+import { allAccounts } from "../../../axios/api/account/AccountsDetail";
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const response = await employerData();
+  const response = await allAccounts();
   return response;
 });
 

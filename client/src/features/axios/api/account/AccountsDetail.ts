@@ -8,41 +8,41 @@ import apiConfig from "../../../../utils/apiConfig";
 
 const api = setupAxiosInterceptors();
 
-export const allEmployersData = async (): Promise<any> => {
+export const allAccounts = async (): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.allEmployers,
+      url: apiConfig.allAccounts,
       method: "get",
     };
     const response = await api(config);
-    return response?.data.allEmployers;
+    return response?.data.allAccounts;
   } catch (error) {
-    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về account.");
   }
 };
 
-export const getEmployersByCons = async (consolidation: string): Promise<any> => {
+export const getAccountsByRole = async (role: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: `${apiConfig.employerCons}/${consolidation}`,
+      url: `${apiConfig.accountRole}/${role}`,
       method: "get",
     };
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về account.");
   }
 };
 
-export const getEmployersByTrans = async (transaction: string): Promise<any> => {
+export const getAccountsByEmail = async (email: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: `${apiConfig.employerTrans}/${transaction}`,
+      url: `${apiConfig.accountEmail}/${email}`,
       method: "get",
     };
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về account.");
   }
 };

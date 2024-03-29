@@ -7,8 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupPayload } from "../../../types/PayloadInterface";
 import { userRegisterValidationSchema } from "../../../utils/validation";
 import { userInterface } from "../../../types/UserInterface";
-import { employerData } from "../../../features/axios/api/employer/userDetails";
-import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
+import { employerData } from "../../../features/axios/api/account/accountDetails";
+import { createAccount } from "../../../features/axios/api/account/AccountAuthentication";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -231,4 +231,4 @@ export function CreateCaNhan() {
 }
 
 export default CreateCaNhan;
-export {};
+export { };

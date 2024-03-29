@@ -40,6 +40,7 @@ export const loginAction = async(
         throw new AppError("Sorry, incorrect password", HttpStatus.UNAUTHORIZED);
     }
     const payload = account._id ? account._id.toString() : '';
-    const token = authService.generateToken(payload,'account');
+    
+    const token = authService.generateToken({ payload: payload, role: 'account' });
     return token;
 }
