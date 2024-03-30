@@ -35,8 +35,7 @@ export const accountController = (
 
     const getAccountById = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const customReq = req as CustomRequest;
-            const id = customReq.payload ?? "";
+            const id = req.params.id;
             const account = await findAccountById(id, dbRepositoryAccount);
             res.json(account);
         }
@@ -51,8 +50,7 @@ export const accountController = (
 
     const updateAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const customReq = req as CustomRequest;
-          const accountId = customReq.payload ?? "";
+          const accountId = req.params.id;
           if (!accountId) {
             throw new AppError(
               "unauthorized request, invalid token",
@@ -75,8 +73,7 @@ export const accountController = (
 
     const deleteAccountById = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const customReq = req as CustomRequest;
-            const id = customReq.payload ?? "";
+            const id = req.params.id;
             await deleteAccount(id, dbRepositoryAccount);
             res.json({
                 status: "success",

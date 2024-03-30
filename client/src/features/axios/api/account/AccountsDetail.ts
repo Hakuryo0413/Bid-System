@@ -8,6 +8,20 @@ import apiConfig from "../../../../utils/apiConfig";
 
 const api = setupAxiosInterceptors();
 
+export const accountData = async (): Promise<any> => {
+  try {
+    const config: AxiosRequestConfig = {
+      url: apiConfig.accountId,
+      method: "get",
+    };
+    const response = await api(config);
+    return response.data;
+  } catch (error) {
+    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
+  }
+};
+
+
 export const allAccounts = async (): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {

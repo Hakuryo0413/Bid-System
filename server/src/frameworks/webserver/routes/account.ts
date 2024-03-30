@@ -16,9 +16,9 @@ const accountRoute = () => {
         accountRepositoryMongoDB,
         Account
     );
-    route.get('/account-data/:email', authenticationMiddleware, accountMiddleware, controller.getAccountByEmail);
-    route.get('/account-data/:role', authenticationMiddleware, accountMiddleware, controller.getAccountByRole);
-    route.get('/account-data/:id', authenticationMiddleware, accountMiddleware, controller.getAccountById);
+    route.get('/account-data/email/:email', authenticationMiddleware, accountMiddleware, controller.getAccountByEmail);
+    route.get('/account-data/role/:role', authenticationMiddleware, accountMiddleware, controller.getAccountByRole);
+    route.get('/account-data/id', authenticationMiddleware, accountMiddleware, controller.getAccountById);
     route.get('/all-accounts', authenticationMiddleware, accountMiddleware, controller.getAllAccount);
     route.patch('/update-account/:id', authenticationMiddleware, accountMiddleware, controller.updateAccount);
     route.delete('/delete-account/:id', authenticationMiddleware, accountMiddleware, controller.deleteAccountById);
