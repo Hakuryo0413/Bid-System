@@ -13,6 +13,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/account/AccountAuthentication";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
+import {
+  allAccounts,
+  getAccountsByEmail,
+  getAccountsByRole,
+} from "../../../features/axios/api/account/AccountsDetail";
+import allAccountsSlide from "../../../features/redux/slices/account/allAccountsSlide";
 
 //************************************
 // Description: Phần Đăng nhập tài khoản
@@ -24,7 +30,7 @@ export default function UserLogin() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
-  const [employerDetails, setEmployerDetails] = useState<userInterface>();
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
 
   const token = localStorage.getItem("token");
 
@@ -41,68 +47,64 @@ export default function UserLogin() {
       ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
       : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
-  const getEmployerDetails = async () => {
-    const data = await employerData();
-    setEmployerDetails(data);
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
   };
 
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
-  useEffect(() => {
-    if (token) {
-      dispatch(loginSuccess());
-      getEmployerDetails();
-      setTimeout(() => {
-        if (isLoggedIn === true) {
-          if (employerDetails?.role === "Giám đốc") {
-            navigate("/director/statistics-points");
-          } else if (
-            employerDetails?.role === "Trưởng điểm tập kết" ||
-            employerDetails?.role === "Trưởng điểm giao dịch"
-          ) {
-            navigate("/manager/employee");
-          } else {
-            navigate("/employer/home");
-          }
-        }
-      }, 2000);
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   if (token) {
+  //     dispatch(loginSuccess());
+  //     getAccountsByRole();
+  //     // getEmployerDetails();
+  //     setTimeout(() => {
+  //       if (isLoggedIn === true) {
+  //         if (employerDetails?.role === "Giám đốc") {
+  //           navigate("/director/statistics-points");
+  //         } else if (
+  //           employerDetails?.role === "Trưởng điểm tập kết" ||
+  //           employerDetails?.role === "Trưởng điểm giao dịch"
+  //         ) {
+  //           navigate("/manager/employee");
+  //         } else {
+  //           navigate("/employer/home");
+  //         }
+  //       }
+  //     }, 2000);
+  //   }
+  // }, [navigate]);
 
   // hoạt động sau khi isLoggedIn và employerDetails được cập nhật
   useEffect(() => {
     setTimeout(() => {
-      if (employerDetails) {
-        if (isLoggedIn && employerDetails) {
+      if (accountDetails) {
+        if (isLoggedIn && accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
-          if (employerDetails?.role === "Giám đốc") {
-            navigate("/director/statistics-orders");
-          } else if (
-            employerDetails?.role === "Trưởng điểm tập kết" ||
-            employerDetails?.role === "Trưởng điểm giao dịch"
-          ) {
-            navigate("/manager/employee");
-          } else {
-            navigate("/employer/home");
-          }
+          if (accountDetails?.role === "admin") {
+            navigate("/admin/home");
+          } else if (accountDetails?.role === "provider")
+            navigate("/provider/home");
+          else if (accountDetails?.role === "user") navigate("/user/home");
         }
       }
     }, 2000);
-  }, [employerDetails]);
+  }, [accountDetails]);
 
   // họat động khi isLoggedIn được cập nhật
   useEffect(() => {
     if (isLoggedIn) {
       // Fetch và cập nhật employerDetails
-      const fetchEmployerDetails = async () => {
+      const fetchAccountDetails = async () => {
         try {
-          const data = await employerData();
-          setEmployerDetails(data);
+          const data = await allAccounts();
+          setAccountDetails(data);
         } catch (error: any) {
           notify(error.message, "error");
         }
       };
 
-      fetchEmployerDetails();
+      fetchAccountDetails();
     }
   }, [isLoggedIn]);
 
@@ -116,7 +118,7 @@ export default function UserLogin() {
         setTimeout(() => {
           if (isLoggedIn) {
             // Gọi employerDetails() để cập nhật dữ liệu
-            getEmployerDetails();
+            getAccountDetails();
           }
         }, 2000);
       })
@@ -134,13 +136,13 @@ export default function UserLogin() {
               Số điện thoại / CCCD
             </label>
             <input
-              id="username"
+              id="email"
               type="text"
-              {...register("username")}
+              {...register("email")}
               className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
-            {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
           <div>

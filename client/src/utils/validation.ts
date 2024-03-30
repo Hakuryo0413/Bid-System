@@ -19,7 +19,7 @@ export const userRegisterValidationSchema = yup.object().shape({
       /^[a-zA-Z0-9._ ]+$/,
       "Địa chỉ chứa các ký tự a-z, A-Z, 0-9, '.' và '_', không có _ or . ở đầu!"
     ),
-  username: yup
+  phone: yup
     .string()
     .required("Yêu cầu nhập số điện thoại.")
     .matches(/^\d{10}$/, "Hãy nhập số điện thoại hợp lệ!"),

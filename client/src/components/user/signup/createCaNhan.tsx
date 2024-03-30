@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupPayload } from "../../../types/PayloadInterface";
 import { userRegisterValidationSchema } from "../../../utils/validation";
 import { userInterface } from "../../../types/UserInterface";
-import { employerData } from "../../../features/axios/api/account/accountDetails";
 import { createAccount } from "../../../features/axios/api/account/AccountAuthentication";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
@@ -21,49 +20,19 @@ export function CreateCaNhan() {
   } = useForm<SignupPayload>({
     resolver: yupResolver(userRegisterValidationSchema),
   });
-
-  const token = localStorage.getItem("token");
-  const [userDetails, setUserDetails] = useState<userInterface>();
-
-  // const getUserDetails = async () => {
-  //   const data = await userData();
-  //   setUserDetails(data);
-  // };
-
-  // useEffect(() => {
-  //   getUserDetails();
-  // }, []);
-
-  useEffect(() => {
-    if (userDetails) {
-    }
-  }, [userDetails]);
-
+  const role = "user";
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
       : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
 
   const submitHandler = async (formData: SignupPayload) => {
-    if (userDetails?.role === "Cá nhân") {
-      formData.role = "Cá nhân";
-    } else if (userDetails?.role === "Tổ chức") {
-      formData.role = "Tổ chức";
-    }
+    formData.role = role;
     createAccount(formData)
       .then((response: any) => {
         notify("User registered successfully", "success");
         setTimeout(() => {
-          if (token) {
-            if (
-              userDetails?.role === "Cá nhân" ||
-              userDetails?.role === "Tổ chức"
-            ) {
-              navigate("/manager/employee");
-            } else {
-              navigate("/employer/login");
-            }
-          }
+          navigate("/login");
         }, 2000);
       })
       .catch((error: any) => {
@@ -155,7 +124,6 @@ export function CreateCaNhan() {
             </div>
             <div className="sm:col-span-2">
               <label className="block text-sm font-medium leading-6 text-white">
-                {" "}
                 <span className="text-red-600 text-xl pr-2">*</span>
                 Nhập lại mật khẩu
               </label>
@@ -182,14 +150,12 @@ export function CreateCaNhan() {
               <div className="mt-2">
                 <input
                   type="text"
-                  {...register("username")}
+                  {...register("phone")}
                   id="first-name"
                   className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
                 />
-                {errors.username && (
-                  <p className="text-red-500 text-sm">
-                    {errors.username.message}
-                  </p>
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone.message}</p>
                 )}
               </div>
             </div>
@@ -231,4 +197,4 @@ export function CreateCaNhan() {
 }
 
 export default CreateCaNhan;
-export { };
+export {};
