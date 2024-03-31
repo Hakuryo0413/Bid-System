@@ -35,7 +35,7 @@ export function CreateCaNhan() {
         notify("User registered successfully", "success");
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 6000);
       })
       .catch((error: any) => {
         notify(error.message, "error");

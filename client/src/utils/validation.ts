@@ -39,8 +39,7 @@ export const userRegisterValidationSchema = yup.object().shape({
 export const userLoginValidationSchema = yup.object().shape({
   username: yup
     .string()
-    .required("Yêu cầu nhập tên đăng nhập.")
-    .matches(/^\d{10}$/, "Hãy nhập số điện thoại hợp lệ!"),
+    .required("Yêu cầu nhập tên đăng nhập."),
   password: yup
     .string()
     .required("Yêu cầu nhập mật khẩu.")

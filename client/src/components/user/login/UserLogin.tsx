@@ -14,9 +14,8 @@ import { login } from "../../../features/axios/api/account/AccountAuthentication
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
 import {
+  accountData,
   allAccounts,
-  getAccountsByEmail,
-  getAccountsByRole,
 } from "../../../features/axios/api/account/AccountsDetail";
 import allAccountsSlide from "../../../features/redux/slices/account/allAccountsSlide";
 
@@ -49,6 +48,7 @@ export default function UserLogin() {
 
   const getAccountDetails = async () => {
     const data = await accountData();
+    console.log(data);
     setAccountDetails(data);
   };
 
@@ -76,37 +76,37 @@ export default function UserLogin() {
   // }, [navigate]);
 
   // hoạt động sau khi isLoggedIn và employerDetails được cập nhật
-  useEffect(() => {
-    setTimeout(() => {
-      if (accountDetails) {
-        if (isLoggedIn && accountDetails) {
-          // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
-          if (accountDetails?.role === "admin") {
-            navigate("/admin/home");
-          } else if (accountDetails?.role === "provider")
-            navigate("/provider/home");
-          else if (accountDetails?.role === "user") navigate("/user/home");
-        }
-      }
-    }, 2000);
-  }, [accountDetails]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (accountDetails) {
+  //       if (isLoggedIn && accountDetails) {
+  //         // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
+  //         if (accountDetails?.role === "admin") {
+  //           navigate("/admin/home");
+  //         } else if (accountDetails?.role === "provider")
+  //           navigate("/provider/home");
+  //         else if (accountDetails?.role === "user") navigate("/user/home");
+  //       }
+  //     }
+  //   }, 2000);
+  // }, [accountDetails]);
 
-  // họat động khi isLoggedIn được cập nhật
-  useEffect(() => {
-    if (isLoggedIn) {
-      // Fetch và cập nhật employerDetails
-      const fetchAccountDetails = async () => {
-        try {
-          const data = await allAccounts();
-          setAccountDetails(data);
-        } catch (error: any) {
-          notify(error.message, "error");
-        }
-      };
+  // // họat động khi isLoggedIn được cập nhật
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     // Fetch và cập nhật employerDetails
+  //     const fetchAccountDetails = async () => {
+  //       try {
+  //         const data = await accountData();
+  //         setAccountDetails(data);
+  //       } catch (error: any) {
+  //         notify(error.message, "error");
+  //       }
+  //     };
 
-      fetchAccountDetails();
-    }
-  }, [isLoggedIn]);
+  //     fetchAccountDetails();
+  //   }
+  // }, [isLoggedIn]);
 
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
@@ -117,11 +117,11 @@ export default function UserLogin() {
         notify("Đăng nhập thành công", "success");
         setTimeout(() => {
           if (isLoggedIn) {
-            // Gọi employerDetails() để cập nhật dữ liệu
             getAccountDetails();
           }
         }, 2000);
-      })
+      }
+      )
       .catch((error: any) => {
         notify(error.message, "error");
       });
@@ -138,11 +138,11 @@ export default function UserLogin() {
             <input
               id="email"
               type="text"
-              {...register("email")}
+              {...register("username")}
               className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            {errors.username && (
+              <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div>
           <div>

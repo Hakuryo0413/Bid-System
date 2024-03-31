@@ -13,6 +13,8 @@ import { IoIosArrowForward } from "react-icons/io";
 
 export function CreateCaNhan() {
   const navigate = useNavigate();
+  // const token = localStorage.getItem("token");
+
   const {
     register,
     handleSubmit,
@@ -31,9 +33,10 @@ export function CreateCaNhan() {
     createAccount(formData)
       .then((response: any) => {
         notify("User registered successfully", "success");
+
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 6000);
       })
       .catch((error: any) => {
         notify(error.message, "error");
