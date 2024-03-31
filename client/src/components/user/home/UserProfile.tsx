@@ -1,7 +1,6 @@
 import React from "react";
 
-<<<<<<< HEAD
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
   return (
@@ -80,23 +79,7 @@ function UserProfile() {
   // change show dialog 
 
   const [isChangePassword, setIsChangePassword] = React.useState(false);
-=======
-import { Route, Routes, useNavigate } from "react-router-dom";
 
-function UserProfile() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    try {
-      localStorage.clear(); // Clear localStorage
-      console.log('LocalStorage cleared successfully!');
-      navigate('/'); // Redirect to login page
-    } catch (error) {
-      console.error('Error clearing localStorage:', error);
-      // Handle error gracefully, e.g., display an error message
-    }
-  };
->>>>>>> e7079ae09d8252c8c8a5fef2447c561819de56cb
   return (
     // create form for user profile bao gồm Thông tin cá nhân và Thông tin ngân hàng
     <div>
