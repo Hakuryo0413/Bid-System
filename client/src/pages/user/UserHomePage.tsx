@@ -8,12 +8,13 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import UserProfile from "../../components/user/home/UserProfile";
 import UserPayment from "../../components/user/home/UserPayment";
 import UserCancelPayment from "../../components/user/home/UserCancelPayment";
+import UserHeader from "../../components/header/UserHeader";
+import HistoryAuction from "../auction/HistoryAuctionPage";
 
 function UserHomePage() {
-  
   return (
     <div>
-      <CommonHeader />
+      <UserHeader />
       <div className="flex">
         <div className="w-1/5">
           <Sidenav routes={NavRoutes} />
@@ -22,15 +23,9 @@ function UserHomePage() {
           <Routes>
             <Route path="/profile" element={<UserProfile />} />
 
-            <Route path="/history" />
-
             <Route path="/payment" element={<UserPayment />} />
             <Route path="/cancel" element={<UserCancelPayment />} />
-            
-<<<<<<< HEAD
-=======
-            
->>>>>>> e7079ae09d8252c8c8a5fef2447c561819de56cb
+
             {/* Add more routes here */}
           </Routes>
         </div>
