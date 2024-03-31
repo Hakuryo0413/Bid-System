@@ -18,7 +18,7 @@ export const simController = (
 
     const getSimByNumber = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { number } = req.body;
+            const { number } = req.params;
             const sims = await findSimByNumber(number, dbRepositorySim);
             res.json(sims);
         }
@@ -26,7 +26,7 @@ export const simController = (
 
     const getSimByProvider = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { email } = req.body;
+            const { email } = req.params;
             const sims = await findSimByProvider(email, dbRepositorySim);
             res.json(sims);
         }
@@ -51,7 +51,7 @@ export const simController = (
 
     const simCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const sim: simInterface = req?.body;
+            const sim: simInterface = req?.params;
             const token = await createSim(sim, dbRepositorySim);
             res.json({
                 status: "success",
@@ -97,7 +97,7 @@ export const simController = (
 
     const deleteSimByNumber = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const {number} = req.body;
+            const {number} = req.params;
             await deleteTheSimByNumber(number, dbRepositorySim);
             res.json({
                 status: "success",

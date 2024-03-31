@@ -27,7 +27,7 @@ export const historyController = (
 
     const getHistoryByAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { email } = req.body;
+            const { email } = req.params;
             const histories = await findHistoryByAccount(email, dbRepositoryHistory);
             res.json(histories);
         }
@@ -42,7 +42,7 @@ export const historyController = (
 
     const historyCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const history: historyInterface = req?.body;
+            const history: historyInterface = req?.params;
             const token = await createHistory(history, dbRepositoryHistory);
             res.json({
                 status: "success",

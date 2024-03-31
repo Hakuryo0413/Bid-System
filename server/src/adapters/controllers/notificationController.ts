@@ -18,7 +18,7 @@ export const notificationController = (
 
     const getNotificationByAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { email } = req.body;
+            const { email } = req.params;
             const histories = await findNotificationByAccount(email, dbRepositoryNotification);
             res.json(histories);
         }
@@ -27,7 +27,7 @@ export const notificationController = (
 
     const notificationCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const notification: notificationInterface = req?.body;
+            const notification: notificationInterface = req?.params;
             const token = await createNotification(notification, dbRepositoryNotification);
             res.json({
                 status: "success",

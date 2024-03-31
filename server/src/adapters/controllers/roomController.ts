@@ -18,7 +18,8 @@ export const roomController = (
 
     const getRoomByCode = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { code } = req.body;
+            const { code } = req.params;
+            console.log(code)
             const rooms = await findRoomByCode(code, dbRepositoryRoom);
             res.json(rooms);
         }
@@ -26,7 +27,7 @@ export const roomController = (
 
     const getRoomByAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { email } = req.body;
+            const { email } = req.params;
             const rooms = await findRoomByAccount(email, dbRepositoryRoom);
             res.json(rooms);
         }
@@ -49,7 +50,7 @@ export const roomController = (
 
     const roomCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const room: roomInterface = req?.body;
+            const room: roomInterface = req?.params;
             const token = await createRoom(room, dbRepositoryRoom);
             res.json({
                 status: "success",
@@ -68,7 +69,7 @@ export const roomController = (
               HttpStatus.UNAUTHORIZED
             );
           }
-          const updates: roomInterface = req.body;
+          const updates: roomInterface = req.params;
           const updateRoomData = await updatedRoom(
             roomId,
             updates,

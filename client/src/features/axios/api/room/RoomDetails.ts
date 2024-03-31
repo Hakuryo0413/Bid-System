@@ -14,7 +14,7 @@ export const getRoomByAccount = async (email: string): Promise<any> => {
         const response = await api(config);
         return response.data;
     } catch (error) {
-        throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
+        throw new Error("Gặp lỗi khi lấy dữ liệu về room");
     }
 }
 
@@ -27,7 +27,7 @@ export const getRoomByCode = async (code: string): Promise<any> => {
         const response = await api(config);
         return response.data;
     } catch (error) {
-        throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
+        throw new Error("Gặp lỗi khi lấy dữ liệu về room");
     }
 }
 
@@ -40,7 +40,7 @@ export const getOngoingRoom = async (date: Date): Promise<any> => {
         const response = await api(config);
         return response.data;
     } catch (error) {
-        throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
+        throw new Error("Gặp lỗi khi lấy dữ liệu về room");
     }
 }
 
@@ -53,7 +53,7 @@ export const getAllHistories = async (): Promise<any> =>{
         const response = await api(config);
         return response.data;
     } catch (error) {
-        throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
+        throw new Error("Gặp lỗi khi lấy dữ liệu về room");
     }
 }
 

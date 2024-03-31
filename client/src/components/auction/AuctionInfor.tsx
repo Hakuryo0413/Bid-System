@@ -12,6 +12,24 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
   const [AuctionInfor, setAuctionInfor] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
   const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
+  // const [filter, setFilter] = useState<string>('');
+  // const [filteredAuction, setFilteredOrders] = useState([...]);
+  // const handleFilter = (filter: string) => {
+  //   onFilter(filter);
+  // };
+
+  // const onFilter = (filter: string) => {
+  //   if(filter === '') {
+  //     setFilteredOrders(allOrders);
+  //     return;
+  //   }
+  //   console.log(filter)
+  //   const filtered = allOrders.filter(
+  //     (order) =>
+  //       order.status?.[order.status.length - 1]?.action?.toLowerCase() === filter.toLowerCase()
+  //   );
+  //   setFilteredOrders(filtered);
+  // };
 
 //   useEffect(() => {
 //     const userInfo = async () => {
@@ -51,7 +69,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
             {AuctionInfor?.time_limit ?? 0 > 0 ? (
                 <HappeningAuction />     
             ) : (
-                <CompletedAuction />
+                <CompletedAuction code={"00000000"}/>
             )}
         </div>
 
@@ -72,7 +90,22 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
             </div>
 
             <div className="border-white border-2 py-4 px-4 pb-10 rounded-lg bg-white">
-                <ParticipantsList participants={AuctionInfor?.participants ?? []}/>
+              <div className="flex justify-end pb-4">
+                <select
+                  // value={filter}
+                  // onChange={(e) => {
+                  //   setFilter(e.target.value);
+                  //   handleFilter(e.target.value);
+                  // }}
+                  className="p-2 border border-gray-300 border-4 rounded focus:outline-none focus:ring focus:border-green-500"
+                >
+                  <option value="" hidden>Trạng thái sàn đấu giá</option>
+                  <option value="Đang chờ duyệt">Đang chờ duyệt</option>
+                  <option value="Đang diễn ra">Đang diễn ra</option>
+                  
+                </select>
+              </div>
+                {/* <ParticipantsList participants={AuctionInfor?.participants ?? []}/> */}
             </div>
 
         </div>
