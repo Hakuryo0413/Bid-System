@@ -43,6 +43,7 @@ export const NavRoutes = [
         path: "/user/payment",
       },
      
+     
     ],
   },
 ];

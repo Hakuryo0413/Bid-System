@@ -52,6 +52,58 @@ export default function UserLogin() {
 
   const token = localStorage.getItem("token");
 
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+      setTimeout(() => {
+        if (isLoggedIn === true) {
+          if (accountDetails?.role === "admin") {
+            navigate("/admin/home");
+          } else if (accountDetails?.role === "provider") {
+            navigate("/provider/home");
+          } else {
+            navigate("/user/home");
+          }
+        }
+      }, 2000);
+    }
+  }, [navigate]);
+
+   // hoạt động sau khi isLoggedIn và accountDetails được cập nhật
+   useEffect(() => {
+    setTimeout(() => {
+      if (accountDetails) {
+        if (isLoggedIn && accountDetails) {
+          // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
+          if (accountDetails?.role === "admin") {
+            navigate("/admin/home");
+          } else if (accountDetails?.role === "provider") {
+            navigate("/user/home");
+          } else {
+            navigate("/user/home");
+          }
+        }
+      }
+    }, 2000);
+  }, [accountDetails]);
+  // họat động khi isLoggedIn được cập nhật
+  useEffect(() => {
+    if (isLoggedIn) {
+      // Fetch và cập nhật employerDetails
+      const fetchAccountDetails = async () => {
+        try {
+          const data = await accountData();
+          setAccountDetails(data);
+        } catch (error: any) {
+          notify(error.message, "error");
+        }
+      };
+      fetchAccountDetails();
+    }
+  }, [isLoggedIn]);
 
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
