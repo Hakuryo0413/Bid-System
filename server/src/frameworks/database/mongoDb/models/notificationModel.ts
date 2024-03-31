@@ -21,5 +21,5 @@ const notificationSchema = new Schema({
     
 })
 
-export const Notification = model("Notification",notificationSchema)
+export const Notification = model("Notification",notificationSchema,"notification")
 export type notificationModel = typeof Notification;

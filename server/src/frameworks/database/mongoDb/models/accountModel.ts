@@ -23,5 +23,5 @@ const accountSchema = new Schema({
   },
 });
 
-export const Account = model("Account", accountSchema);
+export const Account = model("Account", accountSchema,"account");
 export type accountModel = typeof Account;
