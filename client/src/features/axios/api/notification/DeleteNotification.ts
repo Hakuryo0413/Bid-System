@@ -5,16 +5,16 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 const api = setupAxiosInterceptors();
 
 
-const deleteAccount = async (id: string): Promise<any> => {
+const deleteNotification = async (id: string): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.deleteAccountId}/${id}`,
+            url: `${apiConfig.deleteNotification}/${id}`,
             method: "delete",
         };
         await api(config);
     } catch (error) {
-        throw new Error("error while deleting the account");
+        throw new Error("error while deleting the notification");
     }
 };
 
-export default deleteAccount;
+export default deleteNotification;

@@ -9,8 +9,8 @@ export const roomDbRepository = (
         const room = await repository.getRoomByCode(code);
         return room;
     }
-    const getRoomByEmail = async (email: string) => {
-        const room = await repository.getRoomByEmail(email);
+    const getRoomByAccount = async (email: string) => {
+        const room = await repository.getRoomByAccount(email);
         return room;
     }
     const createRoom = async (room: roomInterface) => {
@@ -35,7 +35,7 @@ export const roomDbRepository = (
 
     return {
         getRoomByCode,
-        getRoomByEmail,
+        getRoomByAccount,
         createRoom,
         updateRoom,
         deleteRoom,

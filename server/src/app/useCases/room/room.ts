@@ -3,12 +3,12 @@ import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { roomDbInterface } from "../../repositories/roomDbRepository";
 
-export const findRoomByEmail = async (
+export const findRoomByAccount = async (
     email: string,
     roomRepository: ReturnType<roomDbInterface>
 ) => {
     try {
-        const result = await roomRepository.getRoomByEmail(email);
+        const result = await roomRepository.getRoomByAccount(email);
         if (!result) {
             throw new AppError("room not found", HttpStatus.BAD_REQUEST);
         }
@@ -19,7 +19,7 @@ export const findRoomByEmail = async (
     }
 }
 
-export const getRoomOngoing = async (
+export const findRoomOngoing = async (
     time: Date,
     roomRepository: ReturnType<roomDbInterface>
 ) => {
