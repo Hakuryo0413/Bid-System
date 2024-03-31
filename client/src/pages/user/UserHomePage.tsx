@@ -4,12 +4,13 @@ import CommonHeader from "../../components/header/CommonHeader";
 import UserSideFooter from "../../components/footer/UserSideFooter";
 import Sidenav from "../../components/side-nav/SideNav";
 import { NavRoutes } from "../../context/NavRoutes";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import UserProfile from "../../components/user/home/UserProfile";
 import UserPayment from "../../components/user/home/UserPayment";
 import UserCancelPayment from "../../components/user/home/UserCancelPayment";
 
 function UserHomePage() {
+  
   return (
     <div>
       <CommonHeader />
@@ -25,6 +26,8 @@ function UserHomePage() {
 
             <Route path="/payment" element={<UserPayment />} />
             <Route path="/cancel" element={<UserCancelPayment />} />
+            
+            
             {/* Add more routes here */}
           </Routes>
         </div>
