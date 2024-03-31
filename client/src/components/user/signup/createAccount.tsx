@@ -1,13 +1,9 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
-import { SignupPayload } from "../../../types/PayloadInterface";
-import { userRegisterValidationSchema } from "../../../utils/validation";
-import { userInterface } from "../../../types/UserInterface";
-import { createAccount } from "../../../features/axios/api/account/AccountAuthentication";
+
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { accountData } from "../../../features/axios/api/account/AccountsDetail";
@@ -98,4 +94,4 @@ export function CreateAccount() {
 }
 
 export default CreateAccount;
-export { };
+export {};

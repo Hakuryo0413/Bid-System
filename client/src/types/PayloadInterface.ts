@@ -1,6 +1,6 @@
 
 export interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -11,5 +11,6 @@ export interface SignupPayload extends LoginPayload {
   address: string,
   phone: string,
   password: string,
+  confirmPassword: string,
 }
 
