@@ -1,0 +1,144 @@
+body {
+    background-color: rgb(15,26,42);
+    color: white;
+    font-family: Inter, sans-serif;
+    --background-color-default: rgb(15,26,42);
+}
+
+.container {
+    margin-left: 5%;
+    margin-right: 5%;
+    /* background-color: rgb(43,67,104); */
+    border: 0.5px solid #2B394F;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    /* display: flex;
+    justify-content: space-between; */
+  }
+.container.nav {
+    width: 17%;
+    border: 2px solid #2B394F;
+}
+
+.container.nav a {
+    width: 100%;
+    color: white;
+    text-decoration: None;
+    display: block;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-left: 10px;
+}
+
+h1.title{
+    position: relative;
+    top: 3rem;
+    left: 27%;
+}
+
+.custom-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: white;
+    background-color: rgb(15,26,42);
+    /* Màu nền của bảng khi sử dụng table-dark */
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 0.25rem;
+  vertical-align: top;
+  text-align: center;
+  /* border-top: 1px solid rgb(15,26,42); */
+  /* Màu viền top của các ô */
+}
+
+.custom-table thead th {
+  vertical-align: bottom;
+  /* border-bottom: 2px solid rgb(15,26,42); */
+  /* Màu viền bottom của tiêu đề */
+}
+
+table {
+  border-radius: 1rem;
+  border-color: none;
+}
+
+/* .custom-table tbody+tbody {
+  border-top: 2px solid #2B394F;
+  /* Màu viền top giữa các tbody */
+/*} */
+
+/* .custom-table tbody tr:nth-of-type(odd) {
+  background-color: #2B394F;
+  /* Màu nền cho hàng lẻ khi sử dụng table-striped */
+/*} */
+
+.custom-table tbody tr {
+    background-color: #2B394F;
+    border-bottom: 1rem solid rgb(15,26,42);
+    padding-top: 1rem;
+}
+
+/* .custom-table tbody tr {
+    border-radius: 10px;
+    overflow: hidden;
+} */
+
+.container.content {
+    position: relative;
+    top: -15rem;
+    left: 22%;
+    width: 65%;
+    margin-bottom: 1rem;
+}
+
+.container.content button {
+    color: white;
+    background-color: var(--background-color-default);
+    font-size: 1rem;
+    border: none;
+    width: 30%;
+    padding-bottom: 0.5rem;
+}
+
+.container.content button:hover {
+    /* border-bottom: 2px solid linear-gradient(90.67deg, #01ab6f .13%, #00b49e 95.62%); */
+    border-bottom: 2px solid #00b49e;
+}
+
+a.button {
+    display: block;
+    height: 28px;
+    border-radius: 4px;
+    border: none;
+    text-align: center;
+    margin-bottom: 5px;
+    padding-top: 5px;
+}
+
+.Bpay {
+    background-color: #00b49e;
+}
+
+.Bpay:hover {
+    background-color: #036a5e;
+}
+
+.BDpay {
+    background-color: #E30808;
+}
+
+.BDpay:hover {
+    background-color: #a40505;
+}
+.custom-table td, .custom-table th, .custom-table a{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.container.nav a:hover {
+    border-left: 2px solid #00b49e;
+}

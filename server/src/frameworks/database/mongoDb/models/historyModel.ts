@@ -20,5 +20,5 @@ const historySchema = new Schema({
     
 })
 
-export const History = model("History",historySchema)
+export const History = model("History",historySchema,"history")
 export type historyModel = typeof History;

@@ -35,7 +35,8 @@ export const accountController = (
 
     const getAccountById = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const id = req.params.id;
+            const customReq = req as CustomRequest;
+            const id = customReq.payload ?? "";
             const account = await findAccountById(id, dbRepositoryAccount);
             res.json(account);
         }

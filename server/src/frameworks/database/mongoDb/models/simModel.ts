@@ -27,5 +27,5 @@ const simSchema = new Schema({
     
 })
 
-export const Sim = model("Sim",simSchema)
+export const Sim = model("Sim",simSchema,"sim")
 export type simModel = typeof Sim;

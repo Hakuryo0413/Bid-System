@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { accountData } from "../../../features/axios/api/account/AccountsDetail";
 
 export function CreateAccount() {
   const navigate = useNavigate();

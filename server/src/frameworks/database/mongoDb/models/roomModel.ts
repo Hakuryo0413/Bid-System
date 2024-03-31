@@ -29,5 +29,5 @@ const roomSchema = new Schema({
     
 })
 
-export const Room = model("Room",roomSchema)
+export const Room = model("Room",roomSchema,"room")
 export type roomModel = typeof Room;
