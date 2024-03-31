@@ -37,7 +37,8 @@ export default withMT({
         currentText: "#ffd600",
         card: "#1F2A3A",
         buttonOrigin: "#4A5567",
-        border: "#414C5B"
+        border: "#27364B",
+        textTable: '#94a3b8'
       },
     },
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],
