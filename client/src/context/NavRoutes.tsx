@@ -40,7 +40,7 @@ export const NavRoutes = [
       {
         icon: <GoHistory {...icon} />,
         name: "Lịch sử đấu giá",
-        path: "/user/payment",
+        path: "/auction/history",
       },
      
      

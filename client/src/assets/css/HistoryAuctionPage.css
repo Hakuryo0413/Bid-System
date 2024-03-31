@@ -31,9 +31,11 @@ body {
 }
 
 h1.title{
-    position: relative;
-    top: 3rem;
-    left: 27%;
+    position: absolute;
+    top: 15%; /* Cách đầu trang 20% */
+    left: 25vw; /* Cách góc trái 30% của viewport width */
+    font-size: 1.75rem;
+    font-weight: bold;
 }
 
 .custom-table {
