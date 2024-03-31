@@ -13,7 +13,7 @@ export class roomEntity {
     return room;
   }
 
-  public async getRoomByEmail(email: string): Promise<roomInterface[] | null> {
+  public async getRoomByAccount(email: string): Promise<roomInterface[] | null> {
     const rooms = await this.model.find({ 'participants.account': email });
     return rooms;
   }

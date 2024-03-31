@@ -19,7 +19,7 @@ export const accountController = (
 
     const getAccountByEmail = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { email } = req.body;
+            const { email } = req.params;
             const account = await findAccountByEmail(email, dbRepositoryAccount);
             res.json(account);
         }
@@ -27,7 +27,7 @@ export const accountController = (
 
     const getAccountByRole = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const {role} = req.body;
+            const {role} = req.params;
             const account = await findAccountByRole(role,dbRepositoryAccount);
             res.json(account);
         }

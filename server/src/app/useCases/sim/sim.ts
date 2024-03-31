@@ -66,6 +66,22 @@ export const findAllSims = async (
     }
 }
 
+export const createSim = (
+    sim: simInterface,
+    simRepository: ReturnType<simDbInterface>
+) => {
+    try {
+        const newSim = simRepository.createSim(sim);
+        if (!newSim) {
+            throw new AppError('created sim fail', HttpStatus.UNAUTHORIZED)
+        }
+        return newSim;
+    } catch (error: any) {
+        throw new Error(`error while create the sim ${error.message}`);
+    }
+}
+
+
 export const updatedSim = (
     id: string,
     updates: Partial<simInterface>,
@@ -88,6 +104,17 @@ export const deleteSim = async (
 ) => {
     try {
         await simRepository.deleteSim(id);
+    } catch (error) {
+        throw new Error("failed to delete the sim");
+    }
+};
+
+export const deleteTheSimByNumber = async (
+    number: string,
+    simRepository: ReturnType<simDbInterface>
+) => {
+    try {
+        await simRepository.deleteSimByNumber(number);
     } catch (error) {
         throw new Error("failed to delete the sim");
     }

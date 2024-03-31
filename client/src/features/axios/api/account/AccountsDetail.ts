@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
-import get from "../../../../../../server/node_modules/get-uri/dist/ftp.d";
 
 //************************************
 // Description: Hàm liên quan lấy dữ liệu người dùng
