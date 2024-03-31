@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 import '../../assets/css/HistoryAuctionPage.css';
 import HistoryAunctionCard from "../../components/auction/HistoryAuctionCard";
-
+import UserHomePage from "../user/UserHomePage";
 const HistoryAuction = () => {
 
     const [historyAutions, setHistoryAutions] = useState([])
 
     return (
         <>
+            
             <h1 className="title"> Lịch sử đấu giá: </h1>
-            <div className="container nav">
+            {/* <div className="container nav">
                 <a href="">Thông tin tài khoản</a>
                 <a href="">Giỏ hàng</a>
                 <a href="">Sim chờ</a>
                 <a href="">Lịch sử đấu giá</a>
                 <a href="">Tài liệu của tôi</a>
-            </div>
+            </div> */}
+
+            <UserHomePage/>
 
             <div className="container content" style={{ display: 'flex' }}>
 
@@ -55,8 +58,8 @@ const HistoryAuction = () => {
                                         <td>nothing</td>
                                         <td>nothing</td>
                                         <td>
-                                            <a className="button Bpay">Thanh toán</a>
-                                            <a className="button BDpay">Hủy thanh toán</a>
+                                            <a className="button Bpay" href = "/user/payment">Thanh toán</a>
+                                            <a className="button BDpay" href = "/user/payment">Hủy thanh toán</a>
                                         </td>
                                     </tr>
                                 </tbody>
