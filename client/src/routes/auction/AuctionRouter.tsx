@@ -1,7 +1,7 @@
 import { Route, Routes, useParams } from "react-router-dom";
 import AuctionInforPage from "../../pages/auction/AuctionInforPage";
 import HappeningAuctionListPage from "../../pages/auction/HappeningAuctionListPage";
-
+import HistoryAuction from "../../pages/auction/HistoryAuctionPage";
 function AuctionInforPageWrapper() {
     const { code } = useParams();
     const codeValue = code || '';
@@ -14,6 +14,7 @@ function AuctionInforPageWrapper() {
         <Routes>
           <Route path="/details" element={<AuctionInforPageWrapper/>} />
           <Route path="/happening" element={<HappeningAuctionListPage/>} />
+          <Route path='/history' element={<HistoryAuction/>}/>
         </Routes>
       </div>
     );
