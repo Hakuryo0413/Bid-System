@@ -25,6 +25,7 @@ function UserHomePage() {
 
             <Route path="/payment" element={<UserPayment />} />
             <Route path="/cancel" element={<UserCancelPayment />} />
+            
             {/* Add more routes here */}
           </Routes>
         </div>
