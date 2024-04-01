@@ -8,6 +8,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import UserProfile from "../../components/user/home/UserProfile";
 import UserPayment from "../../components/user/home/UserPayment";
 import UserCancelPayment from "../../components/user/home/UserCancelPayment";
+// import UserYeuCau from "./UserYeuCau"; // Import the missing component
 
 function UserHomePage() {
   
@@ -18,22 +19,20 @@ function UserHomePage() {
         <div className="w-1/5">
           <Sidenav routes={NavRoutes} />
         </div>
-        <div className="w-4/5 pl-6 pr-6">
-          <Routes>
-            <Route path="/profile" element={<UserProfile />} />
+        {/* import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the missing component */}
 
-            <Route path="/history" />
+                <div className="w-4/5 pl-6 pr-6">
+                  <Routes>
+                    <Route path="/profile" element={<UserProfile />} />
 
-            <Route path="/payment" element={<UserPayment />} />
-            <Route path="/cancel" element={<UserCancelPayment />} />
-            
-<<<<<<< HEAD
-=======
-            
->>>>>>> e7079ae09d8252c8c8a5fef2447c561819de56cb
-            {/* Add more routes here */}
-          </Routes>
-        </div>
+                    <Route path="/history" />
+
+                    <Route path="/payment" element={<UserPayment />} />
+                    <Route path="/cancel" element={<UserCancelPayment />} />
+
+                    {/* Add more routes here */}
+                  </Routes>
+                </div>
       </div>
     </div>
   );
