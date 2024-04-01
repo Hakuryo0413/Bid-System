@@ -16,7 +16,7 @@ const roomRoute = () => {
         Room
     );
     route.get('/room-data/email/:email', authenticationMiddleware, controller.getRoomByAccount);
-    route.get('/room-data/code/:code', authenticationMiddleware,  controller.getRoomByCode);
+    route.get('/room-data/code/:code',   controller.getRoomByCode);
     route.get('/all-rooms', authenticationMiddleware,  controller.getAllRoom);
     route.get('ongoging-rooms/:date',authenticationMiddleware,controller.getRoomOngoing);
     route.patch('/update-room/:id', authenticationMiddleware,  controller.updateRoom);

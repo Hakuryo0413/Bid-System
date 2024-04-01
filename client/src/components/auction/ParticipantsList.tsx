@@ -6,6 +6,7 @@ import { Box, Button, FormControlLabel, Paper, Switch, Table, TableBody, TableCo
 import { visuallyHidden } from '@mui/utils';
 import React, { useState } from "react";
 import { ParticipantInterface } from '../../types/RoomInterface';
+import { formatMoney } from './utils/format';
 
 
 interface ParticipantsListProps {
@@ -86,7 +87,7 @@ const headCells: readonly HeadCell[] = [
     },
     {
         id: 'highest_price',
-        label: 'Mức giá đưa ra',
+        label: 'Mức giá',
     },
     {
         id: 'status',
@@ -118,6 +119,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         sortDirection={orderBy === headCell.id ? order : false}
                         sx={{
                             fontWeight: 'bold',
+                            width: headCell.id === "highest_price" ||  headCell.id === "phone" ? '12.5%' : '25%'
                         }}
                     >
                         {headCell.id === "highest_price" && (
@@ -223,11 +225,11 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => 
                                         sx={{ cursor: 'pointer' }}
                                     >
 
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.name}</TableCell>
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.email}</TableCell>
-                                        <TableCell align="left" sx={{ width: 100 }}>{row.phone}</TableCell>
-                                        <TableCell align="left" sx={{ width: 100 }} >{row.highest_price}</TableCell>
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.status}</TableCell>
+                                        <TableCell align="center" sx={{ width: "25%" }}>{row.name}</TableCell>
+                                        <TableCell align="center" sx={{ width: "25%" }}>{row.email}</TableCell>
+                                        <TableCell align="center" sx={{ width: "12.5%" }}>{row.phone}</TableCell>
+                                        <TableCell align="center" sx={{ width: "12.5%" }} >{formatMoney(row.highest_price ?? 0)}</TableCell>
+                                        <TableCell align="center" sx={{ width: "25%" }}>{row.status}</TableCell>
                                     </TableRow>
                                 );
                             })}

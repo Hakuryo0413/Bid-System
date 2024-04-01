@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { successBidder } from "./utils/successParticipant";
 import React from "react";
 
-interface HappeningAuctionProps {
+interface UpCommingAuctionProps {
     auctionDetails: RoomInterface;
 }
 
-const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) => {
+const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails }) => {
     useEffect(() => {
         const fetchSuccessBidder = async () => {
           try {
@@ -70,7 +70,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
               </p>
 
               <p className="text-white mb-2">
-                    <strong> Thời gian còn lại: </strong>{-timeDisplay.minutes}:{-timeDisplay.seconds}
+                    <strong> Đếm ngược thời gian diễn ra: </strong>{-timeDisplay.days} ngày {-timeDisplay.hours} giờ {-timeDisplay.minutes} phút {-timeDisplay.seconds} giây
               </p>
               
               
@@ -82,7 +82,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
 
           <div className="grid lg:grid-cols-2">
             <p className="text-white mb-2 lg:mb-0">
-            <strong>Giá cao nhất: </strong>{formatMoney(successfulBidder?.highest_price ?? 0)}
+                <strong>Giá khởi điểm: </strong>{formatMoney(auctionDetails.price ?? 0)}
             </p>
             
             <div className="flex lg:justify-end">
@@ -90,7 +90,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
                 type="submit"
                 className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
                 >
-                <a href="/auction/details">Tham gia đấu giá</a>
+                <a href="/auction/details">Đăng ký tham gia đấu giá</a>
                 </button>
             </div>
 
@@ -103,4 +103,4 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
   );
 }
 
-export default HappeningAuction;
+export default UpCommingAuction;

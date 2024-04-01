@@ -10,9 +10,10 @@ export interface roomInterface {
     _id?: Types.ObjectId,
     code?: string,
     participants?: UserPrice[],
-    user_highes_price?: string,
     start_at?: Date,
     time_limit?: number,
+    price?:number,
     phone?: string,
     password?: string,
+    create_at?: Date,
 }

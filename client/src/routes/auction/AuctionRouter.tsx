@@ -9,11 +9,12 @@ function AuctionInforPageWrapper() {
     return <AuctionInforPage code={codeValue} />;
   }
 
+  
   const AuctionRouter = () => {
     return (
       <div>
         <Routes>
-          <Route path="/details" element={<AuctionInforPageWrapper/>} />
+          <Route path="/details/:code" element={<AuctionInforPageWrapper/>} />
           <Route path="/happening" element={<HappeningAuctionListPage/>} />
           <Route path="/search" element={<SearchAuctionPage/>} />
           <Route path='/history' element={<HistoryAuction/>}/>
