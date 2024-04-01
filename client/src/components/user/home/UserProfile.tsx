@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
   return (
@@ -79,6 +79,7 @@ function UserProfile() {
   // change show dialog 
 
   const [isChangePassword, setIsChangePassword] = React.useState(false);
+
   return (
     // create form for user profile bao gồm Thông tin cá nhân và Thông tin ngân hàng
     <div>

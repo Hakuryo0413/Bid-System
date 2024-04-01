@@ -9,12 +9,13 @@ import UserProfile from "../../components/user/home/UserProfile";
 import UserPayment from "../../components/user/home/UserPayment";
 import UserCancelPayment from "../../components/user/home/UserCancelPayment";
 // import UserYeuCau from "./UserYeuCau"; // Import the missing component
+import UserHeader from "../../components/header/UserHeader";
+import HistoryAuction from "../auction/HistoryAuctionPage";
 
 function UserHomePage() {
-  
   return (
     <div>
-      <CommonHeader />
+      <UserHeader />
       <div className="flex">
         <div className="w-1/5">
           <Sidenav routes={NavRoutes} />
