@@ -8,9 +8,6 @@ export default function HappeningAuctionList() {
         Phiên đấu giá đang diễn ra
       </p>
       <div className="grid md:grid-cols-2">
-        <HappeningAuction />
-        <HappeningAuction />
-        <HappeningAuction />
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ const HistoryAuction = () => {
                                         <td>nothing</td>
                                         <td>
                                             <a className="button Bpay" href = "/user/payment">Thanh toán</a>
-                                            <a className="button BDpay" href = "/user/payment">Hủy thanh toán</a>
+                                            <a className="button BDpay" href = "/user/cancel">Hủy thanh toán</a>
                                         </td>
                                     </tr>
                                 </tbody>

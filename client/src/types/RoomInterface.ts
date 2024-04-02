@@ -6,6 +6,8 @@ export interface RoomInterface {
     time_limit?: number,
     phone?: string,
     password?: string,
+    price?: number,
+    create_at?: Date
 }
 
 export interface ParticipantInterface {
@@ -15,5 +17,5 @@ export interface ParticipantInterface {
     phone: string,
     highest_price: number,
     status: string,
-
+    
 }
