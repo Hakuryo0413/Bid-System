@@ -15,13 +15,13 @@ const roomRoute = () => {
         roomRepositoryMongoDB,
         Room
     );
-    route.get('/room-data/email/:email', authenticationMiddleware, controller.getRoomByAccount);
-    route.get('/room-data/code/:code', authenticationMiddleware,  controller.getRoomByCode);
-    route.get('/all-rooms', authenticationMiddleware,  controller.getAllRoom);
-    route.get('ongoging-rooms/:date',authenticationMiddleware,controller.getRoomOngoing);
-    route.patch('/update-room/:id', authenticationMiddleware,  controller.updateRoom);
-    route.post('/create', authenticationMiddleware,  controller.roomCreate);
-    route.delete('/delete/:id',authenticationMiddleware,controller.deleteRoomById)
+    route.get('/room-data/email/:email' , controller.getRoomByAccount);
+    route.get('/room-data/code/:code',  controller.getRoomByCode);
+    route.get('/all-rooms',  controller.getAllRoom);
+    route.get('ongoging-rooms/:date',controller.getRoomOngoing);
+    route.patch('/update-room/:id',  controller.updateRoom);
+    route.post('/create',  controller.roomCreate);
+    route.delete('/delete/:id',controller.deleteRoomById)
     return route;
 }
 
