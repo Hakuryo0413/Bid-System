@@ -22,7 +22,7 @@ interface Data {
 }
 
 function createData(participant: ParticipantInterface): Data {
-    const name = participant.name;
+    const name = participant.name; 
     const email = participant.email;
     const phone = participant.phone
     const highest_price = participant.highest_price

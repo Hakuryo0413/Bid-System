@@ -16,7 +16,6 @@ const root = ReactDOM.createRoot(
 const googleAuthClient = constants.GOOGLE_AUTH_CLIENT;
 
 root.render(
-  <React.StrictMode>
     <ErrorBoundary>
         <Provider store={store}>
           <ThemeProvider>
@@ -24,5 +23,4 @@ root.render(
           </ThemeProvider>
         </Provider>
     </ErrorBoundary>
-  </React.StrictMode>
 );

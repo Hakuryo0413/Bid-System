@@ -9,4 +9,5 @@ export interface simInterface {
     starting_price?: number,
     last_price?: number,
     created_at?: Date
+    type?: string
 }
