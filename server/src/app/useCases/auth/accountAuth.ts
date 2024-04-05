@@ -39,6 +39,10 @@ export const loginAction = async(
     if(!isPasswordCorrect){
         throw new AppError("Sorry, incorrect password", HttpStatus.UNAUTHORIZED);
     }
+    const accepted = account.state;
+    if(!accepted){
+        throw new AppError("Sorry, account hasn't been accepted", HttpStatus.UNAUTHORIZED);
+    }
     const payload = account._id ? account._id.toString() : '';
     
     const token = authService.generateToken({ payload: payload, role: 'account' });

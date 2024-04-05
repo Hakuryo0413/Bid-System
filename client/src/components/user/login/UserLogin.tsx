@@ -13,14 +13,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/account/AccountAuthentication";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
-import {
-  accountData,
-} from "../../../features/axios/api/account/AccountsDetail";
+import { accountData } from "../../../features/axios/api/account/AccountsDetail";
 
 //************************************
 // Description: Phần Đăng nhập tài khoản
 //************************************
-
 
 export default function UserLogin() {
   const dispatch = useDispatch();
@@ -40,19 +37,17 @@ export default function UserLogin() {
   });
 
   const notify = (msg: string, type: string) =>
-  type === "error"
-    ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-    : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
   const getAccountDetails = async () => {
     const data = await accountData();
     setAccountDetails(data);
-  }
-
+  };
 
   let token = localStorage.getItem("token");
 
-  
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
@@ -72,14 +67,14 @@ export default function UserLogin() {
     }
   }, [navigate]);
 
-   // hoạt động sau khi isLoggedIn và accountDetails được cập nhật
-   useEffect(() => {
+  // hoạt động sau khi isLoggedIn và accountDetails được cập nhật
+  useEffect(() => {
     setTimeout(() => {
       if (accountDetails) {
         if (isLoggedIn && accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (accountDetails?.role === "admin") {
-            navigate("/admin/home");
+            navigate("/admin/providerList");
           } else if (accountDetails?.role === "provider") {
             navigate("/user/home");
           } else {
@@ -123,7 +118,6 @@ export default function UserLogin() {
         notify(error.message, "error");
       });
   };
-
 
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">

@@ -17,10 +17,12 @@ const accountSchema = new Schema({
   password: {
     type: String,
   },
-  
   phone: {
     type: String,
   },
+  state:{
+    type: Boolean,
+  }
 });
 
 export const Account = model("Account", accountSchema,"account");
