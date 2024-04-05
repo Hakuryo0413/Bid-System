@@ -210,23 +210,31 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
         const onCloseButt = () => {
           setItems(undefined);
         }
-        if (row.status === 'Đấu giá đang chờ xác nhận thành công') {
+        if (row.status === 'Đang chờ xác nhận') {
           setItems(<ConfirmSuccessfulBidder code={code} participants={participants} onClose={onClose} onCloseButt={onCloseButt}/>)
         } 
     }
 
     // Mảng lưu trữ màu của từng trạng thái.
     const statusColors: Record<string, string> = {
-        'Đấu giá đang chờ xác nhận thành công': '#B8E1FF',
-        'Đấu giá thành công': '#E9C3BB',
-        'Đấu giá thất bại': '#FFDCE3',
-        'Đang ở hành chờ': '',
+        'Đang chờ xác nhận': '#B8E1FF',
+        'Đấu giá thành công': '#4FFBDF',
+        'Đấu giá thất bại': '#FF6F91',
+        'Đang chờ thanh toán': '#FEFEDF',
+        'Hàng đợi': '#D8E4EA',
     };
 
     // Lấy màu theo trạng thái
     const getStatusColor = (status: string) => {
         return statusColors[status] || 'transparent';
     };
+
+    const isDisable = (status: string) => {
+        if (status !== "Đang chờ xác nhận") {
+            return true;
+        }
+        return false
+    }
 
     return (
         <Box sx={{ width: '100%', maxWidth: 1600 }} id="box">
@@ -263,9 +271,12 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
                                                 backgroundColor: getStatusColor(row.status),
                                                 border: '1px',
                                                 borderRadius: '16px',
-                                                padding: '4px',
+                                                padding: '8px',
                                                 color: "black",
                                                 fontWeight: 'bold',
+                                                width: '100%',
+                                                pointerEvents: isDisable(row.status)  ? 'none' : 'auto' ,
+                                                cursor: isDisable(row.status) ? 'none' : 'pointer',
                                             }}
                                             onClick={() => handleButtonClick(row)}
                                             >

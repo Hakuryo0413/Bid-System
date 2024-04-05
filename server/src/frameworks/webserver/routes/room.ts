@@ -19,7 +19,7 @@ const roomRoute = () => {
     route.get('/room-data/code/:code',  controller.getRoomByCode);
     route.get('/all-rooms',  controller.getAllRoom);
     route.get('ongoging-rooms/:date',controller.getRoomOngoing);
-    route.patch('/update-room/:id',  controller.updateRoom);
+    route.put('/update-room',  controller.updateRoom);
     route.post('/create',  controller.roomCreate);
     route.delete('/delete/:id',controller.deleteRoomById)
     return route;
