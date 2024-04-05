@@ -37,9 +37,11 @@ export const userRegisterValidationSchema = yup.object().shape({
 });
 
 export const userLoginValidationSchema = yup.object().shape({
-  email: yup
+  username: yup
     .string()
-    .required("Yêu cầu nhập tên đăng nhập."),
+    .required("Yêu cầu nhập tên đăng nhập.")
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Địa chỉ email không hợp lệ!"),
+
   password: yup
     .string()
     .required("Yêu cầu nhập mật khẩu.")
