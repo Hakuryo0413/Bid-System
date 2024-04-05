@@ -13,8 +13,8 @@ const navigation = [
   { name: "Sim sắp đấu giá", href: "/", current: false },
   { name: "Phòng đấu giá", href: "/", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
-  { name: "DS cá nhân", href: "/", current: false },
-  { name: "DS tổ chức", href: "/", current: false },
+  { name: "DS cá nhân", href: "/admin/userList", current: false },
+  { name: "DS tổ chức", href: "/admin/providerList", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
@@ -69,12 +69,23 @@ function AdminHeader() {
                     )}
                   </Disclosure.Button>
                 </div>
-                
+
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="flex rounded-full text-sm hover:opacity-50">
                       <span className="sr-only">Open user menu</span>
-                      <svg className="w-8 h-8 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                      <svg
+                        className="w-8 h-8 text-gray-400 -left-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
                     </Menu.Button>
                   </div>
                   <Transition

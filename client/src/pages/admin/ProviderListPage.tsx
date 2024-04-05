@@ -9,7 +9,7 @@ import UserHeader from "../../components/header/UserHeader";
 function ProviderListPage() {
     return (
       <div>
-          <CommonHeader />
+          <AdminHeader />
           <ProviderList />
           <UserSideFooter/>
       </div>

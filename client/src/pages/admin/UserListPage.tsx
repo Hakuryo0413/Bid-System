@@ -10,7 +10,7 @@ import UserHeader from "../../components/header/UserHeader";
 function UserListPage() {
     return (
       <div>
-          <CommonHeader />
+          <AdminHeader />
           <UserList />
           <UserSideFooter/>
       </div>
