@@ -13,14 +13,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/account/AccountAuthentication";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
-import {
-  accountData,
-} from "../../../features/axios/api/account/AccountsDetail";
+import { accountData } from "../../../features/axios/api/account/AccountsDetail";
 
 //************************************
 // Description: Phần Đăng nhập tài khoản
 //************************************
-
 
 export default function UserLogin() {
   const dispatch = useDispatch();
@@ -40,19 +37,17 @@ export default function UserLogin() {
   });
 
   const notify = (msg: string, type: string) =>
-  type === "error"
-    ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-    : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
   const getAccountDetails = async () => {
     const data = await accountData();
     setAccountDetails(data);
-  }
-
+  };
 
   const token = localStorage.getItem("token");
 
-  
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
@@ -72,8 +67,8 @@ export default function UserLogin() {
     }
   }, [navigate]);
 
-   // hoạt động sau khi isLoggedIn và accountDetails được cập nhật
-   useEffect(() => {
+  // hoạt động sau khi isLoggedIn và accountDetails được cập nhật
+  useEffect(() => {
     setTimeout(() => {
       if (accountDetails) {
         if (isLoggedIn && accountDetails) {
@@ -124,7 +119,6 @@ export default function UserLogin() {
       });
   };
 
-
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">
       <div className="w-2/5">
@@ -137,11 +131,11 @@ export default function UserLogin() {
             <input
               id="email"
               type="text"
-              {...register("email")}
+              {...register("username")}
               className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            {errors.username && (
+              <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div>
           <div>
