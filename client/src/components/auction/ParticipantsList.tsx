@@ -2,15 +2,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { Box, Button, FormControlLabel, Paper, Switch, Table, TableBody, TableContainer, TablePagination } from "@mui/material";
+import { Box, Button, FormControlLabel, Paper, Switch, Table, TableBody, TableContainer, TablePagination} from "@mui/material";
 import { visuallyHidden } from '@mui/utils';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ParticipantInterface } from '../../types/RoomInterface';
 import { formatMoney } from './utils/format';
+import { Typography } from '@material-tailwind/react';
+import ConfirmSuccessfulBidder from './confim action/ConfirmSuccessfulBidder';
 
 
 interface ParticipantsListProps {
     participants: ParticipantInterface [],
+    code: string,
 }
 
 interface Data {
@@ -150,15 +153,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => {
+const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code }) => {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('highest_price');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState<Data[]>([]);
-
-
+    const [items, setItems] = useState<React.ReactNode>();
 
     React.useEffect(() => {
         setRows(
@@ -200,6 +202,32 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => 
         setDense(event.target.checked);
     };
 
+    const handleButtonClick = (row: Data) => {
+        const onClose = () => {
+          setItems(undefined);
+          window.location.reload();
+        }
+        const onCloseButt = () => {
+          setItems(undefined);
+        }
+        if (row.status === 'Đấu giá đang chờ xác nhận thành công') {
+          setItems(<ConfirmSuccessfulBidder code={code} participants={participants} onClose={onClose} onCloseButt={onCloseButt}/>)
+        } 
+    }
+
+    // Mảng lưu trữ màu của từng trạng thái.
+    const statusColors: Record<string, string> = {
+        'Đấu giá đang chờ xác nhận thành công': '#B8E1FF',
+        'Đấu giá thành công': '#E9C3BB',
+        'Đấu giá thất bại': '#FFDCE3',
+        'Đang ở hành chờ': '',
+    };
+
+    // Lấy màu theo trạng thái
+    const getStatusColor = (status: string) => {
+        return statusColors[status] || 'transparent';
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: 1600 }} id="box">
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -229,7 +257,22 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => 
                                         <TableCell align="center" sx={{ width: "25%" }}>{row.email}</TableCell>
                                         <TableCell align="center" sx={{ width: "12.5%" }}>{row.phone}</TableCell>
                                         <TableCell align="center" sx={{ width: "12.5%" }} >{formatMoney(row.highest_price ?? 0)}</TableCell>
-                                        <TableCell align="center" sx={{ width: "25%" }}>{row.status}</TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                            style={{
+                                                backgroundColor: getStatusColor(row.status),
+                                                border: '1px',
+                                                borderRadius: '16px',
+                                                padding: '4px',
+                                                color: "black",
+                                                fontWeight: 'bold',
+                                            }}
+                                            onClick={() => handleButtonClick(row)}
+                                            >
+                                            {row.status}
+                                            </Button>
+                                            {items}
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
