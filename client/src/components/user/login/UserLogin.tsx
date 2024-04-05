@@ -79,7 +79,7 @@ export default function UserLogin() {
         if (isLoggedIn && accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (accountDetails?.role === "admin") {
-            navigate("/admin/home");
+            navigate("/admin/providerList");
           } else if (accountDetails?.role === "provider") {
             navigate("/user/home");
           } else {
@@ -137,11 +137,11 @@ export default function UserLogin() {
             <input
               id="email"
               type="text"
-              {...register("username")}
+              {...register("email")}
               className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
             />
-            {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
           <div>

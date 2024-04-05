@@ -37,7 +37,7 @@ export const userRegisterValidationSchema = yup.object().shape({
 });
 
 export const userLoginValidationSchema = yup.object().shape({
-  username: yup
+  email: yup
     .string()
     .required("Yêu cầu nhập tên đăng nhập."),
   password: yup

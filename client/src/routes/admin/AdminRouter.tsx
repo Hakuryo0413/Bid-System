@@ -3,17 +3,19 @@ import CreateAccountPage from "../../pages/home/CreateAccountPage";
 
 import UserHomePage from "../../pages/user/UserHomePage";
 import UserYeuCau from "../../pages/user/UserYeuCau"; // Import the missing component
+import ProviderListPage from "../../pages/admin/ProviderListPage";
+import UserListPage from "../../pages/admin/UserListPage";
 
-const UserRouter = () => {
+const AdminRouter = () => {
   return (
     <div>
       <Routes>
-        <Route path="/*" element={<UserHomePage />} />
-        <Route path="/yeucau" element={<UserYeuCau />} /> // Use the imported component
-       \
+      <Route path="/providerList" element={<ProviderListPage />} />
+      <Route path="/userList" element={<UserListPage />} />
+
       </Routes>
     </div>
   );
 };
 
-export default UserRouter;
+export default AdminRouter;

@@ -3,6 +3,7 @@ import UserRouter from "./routes/user/UserRouter";
 import HomeRouter from "./routes/home/HomeRouter";
 import NotFound from "./components/error/NotFound";
 import AuctionRouter from "./routes/auction/AuctionRouter";
+import AdminRouter from "./routes/admin/AdminRouter";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           <Route path="/*" element={<HomeRouter />} />
           <Route path="/user/*" element={<UserRouter />} />
           <Route path="/auction/*" element={<AuctionRouter/>} />
+          <Route path="/admin/*" element={<AdminRouter/>} />
+
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
