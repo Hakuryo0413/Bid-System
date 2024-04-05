@@ -43,7 +43,7 @@ const ConfirmSuccessfulBidder: React.FC<ConfirmSuccessfulBidderProps> = ({ code,
         if (auctionInfor && auctionInfor?.participants && auctionInfor?.participants.length > 0) {
             let participants = auctionInfor.participants
             participants[0].status = "Đang chờ thanh toán"
-            setValue('participants', participants)
+            auctionInfor.participants[0].status = participants[0].status
             updateRoom(auctionInfor) 
         }
         

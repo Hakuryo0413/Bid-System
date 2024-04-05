@@ -50,7 +50,7 @@ export default function UserLogin() {
   }
 
 
-  const token = localStorage.getItem("token");
+  let token = localStorage.getItem("token");
 
   
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa

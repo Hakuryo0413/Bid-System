@@ -1,7 +1,12 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { accountData } from "../../features/axios/api/account/AccountsDetail";
+import { userInterface } from "../../types/UserInterface";
+import { loginSuccess } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/redux/reducers/Reducer";
 
 //************************************
 // Description: Phần Header cho trang chung của người dùng.
@@ -22,7 +27,41 @@ function classNames(...classes: string[]) {
 }
 
 function UserHeader() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  let token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+      setTimeout(() => {
+        if (isLoggedIn === true) {
+          if (accountDetails?.role === "admin") {
+            navigate("/admin/home");
+          } else if (accountDetails?.role === "provider") {
+            navigate("/provider/home");
+          } else {
+            navigate("/user/home");
+          }
+        }
+      }, 2000);
+    }
+  }, [navigate]);
+  
   const handleLogout = () => {
     try {
       localStorage.clear(); // Clear localStorage
@@ -34,6 +73,8 @@ function UserHeader() {
       // Handle error gracefully, e.g., display an error message
     }
   };
+
+  console.log(accountDetails?.name)
 
   return (
     <Disclosure as="nav" className="bg-background z-50">
@@ -116,7 +157,7 @@ function UserHeader() {
                             "block px-4 py-2 text-sm hover:opacity-50"
                           )}
                         >
-                          {/* {employerDetails?.name ?? ""} */}
+                          {accountDetails?.name ?? ""}
                         </text>
                       </Menu.Item>
                       <Menu.Item>
