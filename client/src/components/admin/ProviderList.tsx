@@ -57,58 +57,50 @@ export default function ProviderList() {
     console.log("fetching data 1");
   };
 
-/*   const handleQuery = async () => {
-    let allSimList: SimInterface[] = [];
+  const handleQuery = async (role: string) => {
+    let allProviderList: userInterface[] = [];
     if (selectedProvider === "" && searchQuery === "" && selectedType === "") {
-      allProviderList = await getAllProvidersList();
-      setAllProviders(allSimList);
+      allProviderList = await getAllProvidersList(role);
+      setAllProviders(allProviderList);
     }
-    if (selectedProvider !== "" || searchQuery !== "" || selectedType !== "") {
+
+    if (selectedProvider !== "" || selectedType !== "" || searchQuery !== "") {
       handleFilter(selectedProvider, selectedType, searchQuery);
     }
-    console.log("abc");
-  }; */
+  };
 
-  /* const handleSearch = async () => {
-    let allSimList: userInterface[] = await getAllProvidersList();
+  const handleSearch = async (role: string) => {
+    let allProvidersList: userInterface[] = await getAllProvidersList(role);
 
     if (filterParams.provider) {
-      allSimList = allSimList.filter((sim) => {
+      allProvidersList = allProvidersList.filter((provider) => {
         return (
-          sim.provider?.toLowerCase() === filterParams.provider?.toLowerCase()
+          provider.name?.toLowerCase() === filterParams.provider?.toLowerCase()
         );
       });
     }
     if (filterParams.type) {
-      allSimList = allSimList.filter((sim) => {
-        return sim.type?.toLowerCase() === filterParams.type?.toLowerCase();
+      allProvidersList = allProvidersList.filter((provider) => {
+        let filterType = provider.state === true ? "true" : "false";
+        return filterType === filterParams.type;
       });
     }
-    allSimList = allSimList.filter((sim) => {
-      if (sim.starting_price) {
-        return (
-          sim.starting_price >= (filterParams.priceMin as number) &&
-          sim.starting_price <= (filterParams.priceMax as number)
-        );
-      }
-    });
-
     if (filterParams.query) {
-      allSimList = allSimList.filter((sim) => {
-        return sim
-          .number!.toLowerCase()
+      allProvidersList = allProvidersList.filter((provider) => {
+        return provider
+          .name!.toLowerCase()
           .includes(filterParams.query!.toLowerCase());
       });
     }
-    setAllProviders(allSimList);
+    setAllProviders(allProvidersList);
     console.log("searching");
-  }; */
+  };
 
- /*  useEffect(() => {
+  useEffect(() => {
     console.log(filterParams);
-    handleSearch();
+    handleSearch(role);
   }, [filterParams]);
- */
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -141,23 +133,21 @@ export default function ProviderList() {
 
             <option value="Viettel">Viettel</option>
             <option value="Vinaphone">Vinaphone</option>
-
             <option value="Mobifone">Mobifone</option>
           </select>
         </div>
 
         <div className="mx-4">
           <select
-            className=" bg-transparent border-border border w-48 rounded-lg py-2 px-4 text-md font-base text-gray-500"
+            className="bg-transparent border-border border w-48 rounded-lg py-2 px-4 text-md font-base text-gray-500"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
             <option value="">Chọn trạng thái</option>
-            <option value="Tam hoa">Chờ duyệt</option>
-            <option value="Tứ quý">Đã duyệt</option>
+            <option value="false">Chờ duyệt</option>
+            <option value="true">Đã duyệt</option>
           </select>
         </div>
-
         <div className="relative border-border flex w-full gap-2 mx-4 md:w-max">
           <Input
             type="search"
@@ -173,7 +163,7 @@ export default function ProviderList() {
             size="md"
             className=" rounded-xl font-medium text-sm"
             color="green"
-            /*  onClick={handleQuery} */
+            onClick={() => handleQuery(role)}
           >
             Tìm kiếm
           </Button>
@@ -267,7 +257,7 @@ export default function ProviderList() {
                     {provider.phone}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {provider.phone}
+                    {provider.state ? "Đã duyệt" : "Chờ duyệt"}
                   </TableCell>
                 </TableRow>
               ))}

@@ -21,22 +21,16 @@ import { getAccountsByRole } from "../../features/axios/api/account/AccountsDeta
 import { userInterface } from "../../types/UserInterface";
 
 type FilterParams = {
-  provider: string | null;
-  priceMax: number | null;
-  priceMin: number | null;
   type: string | null;
   query: string | null;
 };
 
 export default function UserList() {
-  const [allProviders, setAllProviders] = useState<userInterface[]>([]); // variables for search searching
+  const [allUsers, setAllUsers] = useState<userInterface[]>([]); // variables for search searching
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [filterParams, setFilterParams] = useState<FilterParams>({
-    provider: "",
-    priceMax: 0,
-    priceMin: 0,
     type: "",
     query: "",
   });
@@ -45,16 +39,14 @@ export default function UserList() {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [role, setRole] = useState("user");
-  const handleFilter = (provider: string, type: string, query: string) => {
+  const handleFilter = (type: string, query: string) => {
     setFilterParams({
       ...filterParams,
-      provider: provider,
-
       type: type,
       query: query,
     });
   };
-  const getAllProvidersList = async (role: string) => {
+  const getAllUsersList = async (role: string) => {
     try {
       return await getAccountsByRole(role);
     } catch (error) {
@@ -63,73 +55,54 @@ export default function UserList() {
     console.log("fetching data 1");
   };
 
-  /*  const handleQuery = async () => {
-    let allSimList: SimInterface[] = [];
-    if (
-      selectedProvider === "" &&
-      selectedPrice === "" &&
-      searchQuery === "" &&
-      selectedType === ""
-    ) {
-      allSimList = await getAllSimsList();
-      setAllSims(allSimList);
+  const handleQuery = async (role: string) => {
+    let allUserList: userInterface[] = [];
+    if (searchQuery === "" && selectedType === "") {
+      allUserList = await getAllUsersList(role);
+      setAllUsers(allUserList);
     }
-    if (
-      selectedProvider !== "" ||
-      selectedPrice !== "" ||
-      searchQuery !== "" ||
-      selectedType !== ""
-    ) {
-      handleFilter(selectedProvider,selectedType, searchQuery, );
-    }
-    console.log("abc");
-  }; */
 
-  /*  const handleSearch = async () => {
-    let allSimList: SimInterface[] = await getAllSimsList();
-
-    if (filterParams.provider) {
-      allSimList = allSimList.filter((sim) => {
-        return (
-          sim.provider?.toLowerCase() === filterParams.provider?.toLowerCase()
-        );
-      });
+    if (selectedType !== "" || searchQuery !== "") {
+      handleFilter(selectedType, searchQuery);
     }
+  };
+
+  const handleSearch = async (role: string) => {
+    let allUsersList: userInterface[] = await getAllUsersList(role);
+
     if (filterParams.type) {
-      allSimList = allSimList.filter((sim) => {
-        return sim.type?.toLowerCase() === filterParams.type?.toLowerCase();
+      allUsersList = allUsersList.filter((user) => {
+        let filterType = user.state === true ? "true" : "false";
+        return filterType === filterParams.type;
       });
     }
-    allSimList = allSimList.filter((sim) => {
-      if (sim.starting_price) {
-        return (
-          sim.starting_price >= (filterParams.priceMin as number) &&
-          sim.starting_price <= (filterParams.priceMax as number)
-        );
-      }
-    });
-
     if (filterParams.query) {
-      allSimList = allSimList.filter((sim) => {
-        return sim
-          .number!.toLowerCase()
-          .includes(filterParams.query!.toLowerCase());
+      allUsersList = allUsersList.filter((user) => {
+        return (
+          user
+            .name!.toLowerCase()
+            .includes(filterParams.query!.toLowerCase()) ||
+          user
+            .email!.toLowerCase()
+            .includes(filterParams.query!.toLowerCase()) ||
+          user.phone!.toLowerCase().includes(filterParams.query!.toLowerCase())
+        );
       });
     }
-    setAllSims(allSimList);
+    setAllUsers(allUsersList);
     console.log("searching");
-  }; */
+  };
 
-  /*  useEffect(() => {
+  useEffect(() => {
     console.log(filterParams);
-    handleSearch();
+    handleSearch(role);
   }, [filterParams]);
- */
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allProvidersList = await getAccountsByRole(role);
-        setAllProviders(allProvidersList);
+        const allUsersList = await getAccountsByRole(role);
+        setAllUsers(allUsersList);
       } catch (error) {
         // Xử lý lỗi nếu có
       }
@@ -143,7 +116,7 @@ export default function UserList() {
     <>
       <div className="px-8  ">
         <p className="flex py-8 mx-[2.5%] text-white text-2xl justify-center font-bold">
-          Danh sách nhà cung cấp trên hệ thống
+          Danh sách người dùng trên hệ thống
         </p>
       </div>
       <div className="flex flex-wrap  items-center justify-center gap-y-4  text-blue-gray-900">
@@ -155,14 +128,12 @@ export default function UserList() {
           >
             <option value="">Chọn tình trạng hồ sơ</option>
 
-            <option value="Viettel">Viettel</option>
-            <option value="Vinaphone">Vinaphone</option>
-
-            <option value="Mobifone">Mobifone</option>
+            <option value="true">Hồ sơ đầy đủ</option>
+            <option value="false">Chưa hoàn thiện</option>
           </select>
         </div>
 
-        <div className="relative border-border flex w-full gap-2 mx-4 md:w-max">
+        <div className="relative border-border flex w-96 gap-2 mx-4 ">
           <Input
             type="search"
             label="Nhập tên người dùng, email, số điện thoại cần tìm..."
@@ -177,7 +148,7 @@ export default function UserList() {
             size="md"
             className=" rounded-xl font-medium text-sm"
             color="green"
-            /*  onClick={handleQuery} */
+            onClick={() => handleQuery(role)}
           >
             Tìm kiếm
           </Button>
@@ -253,22 +224,22 @@ export default function UserList() {
               </TableRow>
             </TableHead>
             <TableBody style={{ backgroundColor: "#162233" }}>
-              {allProviders.map((provider, index) => (
+              {allUsers.map((user, index) => (
                 <TableRow
-                  key={provider._id}
+                  key={user._id}
                   style={{ borderRadius: "4px", marginBottom: "4px" }}
                 >
                   <TableCell style={{ color: "white", textAlign: "center" }}>
                     {index + 1}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {provider.name}
+                    {user.name}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {provider.role}
+                    {user.email}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {provider.phone}
+                    {user.phone}
                   </TableCell>
                 </TableRow>
               ))}

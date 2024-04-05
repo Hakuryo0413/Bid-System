@@ -5,4 +5,5 @@ export interface userInterface {
   role?: string;
   phone?: string;
   address?: string;
+  state?: boolean;
 }
