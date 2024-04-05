@@ -30,6 +30,7 @@ export function CreateCaNhan() {
 
   const submitHandler = async (formData: SignupPayload) => {
     formData.role = role;
+    formData.state = true;
     createAccount(formData)
       .then((response: any) => {
         notify("User registered successfully", "success");

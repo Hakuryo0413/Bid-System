@@ -1,18 +1,22 @@
+import { RoomInterface } from "../../../../types/RoomInterface";
 import apiConfig from "../../../../utils/apiConfig";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
-import { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const api = setupAxiosInterceptors();
 
-export const updateRoom = async (id: string): Promise<any> => {
+export const updateRoom = async (payload: RoomInterface): Promise<any> => {
+
     try {
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.updateRoom}/${id}`,
-            method: "patch",
+        url: `${apiConfig.updateRoom}`,
+        method: "put",
+        data: payload,
         };
-        const response = await api(config);
+        console.log('hi')
+        const response = await axios(config);
         return response.data;
-    } catch (error) {
-        throw new Error("Gặp lỗi khi cập nhật dữ liệu");
-    }
+      } catch (error) {
+        throw new Error("Gặp lỗi khi cập nhật đơn hàng. ");
+      }
 };

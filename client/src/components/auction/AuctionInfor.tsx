@@ -15,6 +15,10 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
   const [AuctionInfor, setAuctionInfor] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
   const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
+  const [timeDisplay, setTimeDisplay] = useState<{ days: number, hours: number, minutes: number, seconds: number }>(
+    calcTime(AuctionInfor?.start_at ?? new Date())
+  );
+
   
   useEffect(() => {
     const userInfo = async () => {
@@ -35,11 +39,9 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
   const [filter, setFilter] = useState<string>('');
   const [filteredAuction, setFilteredOrders] = useState([...AuctionInfor?.participants ?? []]);
 
-  console.log(filteredAuction)
   const handleSearch = (query: string) => {
-    console.log("hi", searchQuery)
     if(!AuctionInfor || !AuctionInfor.participants || query === '') {
-      setFilteredOrders(AuctionInfor?.participants ?? []);
+      setFilteredOrders(filteredAuction ?? []);
       return;
     }
     const lowercaseQuery = query.toLowerCase();
@@ -72,7 +74,6 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
     }
   };
 
-  
 
   useEffect(() => {
     // Simulate delay of 2 seconds before executing some initialization code
@@ -81,10 +82,6 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
         console.log('Initialization code executed after delay');
     }, 2000);
   }, []);
-
-  const [timeDisplay, setTimeDisplay] = useState<{ days: number, hours: number, minutes: number, seconds: number }>(
-    calcTime(AuctionInfor?.start_at ?? new Date())
-  );
 
   const updateCounters = () => setTimeDisplay(calcTime(AuctionInfor?.start_at ?? new Date()));
 
@@ -114,7 +111,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
             {timeDisplay.seconds < 0 ? (
                 <UpCommingAuction auctionDetails={AuctionInfor}/>     
             ) : (
-                timeDisplay.minutes <= (AuctionInfor?.time_limit ?? 0) ? (
+                timeDisplay.minutes > (AuctionInfor?.time_limit ?? 0) ? (
                     <HappeningAuction auctionDetails={AuctionInfor}/>
                 ) : (
                     <CompletedAuction auctionDetails={AuctionInfor}/>
@@ -154,10 +151,9 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
                   <option value="Tất cả">Tất cả</option>
                   <option value="Đang chờ duyệt">Đang chờ duyệt</option>
                   <option value="Đang diễn ra">Đang diễn ra</option>
-                  
                 </select>
               </div>
-                <ParticipantsList participants={searchQuery == '' || filter == '' ? AuctionInfor?.participants ?? [] : filteredAuction}/>
+              <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} />
             </div>
 
         </div>

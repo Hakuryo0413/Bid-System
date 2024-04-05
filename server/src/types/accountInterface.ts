@@ -8,5 +8,5 @@ export interface accountInterface {
     address?: string,
     phone?: string,
     password?: string,
-    
+    state?: boolean
 }
