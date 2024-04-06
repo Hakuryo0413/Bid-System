@@ -74,7 +74,7 @@ export default function UserLogin() {
         if (isLoggedIn && accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (accountDetails?.role === "admin") {
-            navigate("/admin/providerList");
+            navigate("/admin/home");
           } else if (accountDetails?.role === "provider") {
             navigate("/user/home");
           } else {
@@ -83,7 +83,8 @@ export default function UserLogin() {
         }
       }
     }, 2000);
-  }, [accountDetails]);
+  });
+
   // họat động khi isLoggedIn được cập nhật
   useEffect(() => {
     if (isLoggedIn) {

@@ -52,35 +52,35 @@ const ConfirmSuccessfulBidder: React.FC<ConfirmSuccessfulBidderProps> = ({ code,
 
     
     return (
-    <div className="fixed inset-0  flex items-center justify-center bg-gray-500 bg-opacity-50 w-full h-screen z-50">
-        <div className="bg-white rounded-lg w-[400px]">
+    <div className="fixed inset-0  flex items-center justify-center bg-white bg-opacity-10 w-full h-screen z-50">
+        <div className="bg-white rounded-lg md:w-[400px] w-[90%]">
         <div className="bg-background rounded-t-lg flex w-full items-center">
-            <p className="text-white text-lg font-bold w-full ml-4 flex justify-center">Xác nhận người đấu giá thành công</p>
+            <p className="text-white md:text-lg text-sm font-bold w-full ml-4 flex justify-center">Xác nhận người đấu giá thành công</p>
             <div className=" flex justify-end bg-background hover:bg-red-300 p-2 rounded-tr-lg">
             <FontAwesomeIcon
                 icon={faTimes}
                 size="2x"
-                className="cursor-pointer text-white"
+                className="cursor-pointer text-white px-2"
                 onClick={onCloseButt}
             />
             </div>
         </div>
-        <div className="text-background min-h-[100px] w-auto mx-8 my-4 text-[18px]">
-            <div className="text-left mb-4">
+        <div className="text-background min-h-[100px] w-auto mx-8 my-4 md:text-[18px] text-small">
+            <div className="text-left mb-8">
                 <div className="mb-2">
                     <p className="font-bold">Họ và tên người đấu giá thành công</p>
-                    <p className="py-2 px-4 bg-gray-300 rounded my-2">{participants.length > 0 ? participants[0].name : ""}</p>
+                    <p className="py-2 px-4 bg-gray-300 rounded mb-2">{participants.length > 0 ? participants[0].name : ""}</p>
                 </div>
 
                 <div className="mb-2">
                     <p className="font-bold">Số tiền đấu giá</p>
-                    <p className="py-2 px-4 bg-gray-300 rounded my-2">{formatMoney(participants.length > 0 ? participants[0].highest_price : 0)}</p>
+                    <p className="py-2 px-4 bg-gray-300 rounded mb-2">{formatMoney(participants.length > 0 ? participants[0].highest_price : 0)}</p>
                 </div>
             </div>
             
 
             <div className="flex justify-center">
-            <button type="submit" className="font-bold bg-background text-white px-8 py-2 rounded-lg" onClick={buttonHandle}>
+            <button type="submit" className="font-bold bg-background text-white px-8 py-2 rounded-lg lg:w-auto w-[100%]" onClick={buttonHandle}>
                 Xác nhận
             </button>
             </div>

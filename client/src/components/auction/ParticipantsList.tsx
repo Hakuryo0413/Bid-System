@@ -9,6 +9,13 @@ import { ParticipantInterface } from '../../types/RoomInterface';
 import { formatMoney } from './utils/format';
 import { Typography } from '@material-tailwind/react';
 import ConfirmSuccessfulBidder from './confim action/ConfirmSuccessfulBidder';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { accountData } from '../../features/axios/api/account/AccountsDetail';
+import { RootState } from '../../features/redux/reducers/Reducer';
+import { clearUserDetails } from '../../features/redux/slices/account/accountDetailsSlice';
+import { loginSuccess } from '../../features/redux/slices/account/accountLoginAuthSlice';
+import { userInterface } from '../../types/UserInterface';
 
 
 interface ParticipantsListProps {
@@ -154,6 +161,35 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code }) => {
+    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  const token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+  
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('highest_price');
     const [page, setPage] = React.useState(0);
@@ -230,10 +266,10 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
     };
 
     const isDisable = (status: string) => {
-        if (status !== "Đang chờ xác nhận") {
-            return true;
+        if (status === "Đang chờ xác nhận" && accountDetails?.role === 'admin') {
+            return false;
         }
-        return false
+        return true
     }
 
     return (
@@ -276,7 +312,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
                                                 fontWeight: 'bold',
                                                 width: '100%',
                                                 pointerEvents: isDisable(row.status)  ? 'none' : 'auto' ,
-                                                cursor: isDisable(row.status) ? 'none' : 'pointer',
+                                                cursor: isDisable(row.status) ? 'default' : 'pointer',
                                             }}
                                             onClick={() => handleButtonClick(row)}
                                             >

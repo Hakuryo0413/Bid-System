@@ -4,14 +4,17 @@ import ParticipantsList from "./ParticipantsList";
 import HappeningAuction from "./HappeningAuction";
 import CompletedAuction from "./CompletedAuction";
 import { getRoomByCode } from "../../features/axios/api/room/RoomDetails";
-import { calcTime } from "./utils/format";
+import { calcTime, calcTimeInSeconds, formatMoney } from "./utils/format";
 import UpCommingAuction from "./UpcommingAuction";
+import ParticipantsListSmall from "./ParticipantsListSmall";
 
 interface AuctionInforProps {
     code: string;
 }
   
 const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
+
+  const isLargeScreen = window.innerWidth >= 768;
 
   const [AuctionInfor, setAuctionInfor] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
   const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
@@ -92,7 +95,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
       // Clean up the interval when the component unmounts
       return () => clearInterval(intervalId);
-  }, []);
+  }, [AuctionInfor]);
 
   if (!AuctionInfor) {
       return <div className="flex px-[10%] h-screen lg:py-4 py-4 text-white text-[20px] font-bold">Loading...</div>;
@@ -108,11 +111,11 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
             </p>
 
             <div className="mx-0 ">
-            {timeDisplay.seconds < 0 ? (
-                <UpCommingAuction auctionDetails={AuctionInfor}/>     
+            {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) <= 0 ? (
+                <UpCommingAuction auctionDetails={AuctionInfor} fromListPage={false}/>     
             ) : (
-                timeDisplay.minutes > (AuctionInfor?.time_limit ?? 0) ? (
-                    <HappeningAuction auctionDetails={AuctionInfor}/>
+              calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) < (AuctionInfor?.time_limit ?? 0) * 60 ? (
+                    <HappeningAuction auctionDetails={AuctionInfor} fromHappeningList={false} />
                 ) : (
                     <CompletedAuction auctionDetails={AuctionInfor}/>
                 )
@@ -137,24 +140,18 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
                 }/>
             </div>
 
-            <div className="border-white text-black border-2 py-4 px-4 pb-10 rounded-lg bg-white">
-              <div className="flex justify-end pb-4">
-                <select
-                  value={filter}
-                  onChange={(e) => {
-                    setFilter(e.target.value);
-                    handleFilter(e.target.value);
-                  }}
-                  className="p-2 border border-gray-300 rounded focus:outline-none focus:ring"
-                >
-                  <option value="" hidden>Trạng thái sàn đấu giá</option>
-                  <option value="Tất cả">Tất cả</option>
-                  <option value="Đang chờ duyệt">Đang chờ duyệt</option>
-                  <option value="Đang diễn ra">Đang diễn ra</option>
-                </select>
-              </div>
-              <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} />
-            </div>
+            {
+              isLargeScreen ? (
+                <div className="border-white text-black border-2 py-4 px-4 pb-10 rounded-lg bg-white">
+                  <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} />
+                </div>
+              ) : (
+                <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code}/>
+              )
+            }
+            
+
+
 
         </div>
 

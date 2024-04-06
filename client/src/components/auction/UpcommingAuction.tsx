@@ -8,9 +8,10 @@ import React from "react";
 
 interface UpCommingAuctionProps {
     auctionDetails: RoomInterface;
+    fromListPage: boolean;
 }
 
-const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails }) => {
+const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fromListPage }) => {
     useEffect(() => {
         const fetchSuccessBidder = async () => {
           try {
@@ -48,6 +49,8 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails }) =
         return () => clearInterval(intervalId);
     }, []);
     
+    const href = `/auction/details/${auctionDetails.code}`;
+    
     return (
     <div className="border-white border-2 py-4 px-8  rounded-lg bg-white bg-opacity-10 mb-4 mx-[5%]">
         <div className="lg:grid grid-cols-7 space-x-2">
@@ -84,15 +87,27 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails }) =
             <p className="text-white mb-2 lg:mb-0">
                 <strong>Giá khởi điểm: </strong>{formatMoney(auctionDetails.price ?? 0)}
             </p>
+            {
+              !fromListPage ? (
+                <div className="flex lg:justify-end">
+                  <button
+                  className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-gray-600 rounded-lg" 
+                  >
+                  Tham gia đấu giá
+                  </button>
+                </div>
+              ) : (
+                <div className="flex lg:justify-end">
+                  <a href={href} className="w-full">
+                    <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                    >
+                    Xem chi tiết
+                    </button>
+                  </a>
+                </div>
+              )
+            }
             
-            <div className="flex lg:justify-end">
-                <button
-                type="submit"
-                className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
-                >
-                <a href="/auction/details">Đăng ký tham gia đấu giá</a>
-                </button>
-            </div>
 
           </div>
         </div>

@@ -1,7 +1,15 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { accountData } from "../../features/axios/api/account/AccountsDetail";
+import { RootState } from "../../features/redux/reducers/Reducer";
+import { loginSuccess, logout } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import { userInterface } from "../../types/UserInterface";
+import AuctionInfor from "../auction/AuctionInfor";
+import { clearToken } from "../../features/redux/slices/account/tokenSlice";
+import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
 
 //************************************
 // Description: Phần Header cho trang chung của người dùng.
@@ -10,8 +18,8 @@ import { Link } from "react-router-dom";
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
   { name: "DS công bố", href: "/", current: false },
-  { name: "Sim sắp đấu giá", href: "/", current: false },
-  { name: "Phòng đấu giá", href: "/", current: false },
+  { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
+  { name: "Phòng đấu giá", href: "/auction/happening", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
   { name: "DS cá nhân", href: "/admin/userList", current: false },
   { name: "DS tổ chức", href: "/admin/providerList", current: false },
@@ -23,6 +31,64 @@ function classNames(...classes: string[]) {
 }
 
 function AdminHeader() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  const token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (isLoggedIn === true && accountDetails !== undefined) {
+  //       console.log('role', accountDetails)
+  //       if (accountDetails?.role === "admin") {
+  //         navigate("/admin/home");
+  //       } else if (accountDetails?.role === "provider") {
+  //         navigate("/provider/home");
+  //       } 
+  //       setIsLoading(false)
+  //     }
+  //   }, 500);
+  // })
+  
+  const handleLogout = () => {
+    try {
+      dispatch(logout());
+      dispatch(clearToken()); // Clear localStorage
+      console.log("LocalStorage cleared successfully!");
+
+    } catch (error) {
+      console.error("Error clearing localStorage:", error);
+      // Handle error gracefully, e.g., display an error message
+    }
+  };
+
+  // if(isLoading) {
+  //   return (<div className="flex px-[10%] h-screen lg:py-4 py-4 text-white text-[20px] font-bold">Loading...</div>)
+  // }
+  
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
@@ -104,7 +170,7 @@ function AdminHeader() {
                             "block px-4 py-2 text-sm hover:opacity-50"
                           )}
                         >
-                          {/* {employerDetails?.name ?? ""} */}
+                          {accountDetails?.name ?? ""}
                         </text>
                       </Menu.Item>
                       <Menu.Item>
@@ -113,9 +179,9 @@ function AdminHeader() {
                             className={classNames(
                               "block px-4 py-2 text-sm hover:opacity-50"
                             )}
-                            // onClick={() => {
-                            //   handleLogout();
-                            // }}
+                            onClick={() => {
+                              handleLogout();
+                            }}
                           >
                             Đăng xuất
                           </button>
@@ -155,4 +221,5 @@ function AdminHeader() {
 }
 
 export default AdminHeader;
-export {};
+
+

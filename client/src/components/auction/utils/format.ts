@@ -81,3 +81,6 @@ export function calcTime(start: Date) {
     }; 
 }
 
+export function calcTimeInSeconds (day: number, hour: number, minute: number, second: number){
+  return day * 24 * 3600 + hour * 3600 + minute * 60 + second;
+}

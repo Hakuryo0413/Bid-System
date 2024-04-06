@@ -8,9 +8,11 @@ import React from "react";
 
 interface HappeningAuctionProps {
     auctionDetails: RoomInterface;
+    fromHappeningList: boolean;
 }
 
-const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) => {
+const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fromHappeningList }) => {
+
     useEffect(() => {
         const fetchSuccessBidder = async () => {
           try {
@@ -59,6 +61,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
       setShowModal(false);
     };
 
+    const href = `/auction/details/${auctionDetails.code}`;
     return (
     <div className="border-white border-2 py-4 px-8  rounded-lg bg-white bg-opacity-10 mb-4 mx-[5%]">
         <div className="lg:grid grid-cols-7 space-x-2">
@@ -96,12 +99,26 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails }) =
             <strong>Giá cao nhất: </strong>{formatMoney(successfulBidder?.highest_price ?? 0)}
             </p>
             
-            <div className="flex lg:justify-end">
-                <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
-                onClick={openModal}>
-                Tham gia đấu giá
-                </button>
-            </div>
+            {
+              !fromHappeningList ? (
+                <div className="flex lg:justify-end">
+                  <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                  onClick={openModal}>
+                  Tham gia đấu giá
+                  </button>
+                </div>
+              ) : (
+                <div className="flex lg:justify-end">
+                  <a href={href} className="w-full">
+                    <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                    >
+                    Xem chi tiết
+                    </button>
+                  </a>
+                </div>
+              )
+            }
+            
 
           </div>
         </div>
