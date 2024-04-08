@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { userInterface } from "../../../types/UserInterface";
+import { useForm, SubmitHandler } from "react-hook-form";
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
   return (
@@ -79,7 +81,11 @@ function UserProfile() {
   // change show dialog 
 
   const [isChangePassword, setIsChangePassword] = React.useState(false);
-
+  const [user, setUser] = useState<userInterface>();
+  const {register, handleSubmit, formState: {errors}} = useForm();
+  const onSubmit:SubmitHandler<userInterface> = (user) => {
+    console.log(user);
+  }
   return (
     // create form for user profile bao gồm Thông tin cá nhân và Thông tin ngân hàng
     <div>
@@ -105,8 +111,7 @@ function UserProfile() {
       <div className="h-6">
       </div>
       <div className="border border-border rounded-2xl text-white">
-        <form>
-          {/* add space */}
+        <form >
 
           <div className="px-8 text-base pt-6">
             <p>1. Thông tin cá nhân:</p>

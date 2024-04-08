@@ -21,6 +21,18 @@ const accountSchema = new Schema({
   phone: {
     type: String,
   },
+  cccd: {
+    type: String,
+  },
+  bank: {
+    type: String,
+  },
+  bankAccount: {
+    type: String,
+  },
+  bankOwner: {
+    type: String,
+  }
 });
 
 export const Account = model("Account", accountSchema,"account");
