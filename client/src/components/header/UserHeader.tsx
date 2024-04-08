@@ -1,7 +1,14 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { accountData } from "../../features/axios/api/account/AccountsDetail";
+import { userInterface } from "../../types/UserInterface";
+import { loginSuccess, logout } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/redux/reducers/Reducer";
+import { clearToken } from "../../features/redux/slices/account/tokenSlice";
+import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
 
 //************************************
 // Description: Phần Header cho trang chung của người dùng.
@@ -10,8 +17,8 @@ import { Link, useNavigate } from "react-router-dom";
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
   { name: "DS công bố", href: "/", current: false },
-  { name: "Sim sắp đấu giá", href: "/", current: false },
-  { name: "Phòng đấu giá", href: "/", current: false },
+  { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
+  { name: "Phòng đấu giá", href: "/auction/happening", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
   { name: "Thông báo đấu giá", href: "/", current: false },
 ];
@@ -22,19 +29,59 @@ function classNames(...classes: string[]) {
 }
 
 function UserHeader() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  let isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  const token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (isLoggedIn === true && accountDetails !== undefined) {
+  //       console.log('role', accountDetails)
+  //       if (accountDetails?.role === "user") {
+  //         navigate("/user/home");
+  //       } else if (accountDetails?.role === "provider") {
+  //         navigate("/provider/home");
+  //       } 
+  //       setIsLoading(false)
+  //     }
+  //   }, 500);
+  // })
+  
   const handleLogout = () => {
     try {
-      localStorage.clear(); // Clear localStorage
+      dispatch(logout());
+      dispatch(clearToken()); // Clear localStorage
       console.log("LocalStorage cleared successfully!");
 
-      console.log("fehi");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
       // Handle error gracefully, e.g., display an error message
     }
   };
-
+  
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
@@ -116,7 +163,7 @@ function UserHeader() {
                             "block px-4 py-2 text-sm hover:opacity-50"
                           )}
                         >
-                          {/* {employerDetails?.name ?? ""} */}
+                          {accountDetails?.name ?? ""}
                         </text>
                       </Menu.Item>
                       <Menu.Item>

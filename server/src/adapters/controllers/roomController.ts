@@ -62,14 +62,16 @@ export const roomController = (
 
     const updateRoom = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const roomId = req.params.id;
+          const customReq = req as CustomRequest;
+          const roomId = customReq.body ?? "";
+          console.log(customReq.body)
           if (!roomId) {
             throw new AppError(
               "unauthorized request, invalid token",
               HttpStatus.UNAUTHORIZED
             );
           }
-          const updates: roomInterface = req.params;
+          const updates: roomInterface = req.body;
           const updateRoomData = await updatedRoom(
             roomId,
             updates,

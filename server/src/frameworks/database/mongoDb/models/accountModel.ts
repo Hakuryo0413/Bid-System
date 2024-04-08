@@ -17,7 +17,6 @@ const accountSchema = new Schema({
   password: {
     type: String,
   },
-  
   phone: {
     type: String,
   },
@@ -32,6 +31,9 @@ const accountSchema = new Schema({
   },
   bankOwner: {
     type: String,
+  },
+  state:{
+    type: Boolean,
   }
 });
 

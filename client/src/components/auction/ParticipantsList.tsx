@@ -2,14 +2,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { Box, Button, FormControlLabel, Paper, Switch, Table, TableBody, TableContainer, TablePagination } from "@mui/material";
+import { Box, Button, FormControlLabel, Paper, Switch, Table, TableBody, TableContainer, TablePagination} from "@mui/material";
 import { visuallyHidden } from '@mui/utils';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ParticipantInterface } from '../../types/RoomInterface';
+import { formatMoney } from './utils/format';
+import { Typography } from '@material-tailwind/react';
+import ConfirmSuccessfulBidder from './confim action/ConfirmSuccessfulBidder';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { accountData } from '../../features/axios/api/account/AccountsDetail';
+import { RootState } from '../../features/redux/reducers/Reducer';
+import { clearUserDetails } from '../../features/redux/slices/account/accountDetailsSlice';
+import { loginSuccess } from '../../features/redux/slices/account/accountLoginAuthSlice';
+import { userInterface } from '../../types/UserInterface';
 
 
 interface ParticipantsListProps {
     participants: ParticipantInterface [],
+    code: string,
 }
 
 interface Data {
@@ -21,7 +32,7 @@ interface Data {
 }
 
 function createData(participant: ParticipantInterface): Data {
-    const name = participant.name;
+    const name = participant.name; 
     const email = participant.email;
     const phone = participant.phone
     const highest_price = participant.highest_price
@@ -86,7 +97,7 @@ const headCells: readonly HeadCell[] = [
     },
     {
         id: 'highest_price',
-        label: 'Mức giá đưa ra',
+        label: 'Mức giá',
     },
     {
         id: 'status',
@@ -118,6 +129,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         sortDirection={orderBy === headCell.id ? order : false}
                         sx={{
                             fontWeight: 'bold',
+                            width: headCell.id === "highest_price" ||  headCell.id === "phone" ? '12.5%' : '25%'
                         }}
                     >
                         {headCell.id === "highest_price" && (
@@ -148,15 +160,43 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => {
+const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code }) => {
+    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  const token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+  
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('highest_price');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState<Data[]>([]);
-
-
+    const [items, setItems] = useState<React.ReactNode>();
 
     React.useEffect(() => {
         setRows(
@@ -198,6 +238,40 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => 
         setDense(event.target.checked);
     };
 
+    const handleButtonClick = (row: Data) => {
+        const onClose = () => {
+          setItems(undefined);
+          window.location.reload();
+        }
+        const onCloseButt = () => {
+          setItems(undefined);
+        }
+        if (row.status === 'Đang chờ xác nhận') {
+          setItems(<ConfirmSuccessfulBidder code={code} participants={participants} onClose={onClose} onCloseButt={onCloseButt}/>)
+        } 
+    }
+
+    // Mảng lưu trữ màu của từng trạng thái.
+    const statusColors: Record<string, string> = {
+        'Đang chờ xác nhận': '#B8E1FF',
+        'Đấu giá thành công': '#4FFBDF',
+        'Đấu giá thất bại': '#FF6F91',
+        'Đang chờ thanh toán': '#FEFEDF',
+        'Hàng đợi': '#D8E4EA',
+    };
+
+    // Lấy màu theo trạng thái
+    const getStatusColor = (status: string) => {
+        return statusColors[status] || 'transparent';
+    };
+
+    const isDisable = (status: string) => {
+        if (status === "Đang chờ xác nhận" && accountDetails?.role === 'admin') {
+            return false;
+        }
+        return true
+    }
+
     return (
         <Box sx={{ width: '100%', maxWidth: 1600 }} id="box">
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -223,11 +297,29 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants }) => 
                                         sx={{ cursor: 'pointer' }}
                                     >
 
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.name}</TableCell>
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.email}</TableCell>
-                                        <TableCell align="left" sx={{ width: 100 }}>{row.phone}</TableCell>
-                                        <TableCell align="left" sx={{ width: 100 }} >{row.highest_price}</TableCell>
-                                        <TableCell align="left" sx={{ width: 300 }}>{row.status}</TableCell>
+                                        <TableCell align="center" sx={{ width: "25%" }}>{row.name}</TableCell>
+                                        <TableCell align="center" sx={{ width: "25%" }}>{row.email}</TableCell>
+                                        <TableCell align="center" sx={{ width: "12.5%" }}>{row.phone}</TableCell>
+                                        <TableCell align="center" sx={{ width: "12.5%" }} >{formatMoney(row.highest_price ?? 0)}</TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                            style={{
+                                                backgroundColor: getStatusColor(row.status),
+                                                border: '1px',
+                                                borderRadius: '16px',
+                                                padding: '8px',
+                                                color: "black",
+                                                fontWeight: 'bold',
+                                                width: '100%',
+                                                pointerEvents: isDisable(row.status)  ? 'none' : 'auto' ,
+                                                cursor: isDisable(row.status) ? 'default' : 'pointer',
+                                            }}
+                                            onClick={() => handleButtonClick(row)}
+                                            >
+                                            {row.status}
+                                            </Button>
+                                            {items}
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}

@@ -15,14 +15,14 @@ const simRoute = () => {
         simRepositoryMongoDB,
         Sim
     );
-    route.get('/sim-data/email/:email', authenticationMiddleware, controller.getSimByProvider);
-    route.get('/sim-data/id', authenticationMiddleware, controller.getSimById);
-    route.get('/sim-data/number/:number', authenticationMiddleware,  controller.getSimByNumber);
-    route.get('/all-sims', authenticationMiddleware,  controller.getAllSim);
-    route.patch('/update-sim/:id', authenticationMiddleware,  controller.updateSim);
-    route.post('/create', authenticationMiddleware,  controller.simCreate);
-    route.delete('/delete/id/:id',authenticationMiddleware,controller.deleteSimById);
-    route.delete('/delete/number/:number',authenticationMiddleware,controller.deleteSimByNumber);
+    route.get('/sim-data/email/:email', controller.getSimByProvider);
+    route.get('/sim-data/id', controller.getSimById);
+    route.get('/sim-data/number/:number',  controller.getSimByNumber);
+    route.get('/all-sims',  controller.getAllSim);
+    route.patch('/update-sim/:id',  controller.updateSim);
+    route.post('/create',  controller.simCreate);
+    route.delete('/delete/id/:id',controller.deleteSimById);
+    route.delete('/delete/number/:number',controller.deleteSimByNumber);
     return route;
 }
 

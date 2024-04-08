@@ -10,7 +10,7 @@ const UserRouter = () => {
       <Routes>
         <Route path="/*" element={<UserHomePage />} />
         <Route path="/yeucau" element={<UserYeuCau />} /> // Use the imported component
-
+       \
       </Routes>
     </div>
   );
