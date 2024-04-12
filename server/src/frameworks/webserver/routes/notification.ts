@@ -17,7 +17,7 @@ const notificationRoute = () => {
     );
     route.get('/notification-data/email/:email', authenticationMiddleware, controller.getNotificationByAccount);
     route.patch('/update-notification/:id', authenticationMiddleware,  controller.updateNotification);
-    route.post('/create', authenticationMiddleware,  controller.notificationCreate);
+    route.post('/create',  controller.notificationCreate);
     route.delete('/delete',authenticationMiddleware,controller.deleteNotificationById);
     return route;
 }
