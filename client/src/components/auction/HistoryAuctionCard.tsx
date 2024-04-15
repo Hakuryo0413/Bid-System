@@ -11,7 +11,7 @@ const HistoryAunctionCard = ({ historyAuction }: {historyAuction: HistoryInterfa
             <td>{room}</td>
             <td>{formattedCreatedAt}</td>
             <td>
-                <a className="button Bpay" href="/user/payment">Thanh toán</a>
+                <a className="button Bpay" href="/user/payment/{id1}">Thanh toán</a>
                 <a className="button BDpay"  href="/user/cancel">Hủy thanh toán</a>
             </td>
         </tr>

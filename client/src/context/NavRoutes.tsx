@@ -27,11 +27,11 @@ export const NavRoutes = [
         name: "Thông tin tài khoản",
         path: "/user/profile",
       },
-      {
+   /*    {
         icon: <MdOutlineShoppingCart {...icon} />,
         name: "Giỏ hàng",
         path: "/user/applications",
-      },
+      }, */
       {
         icon: <FaSimCard {...icon} />,
         name: "Sim chờ đấu giá",

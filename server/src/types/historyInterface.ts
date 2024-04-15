@@ -5,6 +5,6 @@ export interface historyInterface {
     sim?: string,
     room?: string,
     account?: string,
-    state?: string,
+    state?: string, 
     created_at?: Date
 }

@@ -1,12 +1,12 @@
 import { AxiosRequestConfig } from "axios";
 import apiConfig from "../../../../utils/apiConfig";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
-import { NotificationInterface } from "../../../../types/NotificationInterface";
+import { NotificationInterface, NotificationPayload } from "../../../../types/NotificationInterface";
 
 const api = setupAxiosInterceptors();
 
 const createNewNotification = async (
-  payload: NotificationInterface,
+  payload: NotificationPayload,
 ): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
