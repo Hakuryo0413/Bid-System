@@ -30,7 +30,7 @@ type FilterParams = {
   query: string | null;
 };
 
-export default function SearchAuction() {
+export default function SearchSim() {
   const [allSims, setAllSims] = useState<SimInterface[]>([]); // variables for search searching
 
   const [searchQuery, setSearchQuery] = useState<string>("");

@@ -1,18 +1,18 @@
 import HappeningAuctionList from "../../components/auction/HappeningAuctionList";
-import SearchAuction from "../../components/auction/SearchAuction";
+import SearchSim from "../../components/auction/SearchSim";
 import UserSideFooter from "../../components/footer/UserSideFooter";
 import AdminHeader from "../../components/header/AdminHeader";
 import CommonHeader from "../../components/header/CommonHeader";
 import UserHeader from "../../components/header/UserHeader";
 
-function SearchAuctionPage() {
+function SearchSimPage() {
     return (
       <div>
           <CommonHeader />
-          <SearchAuction />
+          <SearchSim />
           <UserSideFooter/>
       </div>
     )
   }
   
-  export default SearchAuctionPage;
+  export default SearchSimPage;

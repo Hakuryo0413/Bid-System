@@ -10,6 +10,7 @@ import { userInterface } from "../../../types/UserInterface";
 import { createAccount } from "../../../features/axios/api/account/AccountAuthentication";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import createNewNotification from "../../../features/axios/api/notification/CreateNotification";
 
 export function CreateCaNhan() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export function CreateCaNhan() {
   } = useForm<SignupPayload>({
     resolver: yupResolver(userRegisterValidationSchema),
   });
-  
+
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
@@ -31,16 +32,26 @@ export function CreateCaNhan() {
   const submitHandler = async (formData: SignupPayload) => {
     formData.role = role;
     formData.state = false;
+    
     createAccount(formData)
       .then((response: any) => {
-        notify("User registered successfully", "success");
+        createNewNotification({
+          account: "hihi@gmail.com",
+          content: "Có người đăng ký tài khoản mới",
+          from: formData.email,
+          state: false,
+        });
+        console.log("sent form");
+
+        notify("Your Register Form was sent", "success");
         setTimeout(() => {
-          navigate("/login");
-        }, 6000);
+/*           navigate("/login");
+ */        }, 6000);
       })
       .catch((error: any) => {
         notify(error.message, "error");
       });
+   
   };
   return (
     <div className="justify-center min-h-screen bg-background">
