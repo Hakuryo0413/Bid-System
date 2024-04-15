@@ -1,4 +1,5 @@
 import configKeys from "./config";
+import { all } from 'axios';
 
 const apiConfig = {
 
@@ -22,7 +23,7 @@ const apiConfig = {
     updateNotification: `${configKeys.API_URL}notification/update-notification`,
     createNotification: `${configKeys.API_URL}notification/create`,
     deleteNotification: `${configKeys.API_URL}notification/delete`,
-
+    allNotifications: `${configKeys.API_URL}notification/all-notifications`,
     roomAccount: `${configKeys.API_URL}room/room-data/email`,
     roomCode: `${configKeys.API_URL}room/room-data/code`,
     allRooms: `${configKeys.API_URL}room/all-rooms`,

@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { accountData } from "../../features/axios/api/account/AccountsDetail";
 import { RootState } from "../../features/redux/reducers/Reducer";
-import { loginSuccess, logout } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import {
+  loginSuccess,
+  logout,
+} from "../../features/redux/slices/account/accountLoginAuthSlice";
 import { userInterface } from "../../types/UserInterface";
 import AuctionInfor from "../auction/AuctionInfor";
 import { clearToken } from "../../features/redux/slices/account/tokenSlice";
@@ -33,20 +36,17 @@ function classNames(...classes: string[]) {
 function AdminHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let isLoggedIn = useSelector(
-    (state: RootState) => state.userAuth.isLoggedIn
-  );
-  
+  let isLoggedIn = useSelector((state: RootState) => state.userAuth.isLoggedIn);
+
   const [accountDetails, setAccountDetails] = useState<userInterface>();
 
   const getAccountDetails = async () => {
     const data = await accountData();
     setAccountDetails(data);
-  }
-  
+  };
+
   const token = localStorage.getItem("token");
 
-  
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
@@ -66,18 +66,18 @@ function AdminHeader() {
   //         navigate("/admin/home");
   //       } else if (accountDetails?.role === "provider") {
   //         navigate("/provider/home");
-  //       } 
+  //       }
   //       setIsLoading(false)
   //     }
   //   }, 500);
   // })
-  
+
   const handleLogout = () => {
     try {
       dispatch(logout());
+      localStorage.removeItem("username");
       dispatch(clearToken()); // Clear localStorage
       console.log("LocalStorage cleared successfully!");
-
     } catch (error) {
       console.error("Error clearing localStorage:", error);
       // Handle error gracefully, e.g., display an error message
@@ -87,7 +87,7 @@ function AdminHeader() {
   // if(isLoading) {
   //   return (<div className="flex px-[10%] h-screen lg:py-4 py-4 text-white text-[20px] font-bold">Loading...</div>)
   // }
-  
+
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
@@ -220,5 +220,3 @@ function AdminHeader() {
 }
 
 export default AdminHeader;
-
-

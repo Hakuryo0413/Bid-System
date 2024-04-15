@@ -1,9 +1,70 @@
 import { Checkbox } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
+import { get, set } from "lodash";
+import { getSimByNumber } from "../../../features/axios/api/sim/SimDetails";
+import { getRoomByCode } from "../../../features/axios/api/room/RoomDetails";
 
 function UserPayment() {
+  const { number, code } = useParams();
+
+  console.log(number);
+  console.log(code);
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState(localStorage.getItem("username") || "");
+  const [provider, setProvider] = useState("");
+  const [sim, setSim] = useState("");
+  const [room, setRoom] = useState("");
+  const [lastPrice, setLastPrice] = useState(0);
+  const handleClick = () => {
+    navigate("/auction/history");
+  };
+  const getData = async (email: string) => {
+    const data = await getAccountsByEmail(email);
+    setName(data.name);
+  };
+  useEffect(() => {
+    const getDataSim = async (number: string) => {
+      try {
+        const data = await getSimByNumber(number);
+        console.log(data);
+        setSim(data.number);
+        setProvider(data.provider);
+        setLastPrice(data.last_price);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+
+    if (number) {
+      getDataSim(number);
+    }
+  }, [number]);
+  useEffect(() => {
+    const getRoom = async (code: string) => {
+      try {
+        const data = await getRoomByCode(code);
+        console.log(data);
+        setRoom(data.code);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+    if (code) {
+      getRoom(code);
+    }
+  }, [code]);
+
+  useEffect(() => {
+    console.log(email);
+    getData(email);
+  }, []);
   return (
     <div>
       <div className="border border-border rounded-2xl text-white  ">
@@ -15,13 +76,13 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block font-medium leading-6 text-white">
                   Số điện thoại:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{sim}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Nhà phân phối:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{provider}</span>
                 </label>
               </div>
             </div>
@@ -29,13 +90,13 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Phiên đấu giá:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{room}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Giá tiền:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{lastPrice}</span>
                 </label>
               </div>
             </div>
@@ -48,7 +109,7 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white ">
                   Người mua:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{name}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
@@ -62,11 +123,12 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block font-medium leading-6 text-white">
                   Phiên đấu giá:
+                  <span className="ml-2">{room}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
-                  Giá tiền
+                  Giá tiền:<span className="ml-2">{lastPrice}</span>
                 </label>
               </div>
             </div>
@@ -113,7 +175,10 @@ function UserPayment() {
           <div className=" grid grid-cols-3  pt-4 pb-8 place-items-end ">
             <div className="col-span-2"></div>
             <div className="col-span-1">
-              <button className=" border-border w-32 border-2  text-white hover:bg-red-500   px-2 py-2 rounded-lg">
+              <button
+                onClick={handleClick}
+                className=" border-border w-32 border-2  text-white hover:bg-red-500   px-2 py-2 rounded-lg"
+              >
                 Huỷ
               </button>
               <button

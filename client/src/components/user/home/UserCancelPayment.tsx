@@ -1,23 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
+import { getSimByNumber } from "../../../features/axios/api/sim/SimDetails";
+import { useParams } from "react-router-dom";
+import { getRoomByCode } from "../../../features/axios/api/room/RoomDetails";
 
 function UserCancelPayment() {
+  const { number, code } = useParams();
+  const navigate = useNavigate();
+  console.log(number);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState(localStorage.getItem("username") || "");
+  const [provider, setProvider] = useState("");
+  const [sim, setSim] = useState("");
+  const [room, setRoom] = useState("");
+  const [lastPrice, setLastPrice] = useState(0);
+  const getData = async (email: string) => {
+    const data = await getAccountsByEmail(email);
+    setName(data.name);
+  };
+  const handleClick = () => {
+    navigate("/auction/history");
+  };
+  useEffect(() => {
+    const getDataSim = async (number: string) => {
+      try {
+        const data = await getSimByNumber(number);
+        console.log(data);
+        setSim(data.number);
+        setProvider(data.provider);
+        setLastPrice(data.last_price);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+
+    if (number) {
+      getDataSim(number);
+    }
+  }, [number]);
+
+  useEffect(() => {
+    const getRoom = async (code: string) => {
+      try {
+        const data = await getRoomByCode(code);
+        console.log(data);
+        setRoom(data.code);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+    if (code) {
+      getRoom(code);
+    }
+  }, [code]);
+
+  useEffect(() => {
+    console.log(email);
+    getData(email);
+  }, []);
+
   return (
     <div className="border border-border rounded-2xl text-white  ">
       <form>
         <h2 className="text-4xl py-8 text-center"> Huỷ thanh toán </h2>
         <div className="px-8 text-base ">
-          <p >1. Thông tin sim:</p>
+          <p>1. Thông tin sim:</p>
           <div className="mt-4 grid  grid-cols-1 justify-center gap-x-6 gap-y-8 sm:grid-cols-4">
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Số điện thoại:
-                <span className="ml-2"></span>
+                <span className="ml-2">{sim}</span>
               </label>
             </div>
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Nhà phân phối:
-                <span className="ml-2"></span>
+                <span className="ml-2">{provider}</span>
               </label>
             </div>
           </div>
@@ -25,13 +86,13 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Phiên đấu giá:
-                <span className="ml-2"></span>
+                <span className="ml-2">{room}</span>
               </label>
             </div>
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Giá tiền:
-                <span className="ml-2"></span>
+                <span className="ml-2">{lastPrice}</span>
               </label>
             </div>
           </div>
@@ -43,7 +104,7 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white ">
                 Người mua:
-                <span className="ml-2"></span>
+                <span className="ml-2">{name}</span>
               </label>
             </div>
             <div className="sm:col-span-2">
@@ -83,7 +144,10 @@ function UserCancelPayment() {
           </div>
         </div>
         <div className="flex justify-center pt-20 pb-12">
-          <button className=" border-border w-32 border-2  text-white hover:bg-green-500  mx-4 px-4 py-2 rounded-lg">
+          <button
+            className=" border-border w-32 border-2  text-white hover:bg-green-500  mx-4 px-4 py-2 rounded-lg"
+            onClick={handleClick}
+          >
             Huỷ
           </button>
           <button

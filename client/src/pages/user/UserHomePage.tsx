@@ -22,18 +22,20 @@ function UserHomePage() {
         </div>
         {/* import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the missing component */}
 
-                <div className="w-4/5 pl-6 pr-6">
-                  <Routes>
-                    <Route path="/profile" element={<UserProfile />} />
+        <div className="w-4/5 pl-6 pr-6">
+          <Routes>
+            <Route path="/profile" element={<UserProfile />} />
 
-                    <Route path="/history" />
+            <Route path="/history" />
+            <Route path="/payment/:code/:number" element={<UserPayment />} />
+            <Route
+              path="/cancel/:code/:number"
+              element={<UserCancelPayment />}
+            />
 
-                    <Route path="/payment" element={<UserPayment />} />
-                    <Route path="/cancel" element={<UserCancelPayment />} />
-
-                    {/* Add more routes here */}
-                  </Routes>
-                </div>
+            {/* Add more routes here */}
+          </Routes>
+        </div>
       </div>
     </div>
   );

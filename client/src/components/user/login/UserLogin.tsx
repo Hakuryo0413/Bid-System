@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
 import { userLoginValidationSchema } from "../../../utils/validation";
 import { Link, useNavigate } from "react-router-dom";
-import { clearToken, setToken } from "../../../features/redux/slices/account/tokenSlice";
+import {
+  clearToken,
+  setToken,
+} from "../../../features/redux/slices/account/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { RootState } from "../../../features/redux/reducers/Reducer";
 import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
@@ -29,7 +32,7 @@ export default function UserLogin() {
   const [accountDetails, setAccountDetails] = useState<userInterface>();
 
   let token = localStorage.getItem("token");
-
+  let name = localStorage.getItem("name");
   const {
     register,
     handleSubmit,
@@ -48,8 +51,6 @@ export default function UserLogin() {
     setAccountDetails(data);
   };
 
-
-
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
@@ -57,13 +58,13 @@ export default function UserLogin() {
       getAccountDetails();
       setTimeout(() => {
         // if (isLoggedIn === true) {
-          if (accountDetails?.role === "admin") {
-            navigate("/admin/home");
-          } else if (accountDetails?.role === "provider") {
-            navigate("/provider/home");
-          } else {
-            navigate("/user/home");
-          }
+        if (accountDetails?.role === "admin") {
+          navigate("/admin/home");
+        } else if (accountDetails?.role === "provider") {
+          navigate("/provider/home");
+        } else {
+          navigate("/user/home");
+        }
         // }
       }, 2000);
     }
@@ -108,6 +109,8 @@ export default function UserLogin() {
     login(formData)
       .then((response) => {
         const token = response.token;
+        localStorage.setItem("username", formData.username);
+
         dispatch(setToken(token));
         dispatch(loginSuccess());
         notify("Đăng nhập thành công", "success");

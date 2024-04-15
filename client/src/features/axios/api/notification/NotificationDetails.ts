@@ -17,3 +17,15 @@ export const getNotificationByAccount = async (email: string): Promise<any> => {
         throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
     }
 }
+export const getAllNotifications = async (): Promise<any> => {
+    try {
+        const config: AxiosRequestConfig = {
+            url: apiConfig.allNotifications,
+            method: "get",
+        };
+        const response = await api(config);
+        return response.data;
+    } catch (error) {
+        throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
+    }
+}

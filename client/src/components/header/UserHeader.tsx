@@ -4,7 +4,10 @@ import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { accountData } from "../../features/axios/api/account/AccountsDetail";
 import { userInterface } from "../../types/UserInterface";
-import { loginSuccess, logout } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import {
+  loginSuccess,
+  logout,
+} from "../../features/redux/slices/account/accountLoginAuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/redux/reducers/Reducer";
 import { clearToken } from "../../features/redux/slices/account/tokenSlice";
@@ -31,20 +34,17 @@ function classNames(...classes: string[]) {
 function UserHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let isLoggedIn = useSelector(
-    (state: RootState) => state.userAuth.isLoggedIn
-  );
-  
+  let isLoggedIn = useSelector((state: RootState) => state.userAuth.isLoggedIn);
+
   const [accountDetails, setAccountDetails] = useState<userInterface>();
 
   const getAccountDetails = async () => {
     const data = await accountData();
     setAccountDetails(data);
-  }
-  
+  };
+
   const token = localStorage.getItem("token");
 
-  
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
@@ -64,24 +64,25 @@ function UserHeader() {
   //         navigate("/user/home");
   //       } else if (accountDetails?.role === "provider") {
   //         navigate("/provider/home");
-  //       } 
+  //       }
   //       setIsLoading(false)
   //     }
   //   }, 500);
   // })
-  
+
   const handleLogout = () => {
     try {
       dispatch(logout());
+      localStorage.removeItem("username");
+
       dispatch(clearToken()); // Clear localStorage
       console.log("LocalStorage cleared successfully!");
-
     } catch (error) {
       console.error("Error clearing localStorage:", error);
       // Handle error gracefully, e.g., display an error message
     }
   };
-  
+
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
