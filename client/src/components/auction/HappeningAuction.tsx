@@ -5,13 +5,103 @@ import { formatDate, endTimeCalc, formatMoney, calcTime } from "./utils/format";
 import { useEffect, useState } from "react";
 import { successBidder } from "./utils/successParticipant";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { getRoomByCode } from "../../features/axios/api/room/RoomDetails";
+import { updateRoom } from "../../features/axios/api/room/UpdateRoom";
+import { useDispatch } from "react-redux";
+import { string, number } from "yup";
+import { accountData } from "../../features/axios/api/account/AccountsDetail";
+import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
+import { loginSuccess } from "../../features/redux/slices/account/accountLoginAuthSlice";
+import { userInterface } from "../../types/UserInterface";
 
 interface HappeningAuctionProps {
-    auctionDetails: RoomInterface;
-    fromHappeningList: boolean;
+  auctionDetails: RoomInterface;
+  fromHappeningList: boolean;
 }
 
 const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fromHappeningList }) => {
+
+  const dispatch = useDispatch();
+  
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  }
+  
+  const token = localStorage.getItem("token");
+
+  
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
+  useEffect(() => {
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+  const [auctionInfor, setAuctionInfor] = useState<RoomInterface>();
+
+  const {
+      setValue,
+      formState: { errors },
+  } = useForm<RoomInterface>();
+
+  useEffect(() => {
+      const userInfo = async () => {
+        try {
+          if (auctionDetails.code) {
+            const data = await getRoomByCode(auctionDetails.code);
+            setAuctionInfor(data);
+          }
+          
+        }
+        catch (error) {
+          setAuctionInfor(undefined);
+        }
+      };
+      userInfo();
+  }, []);
+
+  const [price, setPrice] = useState<number | null>(null);
+  const handlePriceChange = (value: number) => {
+    if(value) {
+      setPrice(value);
+    } else {
+      setPrice(0)
+    }
+    
+  };
+
+  const buttonHandle = async (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (auctionInfor && auctionInfor?.participants && accountDetails) {
+          let participant: ParticipantInterface = {
+            name: accountDetails?.name ?? "",
+            email: accountDetails.email ?? "",
+            phone: accountDetails.phone ?? "",
+            highest_price: price ?? 0,
+            status: "Hàng đợi",
+          }
+
+          auctionInfor.participants.push(participant)
+          updateRoom(auctionInfor)
+          setShowModal(false)
+          const reloadPage = () => {
+            window.location.reload(); // Tải lại trang
+          };
+      
+          const reloadInterval = setInterval(reloadPage, 500); // 1000 milliseconds = 1 giây
+      
+          return () => {
+            clearInterval(reloadInterval); // Xóa bộ đếm khi component unmount
+          }
+      }
+  }
 
     useEffect(() => {
         const fetchSuccessBidder = async () => {
@@ -140,30 +230,20 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </div>
             </div>
             <div className="text-background w-auto min-h-[100px] m-8 space-y-8 ">
-              <div className="relative mb-3" data-twe-input-wrapper-init>
-                <input
-                  type="text"
-                  className="peer block min-h-[auto] border-[1px] border-background focus:border-blue-700 w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-blue-700 data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-blue-700 [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInput1"
-                  placeholder="Họ và tên" />
-                <label
-                  htmlFor="exampleFormControlInput1"
-                  className="pointer-events-none peer-focus:bg-white absolute left-3 top-0 mb-0 origin-[0_0] truncate mt-[0.37rem] leading-[1.6] text-background transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-blue-700 peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-blue-700"
-                  >Họ và tên
-                </label>
-              </div>
 
-              <div className="relative mb-3" data-twe-input-wrapper-init>
-                <input
-                  type="text"
-                  className="peer block min-h-[auto] border-[1px] border-background focus:border-blue-700 w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-blue-700 data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-blue-700 [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInput1"
-                  placeholder="Giá đưa ra" />
+              <div className="relative mb-3">
                 <label
                   htmlFor="exampleFormControlInput1"
-                  className="pointer-events-none peer-focus:bg-white absolute left-3 top-0 mb-0 origin-[0_0] truncate mt-[0.37rem]  text-background transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-blue-700 peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-blue-700"
+                  className="text-[13px] font-bold"
                   >Giá đưa ra
                 </label>
+                <input
+                  type="number"
+                  onChange={(event) => handlePriceChange(Number(event.target.value))}
+                  className="block min-h-[auto] border-[1px] border-background focus:border-blue-700 w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none"
+                  id="exampleFormControlInput1"
+                  placeholder="Vui lòng nhập số tiền." />
+                
                 <div
                 className="absolute w-full text-[10px] left-3 text-red-200"
                 data-twe-input-helper-ref>
@@ -172,7 +252,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </div>
 
               <div className="flex justify-center">
-                <button type="submit" className="font-bold bg-background text-white px-8 py-2 rounded-lg">
+                <button type="submit" className="font-bold bg-background text-white px-8 py-2 rounded-lg" onClick={buttonHandle}>
                   Xác nhận
                 </button>
               </div>

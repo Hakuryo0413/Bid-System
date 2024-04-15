@@ -4,10 +4,14 @@ import { RoomInterface } from "../../types/RoomInterface";
 import CompletedAuction from "./CompletedAuction";
 import HappeningAuction from "./HappeningAuction";
 import { calcTime, calcTimeInSeconds } from "./utils/format";
+import AuctionInfor from "./AuctionInfor";
 
 export default function HappeningAuctionList() {
   const [allAuctions, setAllAuctions] = useState<RoomInterface []>();
   const [happeningAuctions, sethappeningAuctions] = useState<RoomInterface[]>();
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredAuction, setFilteredOrders] = useState([...happeningAuctions ?? []]);
 
   useEffect(() => {
     const auctionsInfor = async () => {
@@ -44,6 +48,25 @@ export default function HappeningAuctionList() {
     happeningAuctionsInfor();
   }, [allAuctions]);
 
+  
+  const handleSearch = (query: string) => {
+    if(!happeningAuctions || query === '') {
+      setFilteredOrders(happeningAuctions ?? []);
+      return;
+    }
+
+    
+    const lowercaseQuery = query.toLowerCase();
+    // Filter orders based on the search query
+    const filtered = happeningAuctions.filter(
+      (auction) =>
+        auction.phone?.toLowerCase().includes(lowercaseQuery) ||
+        auction.price?.toString().toLowerCase().includes(lowercaseQuery)
+    );
+    setFilteredOrders(filtered);
+    console.log(query, filteredAuction)
+  };
+
 
 
     return (
@@ -51,14 +74,31 @@ export default function HappeningAuctionList() {
       <p className="flex py-4 mx-[2.5%] text-white text-[20px] font-bold">
         Phiên đấu giá đang diễn ra
       </p>
+      <div className="flex justify-center pb-4 mx-[2.5%]">
+          <input type="text" className="bg-background lg:w-[60%] w-full rounded-lg px-4 py-2 border-2 border-white placeholder-gray-600 text-white"
+                  placeholder="Nhập số sim hoặc nhà cung cấp cần tìm"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    handleSearch(e.target.value);}
+          }/>
+      </div>
       <div className="grid md:grid-cols-2">
-        {
-          happeningAuctions?.map((auction) => (
+        {searchQuery === '' ? 
+          (
+            happeningAuctions?.map((auction) => (
+              <div>
+                <HappeningAuction auctionDetails={auction} fromHappeningList={true}></HappeningAuction>
+              </div>
+            ))
+          )
+       : (
+          filteredAuction?.map((auction) => (
             <div>
               <HappeningAuction auctionDetails={auction} fromHappeningList={true}></HappeningAuction>
             </div>
           ))
-        }
+       )}
       </div>
     </div>
   );

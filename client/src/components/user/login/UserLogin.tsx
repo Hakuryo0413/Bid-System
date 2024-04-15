@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
 import { userLoginValidationSchema } from "../../../utils/validation";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../features/redux/slices/account/tokenSlice";
+import { clearToken, setToken } from "../../../features/redux/slices/account/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { RootState } from "../../../features/redux/reducers/Reducer";
 import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
@@ -22,11 +22,13 @@ import { accountData } from "../../../features/axios/api/account/AccountsDetail"
 export default function UserLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(
-    (state: RootState) => state.userAuth.isLoggedIn
-  );
+  // const isLoggedIn = useSelector(
+  //   (state: RootState) => state.userAuth.isLoggedIn
+  // );
 
   const [accountDetails, setAccountDetails] = useState<userInterface>();
+
+  let token = localStorage.getItem("token");
 
   const {
     register,
@@ -46,7 +48,7 @@ export default function UserLogin() {
     setAccountDetails(data);
   };
 
-  let token = localStorage.getItem("token");
+
 
   // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
@@ -54,7 +56,7 @@ export default function UserLogin() {
       dispatch(loginSuccess());
       getAccountDetails();
       setTimeout(() => {
-        if (isLoggedIn === true) {
+        // if (isLoggedIn === true) {
           if (accountDetails?.role === "admin") {
             navigate("/admin/home");
           } else if (accountDetails?.role === "provider") {
@@ -62,7 +64,7 @@ export default function UserLogin() {
           } else {
             navigate("/user/home");
           }
-        }
+        // }
       }, 2000);
     }
   }, [navigate]);
@@ -71,7 +73,7 @@ export default function UserLogin() {
   useEffect(() => {
     setTimeout(() => {
       if (accountDetails) {
-        if (isLoggedIn && accountDetails) {
+        if (accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (accountDetails?.role === "admin") {
             navigate("/admin/home");
@@ -83,23 +85,24 @@ export default function UserLogin() {
         }
       }
     }, 2000);
-  });
+  }, [accountDetails]);
 
   // họat động khi isLoggedIn được cập nhật
-  useEffect(() => {
-    if (isLoggedIn) {
-      // Fetch và cập nhật employerDetails
-      const fetchAccountDetails = async () => {
-        try {
-          const data = await accountData();
-          setAccountDetails(data);
-        } catch (error: any) {
-          notify(error.message, "error");
-        }
-      };
-      fetchAccountDetails();
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   console.log(isLoggedIn)
+  //   if (isLoggedIn) {
+  //     // Fetch và cập nhật employerDetails
+  //     const fetchAccountDetails = async () => {
+  //       try {
+  //         const data = await accountData();
+  //         setAccountDetails(data);
+  //       } catch (error: any) {
+  //         notify(error.message, "error");
+  //       }
+  //     };
+  //     fetchAccountDetails();
+  //   }
+  // }, [isLoggedIn]);
 
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
@@ -109,7 +112,7 @@ export default function UserLogin() {
         dispatch(loginSuccess());
         notify("Đăng nhập thành công", "success");
         setTimeout(() => {
-          if (isLoggedIn) {
+          if (true) {
             // Gọi employerDetails() để cập nhật dữ liệu
             getAccountDetails();
           }

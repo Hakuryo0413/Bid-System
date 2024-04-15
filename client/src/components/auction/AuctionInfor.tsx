@@ -54,7 +54,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
         participant.email.toLowerCase().includes(lowercaseQuery) ||
         participant.name.toLowerCase().includes(lowercaseQuery) ||
         participant.phone.toLowerCase().includes(lowercaseQuery) ||
-        participant.highest_price.toString().toLowerCase().includes(lowercaseQuery) ||
+        participant.highest_price?.toString().toLowerCase().includes(lowercaseQuery) ||
         participant.status.toLocaleLowerCase().includes(lowercaseQuery)
     );
     setFilteredOrders(filtered);
@@ -149,10 +149,6 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
                 <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code}/>
               )
             }
-            
-
-
-
         </div>
 
     </div>

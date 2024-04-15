@@ -36,7 +36,6 @@ function AdminHeader() {
   let isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
-  const [isLoading, setIsLoading] = useState(true);
   
   const [accountDetails, setAccountDetails] = useState<userInterface>();
 
