@@ -107,7 +107,7 @@ table {
     padding-bottom: 0.5rem;
 }
 
-.container.content button:click {
+.container.content button:hover {
     /* border-bottom: 2px solid linear-gradient(90.67deg, #01ab6f .13%, #00b49e 95.62%); */
     border-bottom: 2px solid #00b49e;
 }

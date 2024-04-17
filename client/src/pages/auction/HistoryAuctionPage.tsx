@@ -102,7 +102,7 @@ const HistoryAuction = () => {
           {historyAuctions?.length > 0 ? (
             <tbody>
               {historyAuctions.filter((historyAuction) => {return historyAuction.state?.toLowerCase() === HisSate?.toLowerCase()}).map((historyAuction) => (
-                <HistoryAunctionCard historyAuction={historyAuction} />
+                <HistoryAunctionCard historyAuction={historyAuction} cardState={HisSate}/>
               ))}
             </tbody>
           ) : (
