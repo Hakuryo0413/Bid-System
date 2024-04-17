@@ -41,6 +41,7 @@ export default withMT({
         dialog: "#000000e0",
         border: "#27364B",
         textTable: "#94a3b8",
+        primary: "#111A29",
       },
     },
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],

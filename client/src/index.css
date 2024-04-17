@@ -22,4 +22,15 @@ body {
   background-color: #f4f7ff;
 }
 
+@layer components {
+  .card {
+    @apply bg-primary border-[1px] border-solid border-[#2B394F] rounded-xl shadow-md shadow-primary relative overflow-hidden hover:shadow-lg hover:shadow-primary m-2
+    ;
+  }
+
+  .badge {
+    @apply flex justify-between items-center bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2 min-w-[25%];
+  }
+}
+
 

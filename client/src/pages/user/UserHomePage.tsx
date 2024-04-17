@@ -16,7 +16,9 @@ function UserHomePage() {
   return (
     <div>
       <UserHeader />
-      <div className="flex">
+      <div className = "grid-cols-5">
+
+      <div className="flex col-span-1">
         <div className="w-1/5">
           <Sidenav routes={NavRoutes} />
         </div>
@@ -37,6 +39,7 @@ function UserHomePage() {
           </Routes>
         </div>
       </div>
+    </div>
     </div>
   );
 }
