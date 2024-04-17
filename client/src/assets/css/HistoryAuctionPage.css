@@ -8,6 +8,7 @@ body {
 .container {
     margin-left: 5%;
     margin-right: 5%;
+    margin-top: 3% !important;
     /* background-color: rgb(43,67,104); */
     border: 0.5px solid #2B394F;
     border-radius: 0.5rem;
@@ -106,7 +107,7 @@ table {
     padding-bottom: 0.5rem;
 }
 
-.container.content button:hover {
+.container.content button:click {
     /* border-bottom: 2px solid linear-gradient(90.67deg, #01ab6f .13%, #00b49e 95.62%); */
     border-bottom: 2px solid #00b49e;
 }

@@ -19,10 +19,10 @@ import { getHistoryByAccount } from "../../features/axios/api/history/HistoryDet
 // import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
 // import { userInterface } from "../../../types/UserInterface";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
-
+import { HistoryInterface } from "../../types/HistoryInterface";
 const HistoryAuction = () => {
   const dispatch = useDispatch();
-  const [historyAuctions, setHistoryAuctions] = useState([]);
+  const [historyAuctions, setHistoryAuctions] = useState<[HistoryInterface] | []>([]);
   const [accountDetails, setAccountDetails] = useState<userInterface | null>(
     null
   ); // Đảm bảo setAccountDetails có thể nhận giá trị null
@@ -55,6 +55,13 @@ const HistoryAuction = () => {
       }
     }
   };
+  const [HisSate, setHisSate] = useState('');
+  useEffect(() => {
+    setHisSate('chưa thanh toán');
+  }, []); // Empty dependency array ensures this effect runs only once after the initial render
+
+  console.log(historyAuctions);
+  console.log(accountDetails);
 
   return (
     <>
@@ -70,17 +77,17 @@ const HistoryAuction = () => {
       <UserHomePage />
 
       <div className="container content" style={{ display: "flex" }}>
-        <button className="nav" style={{ flex: 1 }}>
+        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('chưa thanh toán')}>
           Chưa thanh toán
         </button>
-        <button className="nav" style={{ flex: 1 }}>
+        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('đã thanh toán')}>
           Đã thanh toán
         </button>
-        <button className="nav" style={{ flex: 1 }}>
+        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('đã hoàn tiền')}>
           Đã hoàn tiền
         </button>
       </div>
-
+            {console.log(HisSate)}
       <div className="container content">
         <table className="custom-table table-dark table-striped">
           <thead>
@@ -94,7 +101,7 @@ const HistoryAuction = () => {
 
           {historyAuctions?.length > 0 ? (
             <tbody>
-              {historyAuctions.map((historyAuction) => (
+              {historyAuctions.filter((historyAuction) => {return historyAuction.state?.toLowerCase() === HisSate?.toLowerCase()}).map((historyAuction) => (
                 <HistoryAunctionCard historyAuction={historyAuction} />
               ))}
             </tbody>
