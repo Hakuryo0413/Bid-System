@@ -51,7 +51,7 @@ export const simController = (
 
     const simCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const sim: simInterface = req?.params;
+            const sim: simInterface = req?.body;
             const token = await createSim(sim, dbRepositorySim);
             res.json({
                 status: "success",

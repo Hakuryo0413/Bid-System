@@ -6,11 +6,11 @@ import { NotificationInterface, NotificationPayload } from "../../../../types/No
 const api = setupAxiosInterceptors();
 
 const createNewNotification = async (
-  payload: NotificationPayload,
+  payload: NotificationInterface,
 ): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.createNotification,
+      url: `${apiConfig.createNotification}`,
       method: "post",
       data: payload
     };

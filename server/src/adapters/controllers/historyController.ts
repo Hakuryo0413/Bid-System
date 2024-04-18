@@ -42,7 +42,7 @@ export const historyController = (
 
     const historyCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const history: historyInterface = req?.params;
+            const history: historyInterface = req?.body;
             const token = await createHistory(history, dbRepositoryHistory);
             res.json({
                 status: "success",

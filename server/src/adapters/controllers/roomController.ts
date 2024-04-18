@@ -50,7 +50,7 @@ export const roomController = (
 
     const roomCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const room: roomInterface = req?.params;
+            const room: roomInterface = req?.body;
             const token = await createRoom(room, dbRepositoryRoom);
             res.json({
                 status: "success",

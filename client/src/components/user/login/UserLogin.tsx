@@ -81,7 +81,9 @@ export default function UserLogin() {
           } else if (accountDetails?.role === "provider") {
             navigate("/user/home");
           } else {
-            navigate("/user/home");
+            // navigate("/user/home");
+          navigate("/test/testdb");
+
           }
         }
       }

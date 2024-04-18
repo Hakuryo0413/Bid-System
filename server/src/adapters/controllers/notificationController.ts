@@ -27,7 +27,7 @@ export const notificationController = (
 
     const notificationCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const notification: notificationInterface = req?.params;
+            const notification: notificationInterface = req?.body;
             const token = await createNotification(notification, dbRepositoryNotification);
             res.json({
                 status: "success",
