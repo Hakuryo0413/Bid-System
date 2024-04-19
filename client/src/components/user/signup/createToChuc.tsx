@@ -18,9 +18,9 @@ import {
 import { set } from "lodash";
 
 export function CreateCaNhan() {
-  const [state, setState] = useState(false);
-  const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const [noti, setNoti] = useState<NotificationInterface>();
+
   const role = "provider";
   const {
     register,
@@ -39,31 +39,31 @@ export function CreateCaNhan() {
   const submitHandler = async (formData: SignupPayload) => {
     formData.role = role;
     formData.state = false;
-    setEmail(formData.email);
+
     createAccount(formData)
       .then((response: any) => {
+        createNoti(formData.email);
         notify("Your Register Form was sent", "success");
-        setState(true);
+
         setTimeout(() => {
-/*           navigate("/login");
- */        }, 6000);
+          navigate("/login");
+        }, 6000);
       })
       .catch((error: any) => {
         notify(error.message, "error");
       });
   };
-  useEffect(() => {
-    if (state) {
-      const payload: NotificationPayload = {
-        account: "hihi@gmail.com",
-        content: "Có một yêu cầu đăng ký mới",
-        state: false,
-        from: email,
-      };
-      createNewNotification(payload);
-      console.log("payload", payload);
-    }
-  }, [state]);
+  const createNoti = async (email: string) => {
+    const data: NotificationInterface = {};
+    data.account = "hihi@gmail.com";
+    data.content = "Có người đăng ký tài khoản mới";
+    data.from = email;
+    data.state = false;
+
+    const res = await createNewNotification(data);
+    setNoti(res);
+  };
+
   return (
     <div className="justify-center min-h-screen bg-background">
       <div className="flex flex-row mx-4 ">
