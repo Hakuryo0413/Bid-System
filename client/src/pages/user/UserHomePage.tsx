@@ -11,6 +11,7 @@ import UserCancelPayment from "../../components/user/home/UserCancelPayment";
 // import UserYeuCau from "./UserYeuCau"; // Import the missing component
 import UserHeader from "../../components/header/UserHeader";
 import HistoryAuction from "../auction/HistoryAuctionPage";
+import SimWaitingList from "../../components/user/home/SimWaitingList";
 
 function UserHomePage() {
   return (
@@ -28,7 +29,7 @@ function UserHomePage() {
           <Routes>
             <Route path="/profile" element={<UserProfile />} />
 
-            <Route path="/history" />
+            <Route path="/waiting_list"  element={<SimWaitingList />} />
             <Route path="/payment/:code/:number" element={<UserPayment />} />
             <Route
               path="/cancel/:code/:number"
