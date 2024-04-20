@@ -59,7 +59,7 @@ export default function UserLogin() {
       setTimeout(() => {
         // if (isLoggedIn === true) {
         if (accountDetails?.role === "admin") {
-          navigate("/admin/home");
+          navigate("/admin/sim/list");
         } else if (accountDetails?.role === "provider") {
           navigate("/provider/home");
         } else {
@@ -77,7 +77,7 @@ export default function UserLogin() {
         if (accountDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (accountDetails?.role === "admin") {
-            navigate("/admin/home");
+            navigate("/admin/sim/list");
           } else if (accountDetails?.role === "provider") {
             navigate("/user/home");
           } else {

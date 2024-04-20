@@ -3,7 +3,7 @@ import AuctionInforPage from "../../pages/auction/AuctionInforPage";
 import HappeningAuctionListPage from "../../pages/auction/HappeningAuctionListPage";
 import HistoryAuction from "../../pages/auction/HistoryAuctionPage";
 import UpCommingAuctionListPage from "../../pages/auction/UpcommingAuctionListPage";
-import SearchSimPage from "../../pages/auction/SearchSimPage";
+import SearchSimPage from "../../pages/auction/ListOfSimsPage";
 function AuctionInforPageWrapper() {
   const { code } = useParams();
   const codeValue = code || "";
