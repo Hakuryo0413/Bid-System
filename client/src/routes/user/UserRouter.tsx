@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import CreateAccountPage from "../../pages/home/CreateAccountPage";
 import Notification from "../../pages/user/Notification";
 import UserHomePage from "../../pages/user/UserHomePage";
-import UserYeuCau from "../../pages/user/UserYeuCau"; // Import the missing component
+import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the missing component
 
 const UserRouter = () => {
   return (

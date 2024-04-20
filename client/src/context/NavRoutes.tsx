@@ -35,7 +35,7 @@ export const NavRoutes = [
       {
         icon: <FaSimCard {...icon} />,
         name: "Sim chờ đấu giá",
-        path: "/user/messenger",
+        path: "/user/waiting_list",
       },
       {
         icon: <GoHistory {...icon} />,
