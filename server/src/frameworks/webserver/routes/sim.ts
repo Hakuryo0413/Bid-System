@@ -19,7 +19,7 @@ const simRoute = () => {
     route.get('/sim-data/id', controller.getSimById);
     route.get('/sim-data/number/:number',  controller.getSimByNumber);
     route.get('/all-sims',  controller.getAllSim);
-    route.patch('/update-sim/:id',  controller.updateSim);
+    route.put('/update-sim/:id',  controller.updateSim);
     route.post('/create',  controller.simCreate);
     route.delete('/delete/id/:id',controller.deleteSimById);
     route.delete('/delete/number/:number',controller.deleteSimByNumber);
