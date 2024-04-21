@@ -81,7 +81,8 @@ export default function ProviderList() {
     }
     if (filterParams.type) {
       allProvidersList = allProvidersList.filter((provider) => {
-        let filterType = provider.state === true ? "true" : "false";
+        let filterType = provider.state === true ? "Đã duyệt" : "Chờ duyệt";
+        console.log(provider.state)
         return filterType === filterParams.type;
       });
     }
@@ -94,6 +95,7 @@ export default function ProviderList() {
     }
     setAllProviders(allProvidersList);
     console.log("searching");
+    
   };
 
   useEffect(() => {

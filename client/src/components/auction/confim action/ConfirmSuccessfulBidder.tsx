@@ -38,7 +38,6 @@ const ConfirmSuccessfulBidder: React.FC<ConfirmSuccessfulBidderProps> = ({ code,
     }, []);
 
 
-
     const buttonHandle = async (event: React.MouseEvent<HTMLButtonElement>) => {
         if (auctionInfor && auctionInfor?.participants && auctionInfor?.participants.length > 0) {
             let participants = auctionInfor.participants
@@ -52,7 +51,7 @@ const ConfirmSuccessfulBidder: React.FC<ConfirmSuccessfulBidderProps> = ({ code,
 
     
     return (
-    <div className="fixed inset-0  flex items-center justify-center bg-white bg-opacity-10 w-full h-screen z-50">
+    <div className="fixed inset-0  flex items-center justify-center bg-white bg-opacity-20 w-full h-screen z-50">
         <div className="bg-white rounded-lg md:w-[400px] w-[90%]">
         <div className="bg-background rounded-t-lg flex w-full items-center">
             <p className="text-white md:text-lg text-sm font-bold w-full ml-4 flex justify-center">Xác nhận người đấu giá thành công</p>

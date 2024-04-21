@@ -7,10 +7,10 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
-  { name: "DS công bố", href: "/auction/search", current: false },
-  { name: "Sim sắp đấu giá", href: "/", current: false },
-  { name: "Phòng đấu giá", href: "/", current: false },
+  { name: "DS công bố", href: "/auction-list", current: false },
+  { name: "Sim sắp đấu giá", href: "/upcomming-auction-list", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
+  { name: "Thông báo đấu giá", href: "/", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
@@ -55,11 +55,11 @@ function CommonHeader() {
 
               <div className="absolute right-0 flex lg:relative lg:block">
                 <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:text-currentText text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <a href="/signup">Đăng ký</a>
+                  <a href="/signup" className="font-bold">Đăng ký</a>
                 </Disclosure.Button>
                 {/* Nút đăng nhập --> Chuyển hướng sang trang đăng nhập tài khoản. */}
                 <Disclosure.Button className="flex items-center float-right rounded-lg p-2 hover:text-currentText text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <a href="/login">Đăng nhập</a>
+                  <a href="/login" className="font-bold">Đăng nhập</a>
                 </Disclosure.Button>
                 <div className="flex lg:hidden">
                   {/* Nút mở navigation đối với điện thoại*/}

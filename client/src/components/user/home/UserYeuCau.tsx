@@ -1,6 +1,6 @@
 import { CONNREFUSED } from "dns";
-import CommonHeader from "../../components/header/CommonHeader";
-import UserSideFooter from "../../components/footer/UserSideFooter";
+import CommonHeader from "../../header/CommonHeader";
+import UserSideFooter from "../../footer/UserSideFooter";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 function UserYeuCau() {

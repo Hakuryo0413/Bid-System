@@ -1,15 +1,15 @@
-import ProviderList from "../../components/admin/ProviderList";
+import SearchSim from "../../components/auction/SearchSim";
 import UserSideFooter from "../../components/footer/UserSideFooter";
 import AdminHeader from "../../components/header/AdminHeader";
 
-function AdminHomPage() {
+function ListOfSimsPage() {
     return (
       <div>
           <AdminHeader />
-          <ProviderList />
+          <SearchSim />
           <UserSideFooter/>
       </div>
     )
   }
   
-  export default AdminHomPage;
+  export default ListOfSimsPage;

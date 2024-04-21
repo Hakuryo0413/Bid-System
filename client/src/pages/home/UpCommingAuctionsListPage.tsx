@@ -1,11 +1,11 @@
 import UpCommingAuctionList from "../../components/auction/UpCommingAuctionList";
 import UserSideFooter from "../../components/footer/UserSideFooter";
-import AdminHeader from "../../components/header/AdminHeader";
+import CommonHeader from "../../components/header/CommonHeader";
 
 function UpCommingAuctionListPage() {
     return (
       <div>
-          <AdminHeader/>
+          <CommonHeader/>
           <UpCommingAuctionList />
           <UserSideFooter/>
       </div>

@@ -19,6 +19,7 @@ import { filter, set } from "lodash";
 import { all } from "axios";
 import { getAccountsByRole } from "../../features/axios/api/account/AccountsDetail";
 import { userInterface } from "../../types/UserInterface";
+import ConfirmUserWindow from "./ConfirmUserWindow";
 
 type FilterParams = {
   type: string | null;
@@ -112,6 +113,21 @@ export default function UserList() {
     fetchData();
   }, []);
 
+  const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
+  const handleButtonClick = (user: userInterface) => {
+    const onClose = () => {
+      setConfirmWindow(undefined);
+      window.location.reload();
+    }
+    const onCloseButt = () => {
+      setConfirmWindow(undefined);
+    }
+    if (!user.state) {
+      setConfirmWindow(<ConfirmUserWindow user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else {
+      
+    }
+}
   return (
     <>
       <div className="px-8  ">
@@ -240,6 +256,43 @@ export default function UserList() {
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
                     {user.phone}
+                  </TableCell>
+                  <TableCell style={{ color: "white", textAlign: "center" }}>
+                    {user.state === true ? "Đã duyệt" : "Chưa duyệt"}
+                  </TableCell>
+                  <TableCell style={{ color: "white", textAlign: "center" }}>
+                    {!user.state && (
+                      <Button
+                      style={{
+                          border: '1px',
+                          borderRadius: '16px',
+                          padding: '8px',
+                          color: "white",
+                          fontWeight: 'bold',
+                          width: '100%',
+                      }}
+                      onClick={() => handleButtonClick(user)}
+                      >
+                      Duyệt
+                      </Button>
+                    )}
+                    {user.state && (
+                      <Button
+                      style={{
+                          background: "red",
+                          border: '1px',
+                          borderRadius: '16px',
+                          padding: '8px',
+                          color: "white",
+                          fontWeight: 'bold',
+                          width: '100%',
+                      }}
+                      onClick={() => handleButtonClick(user)}
+                      >
+                      Xóa
+                      </Button>
+                    )}
+                    {confirmWindow}
                   </TableCell>
                 </TableRow>
               ))}

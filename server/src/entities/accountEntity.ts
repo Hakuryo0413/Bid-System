@@ -32,6 +32,7 @@ export class accountEntity{
         id: string,
         updates: Partial<accountInterface>
       ): Promise<accountInterface | null> {
+        console.log("hiiii")
         const currentDetails = await this.model.findById(id);
         
         if (currentDetails) {
