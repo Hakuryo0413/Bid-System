@@ -114,7 +114,7 @@ function UserProfile() {
     
     
     try {
-      const response = await updateAccount(updatedFormData, user?._id || "");
+      const response = await updateAccount(updatedFormData);
       if (response.data.success) {
         notify("Cập nhật thông tin thành công", "success");
       } else {
