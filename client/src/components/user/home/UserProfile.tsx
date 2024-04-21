@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { updateAccount } from "../../../features/axios/api/account/UpdateAccount";
 import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
 import { accountData } from "../../../features/axios/api/account/AccountsDetail";
-import {getAccountsByEmail} from "../../../features/axios/api/account/AccountsDetail";
+import { getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
 import { get } from "https";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -16,17 +16,17 @@ import axios from "axios";
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
   const [password, setPassword] = useState("");
   const checkPassword = async () => {
-  try {
-    const response = await axios.post('/api/check-password', { password });
-    if (response.data.success) {
-      console.log('Password is correct');
-    } else {
-      console.log('Password is incorrect');
+    try {
+      const response = await axios.post('/api/check-password', { password });
+      if (response.data.success) {
+        console.log('Password is correct');
+      } else {
+        console.log('Password is incorrect');
+      }
+    } catch (error) {
+      console.error('Error checking password:', error);
     }
-  } catch (error) {
-    console.error('Error checking password:', error);
-  }
-};
+  };
   return (
     // Create dialog to change password that place in the middle of the window and the background is blur
     // make background blur
@@ -108,43 +108,50 @@ function UserProfile() {
 
   const submitHandler = async (formData: userInterface) => {
 
-    const updatedFormData = { ...formData };
-
-    console.log(updatedFormData);
-    
-    
-    try {
-      const response = await updateAccount(updatedFormData);
-      if (response.data.success) {
-        notify("Cập nhật thông tin thành công", "success");
-      } else {
-        notify("Cập nhật thông tin thất bại", "error");
+    if (user) {
+      user.name = formData.name;
+      user.address = formData.address;
+      user.phone = formData.phone;
+      user.cccd = formData.cccd;
+      user.bank = formData.bank;
+      user.bankAccount = formData.bankAccount;
+      user.bankOwner = formData.bankOwner;
+      try {
+        const response = await updateAccount(user);
+        console.log(response)
+        if (response) {
+          notify("Cập nhật thông tin thành công", "success");
+        } else {
+          notify("Cập nhật thông tin thất bại", "error");
+        }
+      } catch (error) {
+        console.error("Lỗi xảy ra khi cập nhật thông tin tài khoản:", error);
       }
-    } catch (error) {
-      console.error("Lỗi xảy ra khi cập nhật thông tin tài khoản:", error);
     }
+
+
   }
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    dispatch(loginSuccess());
-    getAccountDetails();
-  }
-}, [dispatch]); // useEffect sẽ được gọi lại mỗi khi dispatch thay đổi
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+  }, [dispatch]); // useEffect sẽ được gọi lại mỗi khi dispatch thay đổi
 
-const getAccountDetails = async () => {
-  try {
-    const data = await accountData();
-    setUser(data);
-  } catch (error) {
-    console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
-  }
-};
-const notify = (msg: string, type: string) =>
-  type === "error"
-    ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-    : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  const getAccountDetails = async () => {
+    try {
+      const data = await accountData();
+      setUser(data);
+    } catch (error) {
+      console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
+    }
+  };
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
   useEffect(() => {
     if (user) {
       setValue("name", user.name);
@@ -194,12 +201,12 @@ const notify = (msg: string, type: string) =>
                 <label className="block font-medium leading-6 text-white">
                   Họ và tên:
                   <span className="ml-2"></span>
-                  
-                  <input 
-                  type="text" 
-                  
-                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" 
-                  {...register("name")}
+
+                  <input
+                    type="text"
+
+                    className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
+                    {...register("name")}
                   />
 
                 </label>
@@ -208,9 +215,9 @@ const notify = (msg: string, type: string) =>
                 <label className="block  font-medium leading-6 text-white">
                   Số điện thoại:
                   <span className="ml-2"></span>
-                  <input type="text" 
-                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" 
-                  {...register("phone")}
+                  <input type="text"
+                    className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
+                    {...register("phone")}
                   />
                 </label>
               </div>
@@ -218,25 +225,25 @@ const notify = (msg: string, type: string) =>
             <div className="mt-4 grid grid-cols-1 justify-center gap-x-6 gap-y-8 sm:grid-cols-4">
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
-                  Email: 
+                  Email:
                   <span className="ml-2 text-xs text-red-600">
-                  cannot change :v
+                    cannot change :v
                   </span>
-                  <input 
+                  <input
 
-                  type="text" 
-                  {...register("email")}
-                  readOnly
-                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                    type="text"
+                    {...register("email")}
+                    readOnly
+                    className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Căn cước công dân:
                   <span className="ml-2"></span>
-                  <input type="text" 
-                  {...register("cccd")}
-                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input type="text"
+                    {...register("cccd")}
+                    className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
             </div>
@@ -294,9 +301,9 @@ const notify = (msg: string, type: string) =>
                 <label className="block  font-medium leading-6 text-white">
                   Địa chỉ trên CCCD:
                   <span className="ml-2"></span>
-                  <input 
-                  {...register("address")}
-                  type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input
+                    {...register("address")}
+                    type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
             </div>
@@ -310,7 +317,7 @@ const notify = (msg: string, type: string) =>
                   <span className="ml-2"></span>
                   <input
                     {...register("bankAccount")}
-                   type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                    type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
 
                 </label>
               </div>
@@ -320,7 +327,7 @@ const notify = (msg: string, type: string) =>
                   <span className="ml-2"></span>
                   <input
                     {...register("bankOwner")}
-                   type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                    type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
 
                 </label>
               </div>
@@ -334,7 +341,7 @@ const notify = (msg: string, type: string) =>
                   {/* <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" /> */}
                   <select
                     {...register("bank")}
-                   className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
+                    className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
                     <option value="0">Ngân hàng Nông nghiệp và Phát triển nông thôn Việt Nam</option>
                     <option value="1">Ngân hàng Công thương Việt Nam</option>
                     <option value="2">Ngân hàng TMCP Ngoại thương Việt Nam</option>

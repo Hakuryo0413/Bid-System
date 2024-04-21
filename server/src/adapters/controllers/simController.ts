@@ -63,7 +63,7 @@ export const simController = (
 
     const updateSim = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const simId = req.params.id;
+          const simId = req.body;
           if (!simId) {
             throw new AppError(
               "unauthorized request, invalid token",

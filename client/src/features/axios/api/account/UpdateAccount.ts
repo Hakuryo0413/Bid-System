@@ -12,9 +12,8 @@ export const updateAccount = async(payload: userInterface): Promise<any> => {
             method: "put",
             data: payload
         };
-        
         const response = await axios(config);
-        return response.data;
+        return response;
       } catch (error) {
         console.log(error)
         throw new Error("Gặp lỗi khi cập nhật tài khoản.");

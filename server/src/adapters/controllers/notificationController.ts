@@ -39,7 +39,7 @@ export const notificationController = (
 
     const updateNotification = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const notificationId = req.params.id;
+          const notificationId = req.body;
           if (!notificationId) {
             throw new AppError(
               "unauthorized request, invalid token",

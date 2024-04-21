@@ -18,7 +18,7 @@ const historyRoute = () => {
     route.get('/history-data/email/:email', authenticationMiddleware, controller.getHistoryByAccount);
     route.get('/history-data/id', authenticationMiddleware,  controller.getHistoryById);
     route.get('/all-historys', authenticationMiddleware,  controller.getAllHistory);
-    route.put('/update-history/:id', authenticationMiddleware,  controller.updateHistory);
+    route.put('/update-history', authenticationMiddleware,  controller.updateHistory);
     route.post('/create', authenticationMiddleware,  controller.historyCreate);
 
     return route;

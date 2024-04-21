@@ -54,7 +54,7 @@ export const historyController = (
 
     const updateHistory = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const historyId = req.params.id;
+          const historyId = req.body;
           if (!historyId) {
             throw new AppError(
               "unauthorized request, invalid token",
