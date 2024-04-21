@@ -1,14 +1,16 @@
+import { userInterface } from "../../../../types/UserInterface";
 import apiConfig from "../../../../utils/apiConfig";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import { AxiosRequestConfig } from "axios";
 
 const api = setupAxiosInterceptors();
 
-export const updateAccount = async(id: string): Promise<any> => {
+export const updateAccount = async(payload: userInterface,id:string): Promise<any> => {
     try{
         const config: AxiosRequestConfig = {
             url: `${apiConfig.updateAccount}/${id}`,
-            method: "patch",
+            method: "put",
+            data: payload
         };
         const response = await api(config);
         return response.data;
