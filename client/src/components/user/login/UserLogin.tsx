@@ -82,8 +82,7 @@ export default function UserLogin() {
             navigate("/user/home");
           } else {
             navigate("/user/home");
-            /*           navigate("/test/testdb");
-             */
+            //  navigate("/test/testdb");
           }
         }
       }

@@ -1,14 +1,16 @@
+import { SimInterface } from "../../../../types/SimInterface";
 import apiConfig from "../../../../utils/apiConfig";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import { AxiosRequestConfig } from "axios";
 
 const api = setupAxiosInterceptors();
 
-export const updateSim = async (id: string): Promise<any> => {
+export const updateSim = async (payload:SimInterface): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.updateSim}/${id}`,
-            method: "patch",
+            url: `${apiConfig.updateSim}`,
+            method: "put",
+            data: payload
         };
         const response = await api(config);
         return response.data;
