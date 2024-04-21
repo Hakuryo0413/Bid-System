@@ -5,10 +5,10 @@ import axios, { AxiosRequestConfig } from "axios";
 
 const api = setupAxiosInterceptors();
 
-export const updateAccount = async(payload: userInterface,id:string): Promise<any> => {
+export const updateAccount = async(payload: userInterface): Promise<any> => {
     try{
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.updateAccount}/${id}`,
+            url: `${apiConfig.updateAccount}`,
             method: "put",
             data: payload
         };

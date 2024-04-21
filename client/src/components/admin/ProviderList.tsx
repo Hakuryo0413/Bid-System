@@ -19,6 +19,8 @@ import { filter, set } from "lodash";
 import { all } from "axios";
 import { getAccountsByRole } from "../../features/axios/api/account/AccountsDetail";
 import { userInterface } from "../../types/UserInterface";
+import ConfirmUserWindow from "./ConfirmUserWindow";
+import DeleteConfirm from "./DeleteConfim";
 
 type FilterParams = {
   provider: string | null;
@@ -116,6 +118,25 @@ export default function ProviderList() {
 
     fetchData();
   }, []);
+
+  const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
+  const [cf_index, setIndex] = useState<number>();
+  const handleButtonClick = (user: userInterface, index: number) => {
+    const onClose = () => {
+      setConfirmWindow(undefined);
+      window.location.reload();
+    }
+    const onCloseButt = () => {
+      setConfirmWindow(undefined);
+    }
+    if (!user.state) {
+      setIndex(index)
+      setConfirmWindow(<ConfirmUserWindow user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else {
+      setIndex(index)
+      setConfirmWindow(<DeleteConfirm user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+    }
+}
 
   return (
     <>
@@ -260,6 +281,49 @@ export default function ProviderList() {
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
                     {provider.state ? "Đã duyệt" : "Chờ duyệt"}
+                  </TableCell>
+                  <TableCell style={{ color: "white", textAlign: "center" }}>
+                    {!provider.state && (
+                      <div>
+                        <Button
+                        style={{
+                            border: '1px',
+                            borderRadius: '16px',
+                            padding: '8px',
+                            color: "white",
+                            fontWeight: 'bold',
+                            width: '100%',
+                        }}
+                        onClick={() => handleButtonClick(provider, index)}
+                        >
+                        Duyệt
+                        </Button>
+                        
+                      </div>
+                      
+                    )}
+                    {provider.state && (
+                      <div>
+                        <Button
+                        style={{
+                            background: "red",
+                            border: '1px',
+                            borderRadius: '16px',
+                            padding: '8px',
+                            color: "white",
+                            fontWeight: 'bold',
+                            width: '100%',
+                        }}
+                        onClick={() => handleButtonClick(provider, index)}
+                        >
+                        Xóa
+                        </Button>
+                      </div>
+                      
+                    )}
+                    {index === cf_index && (
+                      <div>{confirmWindow}</div>)
+                    }
                   </TableCell>
                 </TableRow>
               ))}

@@ -51,7 +51,7 @@ export const accountController = (
 
     const updateAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const accountId = req.params.id;
+          const accountId = req.body;
           console.log(accountId)
           if (!accountId) {
             throw new AppError(

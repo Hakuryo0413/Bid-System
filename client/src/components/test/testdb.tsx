@@ -20,7 +20,7 @@ export default function TestDB() {
     if (account) {
       account.name = "hi";
       if (account._id) {
-        const data = await updateAccount(account, account._id)
+        const data = await updateAccount(account)
         setAccount(data)
       }
     }

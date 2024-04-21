@@ -20,6 +20,7 @@ import { all } from "axios";
 import { getAccountsByRole } from "../../features/axios/api/account/AccountsDetail";
 import { userInterface } from "../../types/UserInterface";
 import ConfirmUserWindow from "./ConfirmUserWindow";
+import DeleteConfirm from "./DeleteConfim";
 
 type FilterParams = {
   type: string | null;
@@ -114,7 +115,8 @@ export default function UserList() {
   }, []);
 
   const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
-  const handleButtonClick = (user: userInterface) => {
+  const [cf_index, setIndex] = useState<number>();
+  const handleButtonClick = (user: userInterface, index: number) => {
     const onClose = () => {
       setConfirmWindow(undefined);
       window.location.reload();
@@ -123,9 +125,11 @@ export default function UserList() {
       setConfirmWindow(undefined);
     }
     if (!user.state) {
+      setIndex(index)
       setConfirmWindow(<ConfirmUserWindow user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else {
-      
+      setIndex(index)
+      setConfirmWindow(<DeleteConfirm user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
     }
 }
   return (
@@ -262,37 +266,46 @@ export default function UserList() {
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
                     {!user.state && (
-                      <Button
-                      style={{
-                          border: '1px',
-                          borderRadius: '16px',
-                          padding: '8px',
-                          color: "white",
-                          fontWeight: 'bold',
-                          width: '100%',
-                      }}
-                      onClick={() => handleButtonClick(user)}
-                      >
-                      Duyệt
-                      </Button>
+                      <div>
+                        <Button
+                        style={{
+                            border: '1px',
+                            borderRadius: '16px',
+                            padding: '8px',
+                            color: "white",
+                            fontWeight: 'bold',
+                            width: '100%',
+                        }}
+                        onClick={() => handleButtonClick(user, index)}
+                        >
+                        Duyệt
+                        </Button>
+                        
+                      </div>
+                      
                     )}
                     {user.state && (
-                      <Button
-                      style={{
-                          background: "red",
-                          border: '1px',
-                          borderRadius: '16px',
-                          padding: '8px',
-                          color: "white",
-                          fontWeight: 'bold',
-                          width: '100%',
-                      }}
-                      onClick={() => handleButtonClick(user)}
-                      >
-                      Xóa
-                      </Button>
+                      <div>
+                        <Button
+                        style={{
+                            background: "red",
+                            border: '1px',
+                            borderRadius: '16px',
+                            padding: '8px',
+                            color: "white",
+                            fontWeight: 'bold',
+                            width: '100%',
+                        }}
+                        onClick={() => handleButtonClick(user, index)}
+                        >
+                        Xóa
+                        </Button>
+                      </div>
+                      
                     )}
-                    {confirmWindow}
+                    {index === cf_index && (
+                      <div>{confirmWindow}</div>)
+                    }
                   </TableCell>
                 </TableRow>
               ))}
