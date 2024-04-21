@@ -1,14 +1,14 @@
 import { Types } from "mongoose";
 
 export interface accountInterface {
-    _id?: string;
-    name?: string;
-    password?: string;
+    _id?: Types.ObjectId,
+    name?: string,
+    password?: string,
     cccd?: string;
     bank?: string;
     bankAccount?: string;
     bankOwner?: string;
-    email: string;
+    email?: string;
     role?: string;
     phone?: string;
     address?: string;

@@ -13,10 +13,11 @@ export const updateAccount = async (payload: userInterface): Promise<any> => {
         method: "put",
         data: payload,
         };
-        console.log('hi')
+        
         const response = await axios(config);
         return response.data;
       } catch (error) {
-        throw new Error("Gặp lỗi khi cập nhật đơn hàng. ");
+        console.log(error)
+        throw new Error("Gặp lỗi khi cập nhật tài khoản.");
       }
 };

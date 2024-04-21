@@ -274,7 +274,6 @@ export default function UserList() {
                       onClick={() => handleButtonClick(user)}
                       >
                       Duyệt
-                      
                       </Button>
                     )}
                     {user.state && (

@@ -51,7 +51,8 @@ export const accountController = (
 
     const updateAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const accountId = req.params.id;
+          const customReq = req as CustomRequest;
+          const accountId = customReq.body ?? "";
           if (!accountId) {
             throw new AppError(
               "unauthorized request, invalid token",
