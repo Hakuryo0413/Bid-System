@@ -1,10 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { userInterface } from "../../../types/UserInterface";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { updateAccount } from "../../../features/axios/api/account/UpdateAccount";
+import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
+import { accountData } from "../../../features/axios/api/account/AccountsDetail";
+import {getAccountsByEmail} from "../../../features/axios/api/account/AccountsDetail";
+import { get } from "https";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
+  const [password, setPassword] = useState("");
+  const checkPassword = async () => {
+  try {
+    const response = await axios.post('/api/check-password', { password });
+    if (response.data.success) {
+      console.log('Password is correct');
+    } else {
+      console.log('Password is incorrect');
+    }
+  } catch (error) {
+    console.error('Error checking password:', error);
+  }
+};
   return (
     // Create dialog to change password that place in the middle of the window and the background is blur
     // make background blur
@@ -79,16 +101,67 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
 
 function UserProfile() {
   // change show dialog 
-
+  const dispatch = useDispatch();
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const [user, setUser] = useState<userInterface>();
-  const {register, handleSubmit, formState: {errors}} = useForm();
-  const onSubmit:SubmitHandler<userInterface> = (user) => {
-    console.log(user);
+  const { register, handleSubmit, setValue } = useForm<userInterface>();
+
+  const submitHandler = async (formData: userInterface) => {
+
+    const updatedFormData = { ...formData };
+
+    console.log(updatedFormData);
+
+    try {
+      const response = await updateAccount(updatedFormData);
+      if (response.data.success) {
+        notify("Cập nhật thông tin thành công", "success");
+      } else {
+        notify("Cập nhật thông tin thất bại", "error");
+      }
+    } catch (error) {
+      console.error("Lỗi xảy ra khi cập nhật thông tin tài khoản:", error);
+    }
   }
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    dispatch(loginSuccess());
+    getAccountDetails();
+  }
+}, [dispatch]); // useEffect sẽ được gọi lại mỗi khi dispatch thay đổi
+
+const getAccountDetails = async () => {
+  try {
+    const data = await accountData();
+    setUser(data);
+  } catch (error) {
+    console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
+  }
+};
+const notify = (msg: string, type: string) =>
+  type === "error"
+    ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+    : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  useEffect(() => {
+    if (user) {
+      setValue("name", user.name);
+      setValue("phone", user.phone);
+      setValue("email", user.email);
+      setValue("cccd", user.cccd);
+      setValue("address", user.address);
+      setValue("bank", user.bank);
+      setValue("bankAccount", user.bankAccount);
+      setValue("bankOwner", user.bankOwner);
+
+    }
+  }, [setValue, user]);
+
   return (
     // create form for user profile bao gồm Thông tin cá nhân và Thông tin ngân hàng
     <div>
+      <ToastContainer />
       <div className="w-full flex flex-col sm:flex-col md:flex-row items-start justify-between max-h-fit profile-top-title-wrap pt-10">
 
         <h2 className=" py-1 md:text-3xl lg:text-[40px] font-bold drop-shadow-2xl mb-3 text-white"> Thông tin cá nhân </h2>
@@ -111,7 +184,7 @@ function UserProfile() {
       <div className="h-6">
       </div>
       <div className="border border-border rounded-2xl text-white">
-        <form >
+        <form>
 
           <div className="px-8 text-base pt-6">
             <p>1. Thông tin cá nhân:</p>
@@ -120,7 +193,13 @@ function UserProfile() {
                 <label className="block font-medium leading-6 text-white">
                   Họ và tên:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  
+                  <input 
+                  type="text" 
+                  
+                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" 
+                  {...register("name")}
+                  />
 
                 </label>
               </div>
@@ -128,23 +207,35 @@ function UserProfile() {
                 <label className="block  font-medium leading-6 text-white">
                   Số điện thoại:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input type="text" 
+                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" 
+                  {...register("phone")}
+                  />
                 </label>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-1 justify-center gap-x-6 gap-y-8 sm:grid-cols-4">
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
-                  Email:
-                  <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  Email: 
+                  <span className="ml-2 text-xs text-red-600">
+                  cannot change :v
+                  </span>
+                  <input 
+
+                  type="text" 
+                  {...register("email")}
+                  readOnly
+                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Căn cước công dân:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input type="text" 
+                  {...register("cccd")}
+                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
             </div>
@@ -202,7 +293,9 @@ function UserProfile() {
                 <label className="block  font-medium leading-6 text-white">
                   Địa chỉ trên CCCD:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input 
+                  {...register("address")}
+                  type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                 </label>
               </div>
             </div>
@@ -214,7 +307,9 @@ function UserProfile() {
                 <label className="block  font-medium leading-6 text-white ">
                   Số tài khoản:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input
+                    {...register("bankAccount")}
+                   type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
 
                 </label>
               </div>
@@ -222,7 +317,9 @@ function UserProfile() {
                 <label className="block  font-medium leading-6 text-white">
                   Chủ tài khoản:
                   <span className="ml-2"></span>
-                  <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                  <input
+                    {...register("bankOwner")}
+                   type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
 
                 </label>
               </div>
@@ -234,7 +331,9 @@ function UserProfile() {
                   Chọn ngân hàng:
                   <span className="ml-2"></span>
                   {/* <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" /> */}
-                  <select className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
+                  <select
+                    {...register("bank")}
+                   className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
                     <option value="0">Ngân hàng Nông nghiệp và Phát triển nông thôn Việt Nam</option>
                     <option value="1">Ngân hàng Công thương Việt Nam</option>
                     <option value="2">Ngân hàng TMCP Ngoại thương Việt Nam</option>
@@ -249,11 +348,13 @@ function UserProfile() {
       </div>
       {isChangePassword && <ChangePassword setIsChangePassword={setIsChangePassword} />}
       {/* button ghi nhận */}
-      <div className="flex justify-center mt-2">
-        <button className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
-          Cập nhật thông tin
-        </button>
-      </div>
+      <form onSubmit={handleSubmit(submitHandler)} >
+        <div className="flex justify-center mt-2">
+          <button type="submit" className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
+            Cập nhật thông tin
+          </button>
+        </div>
+      </form>
     </div>
 
   )
