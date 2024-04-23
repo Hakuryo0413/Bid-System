@@ -21,6 +21,7 @@ import { getAccountsByRole } from "../../features/axios/api/account/AccountsDeta
 import { userInterface } from "../../types/UserInterface";
 import ConfirmUserWindow from "./ConfirmUserWindow";
 import DeleteConfirm from "./DeleteConfim";
+import CreateUserWindow from "./CreateUserWindow";
 
 type FilterParams = {
   type: string | null;
@@ -115,23 +116,52 @@ export default function UserList() {
   }, []);
 
   const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
+  const [createWindow, setCreateWindow] = useState<React.ReactNode>();
   const [cf_index, setIndex] = useState<number>();
   const handleButtonClick = (user: userInterface, index: number) => {
     const onClose = () => {
       setConfirmWindow(undefined);
       window.location.reload();
-    }
+    };
     const onCloseButt = () => {
       setConfirmWindow(undefined);
-    }
+    };
     if (!user.state) {
-      setIndex(index)
-      setConfirmWindow(<ConfirmUserWindow user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+      setIndex(index);
+      setConfirmWindow(
+        <ConfirmUserWindow
+          user={user}
+          onClose={onClose}
+          onCloseButt={onCloseButt}
+        />
+      );
     } else {
-      setIndex(index)
-      setConfirmWindow(<DeleteConfirm user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+      setIndex(index);
+      setConfirmWindow(
+        <DeleteConfirm
+          user={user}
+          onClose={onClose}
+          onCloseButt={onCloseButt}
+        />
+      );
     }
-}
+  };
+  const handleCreate = () => {
+    const onClose = () => {
+      setCreateWindow(undefined);
+      window.location.reload();
+    };
+    const onCloseButt = () => {
+      setCreateWindow(undefined);
+    };
+    setCreateWindow(
+      <CreateUserWindow
+        role="user"
+        onClose={onClose}
+        onCloseButt={onCloseButt}
+      />
+    );
+  };
   return (
     <>
       <div className="px-8  ">
@@ -171,6 +201,16 @@ export default function UserList() {
             onClick={() => handleQuery(role)}
           >
             Tìm kiếm
+          </Button>
+        </div>
+        <div>
+          <Button
+            size="md"
+            className=" rounded-xl font-medium text-sm ml-8"
+            color="green"
+            onClick={() => handleCreate()}
+          >
+            Tạo tài khoản
           </Button>
         </div>
       </div>
@@ -268,44 +308,40 @@ export default function UserList() {
                     {!user.state && (
                       <div>
                         <Button
-                        style={{
-                            border: '1px',
-                            borderRadius: '16px',
-                            padding: '8px',
+                          style={{
+                            border: "1px",
+                            borderRadius: "16px",
+                            padding: "8px",
                             color: "white",
-                            fontWeight: 'bold',
-                            width: '100%',
-                        }}
-                        onClick={() => handleButtonClick(user, index)}
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          onClick={() => handleButtonClick(user, index)}
                         >
-                        Duyệt
+                          Duyệt
                         </Button>
-                        
                       </div>
-                      
                     )}
                     {user.state && (
                       <div>
                         <Button
-                        style={{
+                          style={{
                             background: "red",
-                            border: '1px',
-                            borderRadius: '16px',
-                            padding: '8px',
+                            border: "1px",
+                            borderRadius: "16px",
+                            padding: "8px",
                             color: "white",
-                            fontWeight: 'bold',
-                            width: '100%',
-                        }}
-                        onClick={() => handleButtonClick(user, index)}
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          onClick={() => handleButtonClick(user, index)}
                         >
-                        Xóa
+                          Xóa
                         </Button>
                       </div>
-                      
                     )}
-                    {index === cf_index && (
-                      <div>{confirmWindow}</div>)
-                    }
+                    {index === cf_index && <div>{confirmWindow}</div>}
+                    <div>{createWindow}</div>
                   </TableCell>
                 </TableRow>
               ))}

@@ -21,6 +21,7 @@ import { getAccountsByRole } from "../../features/axios/api/account/AccountsDeta
 import { userInterface } from "../../types/UserInterface";
 import ConfirmUserWindow from "./ConfirmUserWindow";
 import DeleteConfirm from "./DeleteConfim";
+import CreateUserWindow from "./CreateUserWindow";
 
 type FilterParams = {
   provider: string | null;
@@ -30,6 +31,7 @@ type FilterParams = {
 
 export default function ProviderList() {
   const [allProviders, setAllProviders] = useState<userInterface[]>([]); // variables for search searching
+  const [createWindow, setCreateWindow] = useState<React.ReactNode>();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -84,7 +86,7 @@ export default function ProviderList() {
     if (filterParams.type) {
       allProvidersList = allProvidersList.filter((provider) => {
         let filterType = provider.state === true ? "Đã duyệt" : "Chờ duyệt";
-        console.log(provider.state)
+        console.log(provider.state);
         return filterType === filterParams.type;
       });
     }
@@ -97,7 +99,6 @@ export default function ProviderList() {
     }
     setAllProviders(allProvidersList);
     console.log("searching");
-    
   };
 
   useEffect(() => {
@@ -125,19 +126,46 @@ export default function ProviderList() {
     const onClose = () => {
       setConfirmWindow(undefined);
       window.location.reload();
-    }
+    };
     const onCloseButt = () => {
       setConfirmWindow(undefined);
-    }
+    };
     if (!user.state) {
-      setIndex(index)
-      setConfirmWindow(<ConfirmUserWindow user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+      setIndex(index);
+      setConfirmWindow(
+        <ConfirmUserWindow
+          user={user}
+          onClose={onClose}
+          onCloseButt={onCloseButt}
+        />
+      );
     } else {
-      setIndex(index)
-      setConfirmWindow(<DeleteConfirm user={user} onClose={onClose} onCloseButt={onCloseButt}/>)
+      setIndex(index);
+      setConfirmWindow(
+        <DeleteConfirm
+          user={user}
+          onClose={onClose}
+          onCloseButt={onCloseButt}
+        />
+      );
     }
-}
-
+  };
+  const handleCreate = () => {
+    const onClose = () => {
+      setCreateWindow(undefined);
+      window.location.reload();
+    };
+    const onCloseButt = () => {
+      setCreateWindow(undefined);
+    };
+    setCreateWindow(
+      <CreateUserWindow
+        role="provider"
+        onClose={onClose}
+        onCloseButt={onCloseButt}
+      />
+    );
+  };
   return (
     <>
       <div className="px-8  ">
@@ -167,8 +195,8 @@ export default function ProviderList() {
             onChange={(e) => setSelectedType(e.target.value)}
           >
             <option value="">Chọn trạng thái</option>
-            <option value="false">Chờ duyệt</option>
-            <option value="true">Đã duyệt</option>
+            <option value="Chờ duyệt">Chờ duyệt</option>
+            <option value="Đã duyệt">Đã duyệt</option>
           </select>
         </div>
         <div className="relative border-border flex w-full gap-2 mx-4 md:w-max">
@@ -189,6 +217,16 @@ export default function ProviderList() {
             onClick={() => handleQuery(role)}
           >
             Tìm kiếm
+          </Button>
+        </div>
+        <div>
+          <Button
+            size="md"
+            className=" rounded-xl font-medium text-sm ml-8"
+            color="green"
+            onClick={() => handleCreate()}
+          >
+            Tạo tài khoản
           </Button>
         </div>
       </div>
@@ -286,44 +324,40 @@ export default function ProviderList() {
                     {!provider.state && (
                       <div>
                         <Button
-                        style={{
-                            border: '1px',
-                            borderRadius: '16px',
-                            padding: '8px',
+                          style={{
+                            border: "1px",
+                            borderRadius: "16px",
+                            padding: "8px",
                             color: "white",
-                            fontWeight: 'bold',
-                            width: '100%',
-                        }}
-                        onClick={() => handleButtonClick(provider, index)}
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          onClick={() => handleButtonClick(provider, index)}
                         >
-                        Duyệt
+                          Duyệt
                         </Button>
-                        
                       </div>
-                      
                     )}
                     {provider.state && (
                       <div>
                         <Button
-                        style={{
+                          style={{
                             background: "red",
-                            border: '1px',
-                            borderRadius: '16px',
-                            padding: '8px',
+                            border: "1px",
+                            borderRadius: "16px",
+                            padding: "8px",
                             color: "white",
-                            fontWeight: 'bold',
-                            width: '100%',
-                        }}
-                        onClick={() => handleButtonClick(provider, index)}
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          onClick={() => handleButtonClick(provider, index)}
                         >
-                        Xóa
+                          Xóa
                         </Button>
                       </div>
-                      
                     )}
-                    {index === cf_index && (
-                      <div>{confirmWindow}</div>)
-                    }
+                    {index === cf_index && <div>{confirmWindow}</div>}
+                    <div>{createWindow}</div>
                   </TableCell>
                 </TableRow>
               ))}
