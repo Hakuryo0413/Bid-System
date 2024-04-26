@@ -5,6 +5,7 @@ import { NotificationInterface } from "../../types/NotificationInterface";
 import { getNotificationByAccount } from "../../features/axios/api/notification/NotificationDetails";
 import createNewNotification from "../../features/axios/api/notification/CreateNotification";
 import { updateAccount } from "../../features/axios/api/account/UpdateAccount";
+import deleteAccount from "../../features/axios/api/account/DeleteAccount";
 
 
 export default function TestDB() {
@@ -20,7 +21,7 @@ export default function TestDB() {
     if (account) {
       account.name = "hi";
       if (account._id) {
-        const data = await updateAccount(account)
+        const data = await deleteAccount(account._id)
         setAccount(data)
       }
     }
