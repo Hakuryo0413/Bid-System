@@ -40,6 +40,9 @@ const apiConfig = {
     createSim: `${configKeys.API_URL}sim/create`,
     deleteRoomId: `${configKeys.API_URL}sim/delete/id`,
     deleteRoomNumber: `${configKeys.API_URL}sim/delete/number`,
+
+    getConversations: `${configKeys.API_URL}messenger-conversation`,
+    getMessages: `${configKeys.API_URL}messenger-message`,
 }
 
 export default apiConfig;
