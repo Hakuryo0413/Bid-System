@@ -17,8 +17,9 @@ const accountRoute = () => {
         Account
     );
     route.get('/account-data/email/:email', authenticationMiddleware, controller.getAccountByEmail);
-    route.get('/account-data/role/:role', authenticationMiddleware,  controller.getAccountByRole);
-    route.get('/account-data/id', authenticationMiddleware,  controller.getAccountById);
+    route.get('/account-data/role/:role',   controller.getAccountByRole);
+    route.get('/account-data/id', authenticationMiddleware,  controller.getAccountData);
+    route.get('/id/:id',  controller.getAccountById);
     route.get('/all-accounts', authenticationMiddleware,  controller.getAllAccount);
     route.put('/update-account',  controller.updateAccount);
     route.delete('/delete-account/:id', authenticationMiddleware,  controller.deleteAccountById);

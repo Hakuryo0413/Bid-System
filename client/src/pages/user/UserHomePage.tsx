@@ -12,6 +12,7 @@ import UserCancelPayment from "../../components/user/home/UserCancelPayment";
 import UserHeader from "../../components/header/UserHeader";
 import HistoryAuction from "../auction/HistoryAuctionPage";
 import SimWaitingList from "../../components/user/home/SimWaitingList";
+import UserMessenger from "../messenger/UserMessenger";
 
 function UserHomePage() {
   return (
@@ -28,13 +29,13 @@ function UserHomePage() {
         <div className="w-4/5 pl-6 pr-6">
           <Routes>
             <Route path="/profile" element={<UserProfile />} />
-
             <Route path="/waiting_list"  element={<SimWaitingList />} />
             <Route path="/payment/:code/:number" element={<UserPayment />} />
             <Route
               path="/cancel/:code/:number"
               element={<UserCancelPayment />}
             />
+            <Route path="/messager" element={<UserMessenger/>} />
 
             {/* Add more routes here */}
           </Routes>

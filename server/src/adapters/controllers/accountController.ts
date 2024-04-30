@@ -35,6 +35,14 @@ export const accountController = (
 
     const getAccountById = expressAsyncHandler(
         async (req: Request, res: Response) => {
+            const id = req.params.id;
+            const account = await findAccountById(id, dbRepositoryAccount);
+            res.json(account);
+        }
+    );
+
+    const getAccountData = expressAsyncHandler(
+        async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
             const id = customReq.payload ?? "";
             const account = await findAccountById(id, dbRepositoryAccount);
@@ -89,7 +97,8 @@ export const accountController = (
         getAllAccount,
         getAccountById,
         updateAccount,
-        deleteAccountById
+        deleteAccountById,
+        getAccountData
     }
 }
 

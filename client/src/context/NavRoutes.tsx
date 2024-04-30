@@ -42,6 +42,12 @@ export const NavRoutes = [
         name: "Lịch sử đấu giá",
         path: "/auction/history",
       },
+
+      {
+        icon: <FaFacebookMessenger {...icon} />,
+        name: "Trò chuyện",
+        path: "/user/messager",
+      },
      
      
     ],

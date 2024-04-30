@@ -6,6 +6,7 @@ const apiConfig = {
     accountRole: `${configKeys.API_URL}account/account-data/role`,
     accountEmail: `${configKeys.API_URL}account/account-data/email`,
     accountId: `${configKeys.API_URL}account/account-data/id`,
+    accountById: `${configKeys.API_URL}account/id`,
     allAccounts: `${configKeys.API_URL}account/all-accounts`,
     deleteAccountId: `${configKeys.API_URL}account/delete-account`,
     updateAccount: `${configKeys.API_URL}account/update-account`,

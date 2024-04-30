@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import UserMessenger from "../../pages/messenger/UserMessenger";
+import MessengerPage from "../../pages/messenger/UserMessenger";
 
 const MessengerRouter = () => {
   return (
     <div>
       <Routes>
-        <Route path="/user" element={<UserMessenger/>} />
+        <Route path="/user" element={<MessengerPage/>} />
       </Routes>
     </div>
   );

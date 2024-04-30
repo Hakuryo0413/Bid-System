@@ -15,7 +15,7 @@ function Conversations({ conversation, currentUser, onlineUsers }: any) {
     const getUser = async () => {
       try {
         const res = await axios(
-          `${configKeys.API_URL}account/account-data/${senderId}`
+          `${configKeys.API_URL}account/id/${senderId}`
         );
         setAccount(res?.data);
       } catch (error) {
@@ -34,15 +34,16 @@ function Conversations({ conversation, currentUser, onlineUsers }: any) {
     }
   }, [account?._id, onlineUsers]);
 
+
   return (
-    <div className="flex items-center mt-5 p-3 cursor-pointer hover:bg-blue-gray-50 relative">
+    <div className="flex items-center mt-5 p-3 cursor-pointer hover:bg-blue-gray-50 relative border-b pr-4">
       <img
         className="mr-5 w-10 h-10 rounded-full object-cover"
-        // src={account?.image ?? '../user.jpg'}
-        alt=""
+        src={require("../../../assets/images/user.png")}
+        alt=""  
       />
       <div className="flex flex-col">
-        {/* <span className="font-semibold">{account?.companyName}</span> */}
+        <span className="font-semibold">{account?.name}</span>
         {isOnline ? (
           <span className="text-gray-500">online</span>
         ) : (
