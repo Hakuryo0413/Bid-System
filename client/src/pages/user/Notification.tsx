@@ -20,7 +20,9 @@ const Notification = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("get token")
     if (token) {
+      console.log("login success");
       dispatch(loginSuccess());
       fetchData();
     }
@@ -29,26 +31,66 @@ const Notification = () => {
   const getAccountDetails = async () => {
     try {
       const data = await accountData();
-      setAccountDetails(data);
+      console.log("data", data);
+       setAccountDetails(data);
     } catch (error) {
       console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
     }
   };
 
-  const fetchData = async () => {
-    await getAccountDetails();
-    if (accountDetails) {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
+        const data = await accountData();
+        console.log("data", data);
+        setAccountDetails(data);
+      } catch (error) {
+        console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (accountDetails) {
+      const fetchNotifications = async () => {
+        try {
+          console.log("1234");
+          const notiData = await getNotificationByAccount(accountDetails.email);
+          setNotifications(notiData);
+          console.log(notiData);
+          console.log(accountDetails);
+        } catch (error) {
+          console.error("Lỗi xảy ra khi thiết lập lịch sử đấu giá:", error);
+        }
+      };
+
+      fetchNotifications();
+    }
+  }, [accountDetails]); // Chỉ gọi lại khi accountDetails thay đổi
+
+  const fetchData = async () => {
+    console.log("buoc 1");
+    await getAccountDetails();
+    console.log("buoc 2");
+    console.log(accountDetails);
+    if (accountDetails) {
+      console.log("buoc 3");
+      try {
+        console.log("1234");
         const notiData = await getNotificationByAccount(accountDetails.email);
         setNotifications(notiData);
+
+        console.log(notiData);
+        console.log(accountDetails);
+
       } catch (error) {
         console.error("Lỗi xảy ra khi thiết lập lịch sử đấu giá:", error);
       }
     }
   };
 
-  console.log(notifications);
-  console.log(accountDetails);
 
   return (
     <>
