@@ -4,6 +4,7 @@ export interface NotificationInterface {
   content?: string;
   from?: string;
   state?: boolean;
+  type?: string;
   created_at?: Date;
 }
 export interface NotificationPayload extends NotificationInterface {

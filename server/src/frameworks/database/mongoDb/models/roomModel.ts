@@ -10,6 +10,12 @@ const roomSchema = new Schema({
     Start_at:{
         type:Date
     },
+    provider:{
+        type: String
+    },
+    state:{
+        type: String
+    },
     time_limit:{
         type: Number
     },

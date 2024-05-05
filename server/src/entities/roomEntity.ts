@@ -18,6 +18,11 @@ export class roomEntity {
     return rooms;
   }
 
+  public async getRoomByProvider(email: string): Promise<roomInterface[] | null>{
+    const rooms = await this.model.find({provider:email});
+    return rooms
+  }
+
   public async createRoom(room: roomInterface): Promise<roomInterface | null> {
     const newRoom = this.model.create(room);
     return newRoom;
