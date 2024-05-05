@@ -226,9 +226,7 @@ function UserProfile() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Email:
-                  <span className="ml-2 text-xs text-red-600">
-                    cannot change :v
-                  </span>
+                 
                   <input
 
                     type="text"

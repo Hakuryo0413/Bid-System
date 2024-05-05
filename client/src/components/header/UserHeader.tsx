@@ -19,8 +19,8 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
-  { name: "DS công bố", href: "/", current: false },
-  { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
+  { name: "DS công bố", href: "/user/auction-list", current: false },
+  { name: "Sim sắp đấu giá", href: "/user/upcomming", current: false },
   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
   { name: "Thông báo đấu giá", href: "/", current: false },
@@ -56,20 +56,6 @@ function UserHeader() {
     };
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (isLoggedIn === true && accountDetails !== undefined) {
-  //       console.log('role', accountDetails)
-  //       if (accountDetails?.role === "user") {
-  //         navigate("/user/home");
-  //       } else if (accountDetails?.role === "provider") {
-  //         navigate("/provider/home");
-  //       }
-  //       setIsLoading(false)
-  //     }
-  //   }, 500);
-  // })
-
   const handleLogout = () => {
     try {
       dispatch(logout());
@@ -91,7 +77,7 @@ function UserHeader() {
             <div className="relative flex h-16 items-center justify-between">
               {/* Tên của trang web */}
               <a
-                href="/homepage"
+                href="/user/home"
                 className="text-white flex text-bold text-4xl font-logo"
               >
                 DGS

@@ -1,17 +1,17 @@
 import SearchSim from "../../components/auction/SearchSim";
+import StatisticRoom from "../../components/auction/StatisticRoom";
 import UserSideFooter from "../../components/footer/UserSideFooter";
+import AdminHeader from "../../components/header/AdminHeader";
 import CommonHeader from "../../components/header/CommonHeader";
-import UserHeader from "../../components/header/UserHeader";
 
-function SearchSimPage() {
+function StatisticPage() {
   return (
     <div>
-      {localStorage.getItem("token") ? <UserHeader /> : <CommonHeader />}
-
-      <SearchSim />
+      <CommonHeader />
+      <StatisticRoom />
       <UserSideFooter />
     </div>
   );
 }
 
-export default SearchSimPage;
+export default StatisticPage;
