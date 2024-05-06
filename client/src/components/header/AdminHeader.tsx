@@ -23,7 +23,7 @@ const navigation = [
   { name: "DS công bố", href: "/admin/sim/list", current: false },
   { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
-  { name: "Kết quả đấu giá", href: "/", current: false },
+  { name: "DS đấu giá", href: "/admin/auctionlist", current: false },
   { name: "DS cá nhân", href: "/admin/userList", current: false },
   { name: "DS tổ chức", href: "/admin/providerList", current: false },
 ];

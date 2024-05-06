@@ -12,8 +12,9 @@ export interface roomInterface {
     participants?: UserPrice[],
     start_at?: Date,
     time_limit?: number,
+    provider?: string,
     price?:number,
     phone?: string,
-    password?: string,
+    state?: string,
     create_at?: Date,
 }

@@ -9,7 +9,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 const navigation = [
   { name: "DS công bố", href: "/auction-list", current: false },
   { name: "Sim sắp đấu giá", href: "/upcomming-auction-list", current: false },
-  { name: "Kết quả đấu giá", href: "/", current: false },
+  { name: "Kết quả đấu giá", href: "/statistic", current: false },
   { name: "Thông báo đấu giá", href: "/", current: false },
 ];
 

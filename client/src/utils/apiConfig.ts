@@ -25,8 +25,10 @@ const apiConfig = {
     createNotification: `${configKeys.API_URL}notification/create`,
     deleteNotification: `${configKeys.API_URL}notification/delete`,
     allNotifications: `${configKeys.API_URL}notification/all-notifications`,
+
     roomAccount: `${configKeys.API_URL}room/room-data/email`,
     roomCode: `${configKeys.API_URL}room/room-data/code`,
+    roomProvider: `${configKeys.API_URL}room/room-data/provider`,
     allRooms: `${configKeys.API_URL}room/all-rooms`,
     ongogingRooms: `${configKeys.API_URL}room/ongoging-rooms`,
     updateRoom: `${configKeys.API_URL}room/update-room`,

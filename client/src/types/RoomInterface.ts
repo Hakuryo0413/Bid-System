@@ -2,10 +2,11 @@ export interface RoomInterface {
     _id?: string,
     code?: string,
     participants?: ParticipantInterface[],
+    provider?: string,
     start_at?: Date,
     time_limit?: number,
     phone?: string,
-    password?: string,
+    state?: string,
     price?: number,
     create_at?: Date
 }

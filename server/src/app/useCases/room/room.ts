@@ -35,6 +35,22 @@ export const findRoomOngoing = async (
     }
 }
 
+export const findRoomByProvider = async(
+    email: string,
+    roomRepository: ReturnType<roomDbInterface>
+) =>{
+    try{
+        const results = await roomRepository.getRoomByProvider(email);
+        if(!results){
+            throw new AppError("not found",HttpStatus.BAD_REQUEST);
+        }
+        return results;
+    }catch(error: any){
+        console.log(error)
+        throw new Error("Failded to find room");
+    }
+}
+
 
 export const findAllRooms = async (
     roomRepository: ReturnType<roomDbInterface>

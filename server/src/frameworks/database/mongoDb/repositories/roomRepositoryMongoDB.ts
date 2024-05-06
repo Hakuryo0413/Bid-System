@@ -15,6 +15,11 @@ export const roomRepositoryMongoDB = (model: roomModel) =>{
         return room;
     }
 
+    const getRoomByProvider = async (email: string) =>{
+        const rooms = await RoomEntity.getRoomByProvider(email);
+        return rooms;
+    }
+
     const createRoom = async (room : roomInterface) =>{
         const newRoom = await RoomEntity.createRoom(room);
         return newRoom;
@@ -45,6 +50,7 @@ export const roomRepositoryMongoDB = (model: roomModel) =>{
         createRoom,
         updateRoom,
         getAllRoom,
+        getRoomByProvider,
         getRoomOngoing,
         deleteRoom
     }

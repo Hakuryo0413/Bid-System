@@ -8,14 +8,17 @@ import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the mi
 import ProviderListPage from "../../pages/admin/ProviderListPage";
 import UserListPage from "../../pages/admin/UserListPage";
 import ListOfSimsPage from "../../pages/auction/ListOfSimsPage";
+import AuctionListPage from "../../pages/admin/AuctionListPage";
 
 const AdminRouter = () => {
   return (
     <div>
       <Routes>
-      <Route path="/providerList" element={<ProviderListPage />} />
-      <Route path="/userList" element={<UserListPage />} />
-      <Route path="/sim/list" element={<ListOfSimsPage />} />
+        <Route path="/auctionList" element={<AuctionListPage />} />
+
+        <Route path="/providerList" element={<ProviderListPage />} />
+        <Route path="/userList" element={<UserListPage />} />
+        <Route path="/sim/list" element={<ListOfSimsPage />} />
       </Routes>
     </div>
   );

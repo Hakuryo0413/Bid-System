@@ -3,7 +3,7 @@ import { roomDbInterface } from "../../app/repositories/roomDbRepository";
 import { roomModel } from "../../frameworks/database/mongoDb/models/roomModel";
 import { roomRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/roomRepositoryMongoDB";
 import { CustomRequest } from "../../types/expressRequest";
-import { createRoom, deleteRoom, findAllRooms, findRoomByAccount, findRoomByCode, findRoomOngoing, updatedRoom } from "../../app/useCases/room/room";
+import { createRoom, deleteRoom, findAllRooms, findRoomByAccount, findRoomByCode, findRoomByProvider, findRoomOngoing, updatedRoom } from "../../app/useCases/room/room";
 import { Request, Response } from "express";
 import { roomInterface } from "../../types/roomInterface";
 import AppError from "../../utils/appError";
@@ -32,6 +32,14 @@ export const roomController = (
             res.json(rooms);
         }
     );
+
+    const getRoomByProvider = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const { provider } = req.params;
+            const rooms = await findRoomByProvider(provider, dbRepositoryRoom);
+            res.json(rooms);
+        }
+    ); 
 
     const getAllRoom = expressAsyncHandler(
         async (req: Request, res: Response) => {
@@ -100,6 +108,7 @@ export const roomController = (
         getRoomByCode,
         getRoomByAccount,
         getAllRoom,
+        getRoomByProvider,
         getRoomOngoing,
         roomCreate,
         updateRoom,

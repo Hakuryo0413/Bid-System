@@ -5,6 +5,7 @@ export interface notificationInterface {
     account?: string,
     content?: string,
     from?: string,
+    type?:string,
     state?: boolean,
     created_at?: Date
 }
