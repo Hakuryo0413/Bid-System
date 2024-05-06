@@ -12,7 +12,6 @@ const UserRouter = () => {
         <Route path="/notification" element = {<Notification/>}></Route>
         <Route path="/*" element={<UserHomePage />} />
         <Route path="/yeucau" element={<UserYeuCau />} />
-        
       </Routes>
     </div>
   );

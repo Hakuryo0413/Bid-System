@@ -79,7 +79,7 @@ export default function UserLogin() {
           if (accountDetails?.role === "admin") {
             navigate("/admin/sim/list");
           } else if (accountDetails?.role === "provider") {
-            navigate("/user/home");
+            navigate("/provider/home");
           } else {
             navigate("/user/home");
             //  navigate("/test/testdb");
