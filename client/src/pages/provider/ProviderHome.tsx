@@ -7,11 +7,15 @@ import UserProfile from '../../components/user/home/UserProfile';
 import UserMessenger from '../messenger/UserMessenger';
 import { ProviderNav } from '../../context/ProviderNav';
 import ViewBidder from '../../components/provider/ViewBidder';
+import UserYeuCau from '../../components/user/home/UserYeuCau';
 
 function ProviderHome() {
   return (
     <div>
         <ProviderHeader/>
+        <Routes>
+        <Route path="/yeucau" element={<UserYeuCau/>} />
+        </Routes>
         <div className = "grid-cols-5">
 
         <div className="flex col-span-1">
@@ -25,6 +29,7 @@ function ProviderHome() {
                 <Route path="/waiting_list"  element={<SimWaitingList />} />
                 <Route path="/auction"  element={<ViewBidder code={'00000001'} />} />
                 <Route path="/messager" element={<UserMessenger/>} />
+                {/* <Route path="/yeucau" element={<UserYeuCau/>} /> */}
             </Routes>
             </div>
         </div>

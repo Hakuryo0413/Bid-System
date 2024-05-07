@@ -13,7 +13,7 @@ const UserRouter = () => {
       <Routes>
         <Route path="/notification" element={<Notification />}></Route>
         <Route path="/*" element={<UserHomePage />} />
-        <Route path="/yeucau" element={<UserYeuCau />} />
+        {/* <Route path="/yeucau" element={<UserYeuCau />} /> */}
         <Route path="/auction-list" element={<SearchSimPage />} />
         <Route path="/upcomming" element={<UpCommingRoomPage />} />
       </Routes>

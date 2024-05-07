@@ -14,19 +14,95 @@ import axios from "axios";
 
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [user, setUser] = useState<userInterface>();
+  const [enteredPassword, setEnteredPassword] = useState<string>("");
+  const [isVisible2, setIsVisible2] = useState(false);
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  const getAccountDetails = async () => {
+    try {
+      const data = await accountData();
+      setUser(data);
+    } catch (error) {
+      console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+  }, [dispatch]);
+
   const checkPassword = async () => {
     try {
-      const response = await axios.post('/api/check-password', { password });
+      const response = await axios.post('/api/check-password', { enteredPassword });
       if (response.data.success) {
         console.log('Password is correct');
+        setIsVisible2(false);
+
       } else {
         console.log('Password is incorrect');
+        setIsVisible2(true);
       }
     } catch (error) {
       console.error('Error checking password:', error);
     }
   };
+  const compareNewPassword = () => {
+    if (newPassword !== confirmPassword) {
+      console.log("New password and confirm password are not the same");
+      console.log(newPassword + " " + confirmPassword);
+      setIsVisible(true);
+    }
+    else {
+      console.log("New password and confirm password are the same");
+      setIsVisible(false);
+    }
+  }
+  useEffect(() => {
+    checkPassword();
+  }, [enteredPassword]);
+  useEffect(() => {
+    compareNewPassword();
+  }, [newPassword, confirmPassword]);
+  const { register, handleSubmit, setValue } = useForm<userInterface>();
+
+  const submitHandler = async (formData: userInterface) => {
+
+    if (user) {
+      user.password = formData.password;
+      
+      try {
+        const response = await updateAccount(user);
+        console.log(response)
+        if (response) {
+          notify("Cập nhật thông tin thành công", "success");
+        } else {
+          notify("Cập nhật thông tin thất bại", "error");
+        }
+      } catch (error) {
+        console.error("Lỗi xảy ra khi cập nhật thông tin tài khoản:", error);
+      }
+    }
+
+
+  }
+  useEffect(() => {
+    if (user) {
+      setValue("password", user.password);
+      console.log(user.password);
+    }
+  }, [setValue, user]);
   return (
     // Create dialog to change password that place in the middle of the window and the background is blur
     // make background blur
@@ -45,55 +121,69 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
                 type="password"
                 id="old-password"
                 placeholder="Nhập mật khẩu cũ"
+                value={enteredPassword}
+                onChange={(event) => setEnteredPassword(event.target.value)}
               />
-            </div>
-            <div className="flex flex-col mb-8">
-              {/* <label className="text-white" htmlFor="new-password">Mật khẩu mới</label> */}
-              <input
-                className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
-                type="password"
-                id="new-password"
-                placeholder="Nhập mật khẩu mới"
-              />
-            </div>
-            <div className="flex flex-col mb-8">
-              {/* <label className="text-white" htmlFor="confirm-password">Xác nhận mật khẩu</label> */}
-              <input
-                className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
-                type="password"
-                id="confirm-password"
-                placeholder="Nhập lại mật khẩu mới"
-              />
-            </div>
-            {/* password rule */}
-            <div className="bg-note  justify-start mb-4 rounded-lg">
-              <p className="text-white text-sm p-4 font-semibold">
-                Lưu ý khi thay đổi mật khẩu:
-              </p>
-              <div className="ml-9 pb-4">
 
-                <ul className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-500">
-                  <li>Mật khẩu phải chứa ít nhất 8 ký tự</li>
-                  <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa</li>
-                  <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết thường</li>
-                  <li>Mật khẩu phải chứa ít nhất 1 số</li>
-                </ul>
+              <p className={`text-red-500 ${isVisible2 ? '' : 'hidden'}`}>Mật khẩu không khớp</p>            
+        
+        </div>
 
-              </div>
-            </div>
+        <div className="flex flex-col mb-8">
+          {/* <label className="text-white" htmlFor="new-password">Mật khẩu mới</label> */}
+          <input
+            className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
+            type="password"
+            id="new-password"
+            placeholder="Nhập mật khẩu mới"
+            value={newPassword}
+            onChange={(event) => setNewPassword(event.target.value)}
+          />
+        </div>
+        <div className="flex flex-col mb-8">
+          {/* <label className="text-white" htmlFor="confirm-password">Xác nhận mật khẩu</label> */}
+          <input
+            {...register("password")}
+            className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
+            type="password"
+            id="confirm-password"
+            placeholder="Nhập lại mật khẩu mới"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+
+          />
+          <p className={`text-red-500 ${isVisible ? '' : 'hidden'}`}>Mật khẩu không khớp</p>            </div>
+        {/* password rule */}
+        <div className="bg-note  justify-start mb-4 rounded-lg">
+          <p className="text-white text-sm p-4 font-semibold">
+            Lưu ý khi thay đổi mật khẩu:
+          </p>
+          <div className="ml-9 pb-4">
+
+            <ul className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-500">
+              <li>Mật khẩu phải chứa ít nhất 8 ký tự</li>
+              <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa</li>
+              <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết thường</li>
+              <li>Mật khẩu phải chứa ít nhất 1 số</li>
+            </ul>
+
+          </div>
+        </div>
 
 
-            <div className="flex justify-center mb-3">
-              <button
-                className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
-              >
-                Đổi mật khẩu
-              </button>
-            </div>
+        <div className="flex justify-center mb-3">
+          <form onSubmit={handleSubmit(submitHandler)} >
+          <button
+            className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Đổi mật khẩu
+          </button>
           </form>
         </div>
-      </div>
+      </form>
     </div>
+      </div >
+    </div >
 
   )
 }
@@ -226,7 +316,7 @@ function UserProfile() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Email:
-                 
+
                   <input
 
                     type="text"
