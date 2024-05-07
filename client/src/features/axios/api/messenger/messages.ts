@@ -4,7 +4,7 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 
 const userApi = setupAxiosInterceptors();
 
-export const getUserMessages = async(conId:string): Promise<any> => {
+export const getUserMessages = async(conId:string|undefined): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {
             url: `${apiConfig.getMessages}/${conId}`,

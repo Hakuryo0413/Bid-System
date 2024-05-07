@@ -6,7 +6,6 @@ import { userInterface } from "../../../types/UserInterface";
 function Conversations({ conversation, currentUser, onlineUsers }: any) {
   const [account, setAccount] = useState<userInterface>();
   const [isOnline, setIsOnline] = useState<boolean>(false);
-
   useEffect(() => {
     const senderId = conversation?.members?.find(
       (m: Array<string>) => m !== currentUser?._id
@@ -36,7 +35,8 @@ function Conversations({ conversation, currentUser, onlineUsers }: any) {
 
 
   return (
-    <div className="flex items-center mt-5 p-3 cursor-pointer hover:bg-blue-gray-50 relative border-b pr-4">
+    <div className="flex items-center mt-5 p-3 cursor-pointer  relative border-b pr-4 hover:border-green-400">
+
       <img
         className="mr-5 w-10 h-10 rounded-full object-cover"
         src={require("../../../assets/images/user.png")}
@@ -55,6 +55,7 @@ function Conversations({ conversation, currentUser, onlineUsers }: any) {
       ) : (
         <div> </div>
       )}
+      
     </div>
   );
 }
