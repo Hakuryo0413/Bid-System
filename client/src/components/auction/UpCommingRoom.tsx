@@ -1,6 +1,6 @@
 import { MouseEventHandler, useEffect, useState } from "react";
 
-import { Navbar, Button, Input } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 
 import {
   Paper,
@@ -11,30 +11,24 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import {
-  getAllSims,
-  getSimByProvider,
-} from "../../features/axios/api/sim/SimDetails";
-import { filter, set } from "lodash";
-import { all } from "axios";
-import { getAccountsByRole } from "../../features/axios/api/account/AccountsDetail";
-import { userInterface } from "../../types/UserInterface";
 
 import { RoomInterface } from "../../types/RoomInterface";
 import { getAllHistories } from "../../features/axios/api/room/RoomDetails";
 import DeleteRoomConfirm from "../admin/DeleteRoomConfirm";
-import ConfirmRoomWindow from "../admin/ConfirmRoomWindow";
-import CreateUserWindow from "../admin/CreateUserWindow";
+
+import ConfirmJoinRoomWindow from "../admin/ConfirmJoinRoomWindow";
+import DeleteJoinRoomConfirm from "../admin/DeleteJoinRoomConfirm";
 
 type FilterParams = {
   provider: string | null;
   state: string | null;
   query: string | null;
 };
+const isUserParticipant = (room: RoomInterface, email: string) => {
+  return room.participants?.some((participant) => participant.email === email);
+};
 
 export default function UpCommingRoom() {
-  const [allProviders, setAllProviders] = useState<userInterface[]>([]); // variables for search searching
-  const [createWindow, setCreateWindow] = useState<React.ReactNode>();
   const [allRooms, setAllRooms] = useState<RoomInterface[]>([]); // variables for search searching
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -48,7 +42,6 @@ export default function UpCommingRoom() {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [role, setRole] = useState("provider");
   const handleFilter = (provider: string, state: string, query: string) => {
     setFilterParams({
       ...filterParams,
@@ -77,10 +70,7 @@ export default function UpCommingRoom() {
     }
   };
   const handleQuery = async () => {
-    let allRoomList: RoomInterface[] = [];
     if (selectedProvider === "" && searchQuery === "" && selectedType === "") {
-      /* allRoomList = await getAllRoomsList();
-      setAllRooms(allRoomList); */
       fetchData();
     }
 
@@ -125,6 +115,7 @@ export default function UpCommingRoom() {
 
     fetchData();
   }, []);
+  let email = localStorage.getItem("username") || "";
 
   const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
   const [cf_index, setIndex] = useState<number>();
@@ -136,22 +127,21 @@ export default function UpCommingRoom() {
     const onCloseButt = () => {
       setConfirmWindow(undefined);
     };
-    if (room.state == "Chờ duyệt") {
+    if (room.state == "Chờ đấu giá" && !isUserParticipant(room, email)) {
       console.log("duyet");
       setIndex(index);
       setConfirmWindow(
-        <ConfirmRoomWindow
+        <ConfirmJoinRoomWindow
           room={room}
           onClose={onClose}
           onCloseButt={onCloseButt}
         />
       );
-    } else if (room.state == "Chờ xóa") {
+    } else if (room.state == "Chờ đấu giá" && isUserParticipant(room, email)) {
       setIndex(index);
       console.log("xoa");
-
       setConfirmWindow(
-        <DeleteRoomConfirm
+        <DeleteJoinRoomConfirm
           room={room}
           onClose={onClose}
           onCloseButt={onCloseButt}
@@ -339,26 +329,43 @@ export default function UpCommingRoom() {
                       </div>
                     )} */}
                     {/*   {room.state == "Đang đấu giá" && ( */}
-                    <div>
-                      <Button
-                        style={{
-                          border: "1px",
-                          borderRadius: "16px",
-                          padding: "8px",
-                          color: "white",
-                          fontWeight: "bold",
-                          width: "100%",
-                        }}
-                        disabled={room.state == "Chờ đấu giá" ? false : true}
-                        onClick={() => handleButtonClick(room, index)}
-                      >
-                        Đăng ký đấu giá
-                      </Button>
-                    </div>
-                    {/*  )} */}
+                    {isUserParticipant(room, email) ? (
+                      <div>
+                        <Button
+                          style={{
+                            border: "1px",
+                            backgroundColor: "red",
+                            borderRadius: "16px",
+                            padding: "8px",
+                            color: "white",
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          onClick={() => handleButtonClick(room, index)}
+                        >
+                          Huỷ đấu giá
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button
+                          style={{
+                            border: "1px",
+                            borderRadius: "16px",
+                            padding: "8px",
+                            color: "white",
+                            fontWeight: "bold",
+                            width: "100%",
+                          }}
+                          disabled={room.state == "Chờ đấu giá" ? false : true}
+                          onClick={() => handleButtonClick(room, index)}
+                        >
+                          Đăng ký đấu giá
+                        </Button>
+                      </div>
+                    )}
 
                     {index === cf_index && <div>{confirmWindow}</div>}
-                    <div>{createWindow}</div>
                   </TableCell>
                 </TableRow>
               ))}
