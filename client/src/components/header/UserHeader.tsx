@@ -76,21 +76,21 @@ function UserHeader() {
           <div className="lg:mx-2 mx-auto px-4 md:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               {/* Tên của trang web */}
-              <a
-                href="/user/home"
+              <Link
+                to="/user/home"
                 className="text-white flex text-bold text-4xl font-logo"
               >
                 DGS
-              </a>
+              </Link>
 
               {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
               {/* Navigation trên kích thước lớn hơn kích thước điện thoại (lgall).*/}
               <div className="flex-1 justify-center items-center hidden lg:flex">
                 <div className="flex space-x-4 ">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className={classNames(
                         "text-white hover:text-currentText",
                         "rounded-lg px-3 py-2 text-base font-mediun"
@@ -98,7 +98,7 @@ function UserHeader() {
                       aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

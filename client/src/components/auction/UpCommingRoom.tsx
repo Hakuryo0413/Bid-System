@@ -14,10 +14,11 @@ import {
 
 import { RoomInterface } from "../../types/RoomInterface";
 import { getAllHistories } from "../../features/axios/api/room/RoomDetails";
-import DeleteRoomConfirm from "../admin/DeleteRoomConfirm";
 
 import ConfirmJoinRoomWindow from "../admin/ConfirmJoinRoomWindow";
 import DeleteJoinRoomConfirm from "../admin/DeleteJoinRoomConfirm";
+import { getAccountsByEmail } from "../../features/axios/api/account/AccountsDetail";
+import { ToastContainer, toast } from "react-toastify";
 
 type FilterParams = {
   provider: string | null;
@@ -27,7 +28,10 @@ type FilterParams = {
 const isUserParticipant = (room: RoomInterface, email: string) => {
   return room.participants?.some((participant) => participant.email === email);
 };
-
+const hasBankAccount = (userBankAccount: string) => {
+  if (userBankAccount === "" || userBankAccount === "undefined") return false;
+  return true; // Chuyển đổi giá trị sang boolean và trả về
+};
 export default function UpCommingRoom() {
   const [allRooms, setAllRooms] = useState<RoomInterface[]>([]); // variables for search searching
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -40,8 +44,20 @@ export default function UpCommingRoom() {
   });
   // variables for filtering
   const [selectedProvider, setSelectedProvider] = useState("");
-  const [selectedState, setSelectedState] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  let email = localStorage.getItem("username") || "";
+  let bankAccount = "";
+  const userInfo = async (email: string) => {
+    try {
+      const res = await getAccountsByEmail(email);
+      console.log(res);
+      bankAccount = res.bankAccount;
+      localStorage.setItem("bankAccount", bankAccount);
+      console.log(bankAccount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleFilter = (provider: string, state: string, query: string) => {
     setFilterParams({
       ...filterParams,
@@ -60,6 +76,7 @@ export default function UpCommingRoom() {
   };
   const fetchData = async () => {
     try {
+      await userInfo(email);
       let allRoomsList: RoomInterface[] = await getAllRoomsList();
       allRoomsList = allRoomsList.filter((room) => {
         return room.state == "Chờ đấu giá" || room.state == "Đang đấu giá";
@@ -112,13 +129,17 @@ export default function UpCommingRoom() {
 
   useEffect(() => {
     console.log("fetching data");
-
+    console.log(bankAccount);
     fetchData();
   }, []);
-  let email = localStorage.getItem("username") || "";
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
   const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
   const [cf_index, setIndex] = useState<number>();
+  let check = localStorage.getItem("bankAccount") || "";
   const handleButtonClick = (room: RoomInterface, index: number) => {
     const onClose = () => {
       setConfirmWindow(undefined);
@@ -127,8 +148,15 @@ export default function UpCommingRoom() {
     const onCloseButt = () => {
       setConfirmWindow(undefined);
     };
-    if (room.state == "Chờ đấu giá" && !isUserParticipant(room, email)) {
-      console.log("duyet");
+    if (!hasBankAccount(check)) {
+      console.log(hasBankAccount(check));
+      notify("Hãy hoàn hiện hồ sơ", "error");
+    } else if (
+      room.state == "Chờ đấu giá" &&
+      !isUserParticipant(room, email) &&
+      hasBankAccount(check)
+    ) {
+      console.log(hasBankAccount(check));
       setIndex(index);
       setConfirmWindow(
         <ConfirmJoinRoomWindow
@@ -311,24 +339,6 @@ export default function UpCommingRoom() {
                     {room.state}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {/* {room.state == "Chờ đấu giá" && (
-                      <div>
-                        <Button
-                          style={{
-                            border: "1px",
-                            borderRadius: "16px",
-                            padding: "8px",
-                            color: "white",
-                            fontWeight: "bold",
-                            width: "100%",
-                          }}
-                          onClick={() => handleButtonClick(room, index)}
-                        >
-                          Đăng ký đấu giá
-                        </Button>
-                      </div>
-                    )} */}
-                    {/*   {room.state == "Đang đấu giá" && ( */}
                     {isUserParticipant(room, email) ? (
                       <div>
                         <Button
@@ -372,6 +382,7 @@ export default function UpCommingRoom() {
             </TableBody>
           </Table>
         </TableContainer>
+        <ToastContainer />
       </div>
     </>
   );

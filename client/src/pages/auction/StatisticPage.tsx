@@ -3,11 +3,12 @@ import StatisticRoom from "../../components/auction/StatisticRoom";
 import UserSideFooter from "../../components/footer/UserSideFooter";
 import AdminHeader from "../../components/header/AdminHeader";
 import CommonHeader from "../../components/header/CommonHeader";
+import ProviderHeader from "../../components/header/ProviderHeader";
 
 function StatisticPage() {
   return (
     <div>
-      <CommonHeader />
+      <ProviderHeader />
       <StatisticRoom />
       <UserSideFooter />
     </div>

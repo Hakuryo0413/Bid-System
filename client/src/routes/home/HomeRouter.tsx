@@ -19,7 +19,6 @@ function HomeRouter() {
         <Route path="/signup/canhan" element={<CreateCaNhanPage />} />
         <Route path="/signup/tochuc" element={<CreateToChucPage />} />
         <Route path="/auction-list" element={<SearchSimPage />} />
-        <Route path="/statistic" element={<StatisticPage />} />
         <Route
           path="/upcomming-auction-list"
           element={<UpCommingAuctionListPage />}

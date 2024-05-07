@@ -47,9 +47,8 @@ export default function AuctionList() {
   });
   // variables for filtering
   const [selectedProvider, setSelectedProvider] = useState("");
-  const [selectedState, setSelectedState] = useState("");
+
   const [selectedType, setSelectedType] = useState("");
-  const [role, setRole] = useState("provider");
   const handleFilter = (provider: string, state: string, query: string) => {
     setFilterParams({
       ...filterParams,

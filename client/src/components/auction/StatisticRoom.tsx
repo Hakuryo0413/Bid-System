@@ -11,24 +11,19 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import {
-  getAllSims,
-  getSimByProvider,
-} from "../../features/axios/api/sim/SimDetails";
-import { filter, set } from "lodash";
-import { all } from "axios";
-import { getAccountsByRole } from "../../features/axios/api/account/AccountsDetail";
+
+import { getAccountsByEmail } from "../../features/axios/api/account/AccountsDetail";
 import { userInterface } from "../../types/UserInterface";
+import { Link } from "react-router-dom";
 
 import { RoomInterface } from "../../types/RoomInterface";
-import { getAllHistories } from "../../features/axios/api/room/RoomDetails";
-import ConfirmUserWindow from "../admin/ConfirmUserWindow";
-import DeleteConfirm from "../admin/DeleteConfim";
-import CreateUserWindow from "../admin/CreateUserWindow";
+import {
+  getAllHistories,
+  getRoomByProvider,
+} from "../../features/axios/api/room/RoomDetails";
 
 type FilterParams = {
-  provider: string | null;
-  type: string | null;
+  state: string | null;
   query: string | null;
 };
 
@@ -37,149 +32,105 @@ export default function StatisticRoom() {
   const [createWindow, setCreateWindow] = useState<React.ReactNode>();
   const [allRooms, setAllRooms] = useState<RoomInterface[]>([]); // variables for search searching
   const [searchQuery, setSearchQuery] = useState<string>("");
-
   const [filterParams, setFilterParams] = useState<FilterParams>({
-    provider: "",
-    type: "",
+    state: "",
     query: "",
   });
   // variables for filtering
   const [selectedProvider, setSelectedProvider] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [role, setRole] = useState("provider");
-  const handleFilter = (provider: string, type: string, query: string) => {
+
+  let email = localStorage.getItem("username") || "";
+  let providerName = "";
+  const handleFilter = (state: string, query: string) => {
     setFilterParams({
       ...filterParams,
-      provider: provider,
-      type: type,
+
+      state: state,
       query: query,
     });
   };
-  const getAllProvidersList = async (role: string) => {
+  const providerInfo = async (email: string) => {
     try {
-      return await getAccountsByRole(role);
+      const res = await getAccountsByEmail(email);
+      console.log(res);
+      providerName = res.name;
+      console.log(providerName);
     } catch (error) {
       console.log(error);
     }
-    console.log("fetching data 1");
+  };
+  const getAllRoomsList = async (provider: string) => {
+    try {
+      console.log(providerName);
+      return await getRoomByProvider(provider);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
-  const getAllRoomsList = async () => {
-    try {
-      return await getAllHistories();
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleQuery = async () => {
-    //  let allProviderList: userInterface[] = [];
     let allRoomList: RoomInterface[] = [];
-    if (selectedProvider === "" && searchQuery === "" && selectedType === "") {
-      allRoomList = await getAllRoomsList();
-      // allProviderList = await getAllProvidersList(role);
+    if (searchQuery === "" && selectedType === "") {
+      console.log("jhih");
+      await providerInfo(email);
+      allRoomList = await getAllRoomsList(providerName);
+
       setAllRooms(allRoomList);
-      // setAllProviders(allProviderList);
     }
 
-    if (selectedProvider !== "" || selectedType !== "" || searchQuery !== "") {
-      handleFilter(selectedProvider, selectedType, searchQuery);
+    if (selectedType !== "" || searchQuery !== "") {
+      handleFilter(selectedType, searchQuery);
     }
   };
+  const handleSearch = async () => {
+    let allRoomsList: RoomInterface[] = await getAllRoomsList(providerName);
 
-  /* const handleSearch = async () => {
-    let allRoomsList: RoomInterface[] = await getAllRoomsList();
-    if (filterParams.provider) {
-      allRoomsList = allRoomsList.filter((room) => {
-        return (
-          room.provider?.toLowerCase() === filterParams.provider?.toLowerCase()
-        );
-      }
-      );
-    }
-    if (filterParams.type) {
-
-      allProvidersList = allProvidersList.filter((provider) => {
-        let filterType = provider.state === true ? "Đã duyệt" : "Chờ duyệt";
-        console.log(provider.state);
-        return filterType === filterParams.type;
+    if (filterParams.state) {
+      allRoomsList = allRoomsList?.filter((room) => {
+        return room.state === filterParams.state;
       });
     }
     if (filterParams.query) {
-      allProvidersList = allProvidersList.filter((provider) => {
-        return provider
-          .name!.toLowerCase()
+      allRoomsList = allRoomsList?.filter((room) => {
+        return room
+          .code!.toLowerCase()
           .includes(filterParams.query!.toLowerCase());
       });
     }
-    setAllProviders(allProvidersList);
+
+    setAllRooms(allRoomsList);
     console.log("searching");
-  }; */
+  };
 
   useEffect(() => {
-    console.log(filterParams);
-    //handleSearch();
+    const filterData = async () => {
+      try {
+        await providerInfo(email);
+        handleSearch();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    filterData();
   }, [filterParams]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allRoomsList = await getAllRoomsList();
+        await providerInfo(email); // Chờ providerInfo hoàn thành trước khi tiếp tục
+        console.log(providerName); // Đảm bảo providerName đã được cập nhật
+        const allRoomsList = await getAllRoomsList(providerName);
         setAllRooms(allRoomsList);
+        console.log(allRoomsList);
       } catch (error) {
         // Xử lý lỗi nếu có
       }
     };
-    console.log("fetching data");
 
-    fetchData();
-  }, []);
+    fetchData(); // Gọi fetchData từ useEffect
+  }, [email]); // Sử dụng email là dependency thay vì providerName
 
-  const [confirmWindow, setConfirmWindow] = useState<React.ReactNode>();
-  const [cf_index, setIndex] = useState<number>();
-  const handleButtonClick = (user: userInterface, index: number) => {
-    const onClose = () => {
-      setConfirmWindow(undefined);
-      window.location.reload();
-    };
-    const onCloseButt = () => {
-      setConfirmWindow(undefined);
-    };
-    if (!user.state) {
-      setIndex(index);
-      setConfirmWindow(
-        <ConfirmUserWindow
-          user={user}
-          onClose={onClose}
-          onCloseButt={onCloseButt}
-        />
-      );
-    } else {
-      setIndex(index);
-      setConfirmWindow(
-        <DeleteConfirm
-          user={user}
-          onClose={onClose}
-          onCloseButt={onCloseButt}
-        />
-      );
-    }
-  };
-  const handleCreate = () => {
-    const onClose = () => {
-      setCreateWindow(undefined);
-      window.location.reload();
-    };
-    const onCloseButt = () => {
-      setCreateWindow(undefined);
-    };
-    setCreateWindow(
-      <CreateUserWindow
-        role="provider"
-        onClose={onClose}
-        onCloseButt={onCloseButt}
-      />
-    );
-  };
   return (
     <>
       <div className="px-8  ">
@@ -190,27 +141,19 @@ export default function StatisticRoom() {
       <div className="flex flex-wrap  items-center justify-center gap-y-4  text-blue-gray-900">
         <div className="mx-4">
           <select
-            className=" bg-transparent border-border border w-48 rounded-lg py-2 px-4 font-base text-gray-500"
-            value={selectedProvider}
-            onChange={(e) => setSelectedProvider(e.target.value)}
-          >
-            <option value="">Chọn nhà mạng</option>
-
-            <option value="Viettel">Viettel</option>
-            <option value="Vinaphone">Vinaphone</option>
-            <option value="Mobifone">Mobifone</option>
-          </select>
-        </div>
-
-        <div className="mx-4">
-          <select
             className="bg-transparent border-border border w-48 rounded-lg py-2 px-4 text-md font-base text-gray-500"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
             <option value="">Chọn trạng thái</option>
+            <option value="Chờ xóa">Chờ xóa</option>
             <option value="Chờ duyệt">Chờ duyệt</option>
-            <option value="Đã duyệt">Đã duyệt</option>
+            <option value="Chờ đấu giá">Chờ đấu giá</option>
+            <option value="Đang đấu giá">Đang đấu giá</option>
+            <option value="Chờ thanh toán">Chờ thanh toán</option>
+            <option value="Đấu giá thất bại">Đấu giá thất bại</option>
+            <option value="Đấu giá thành công">Đấu giá thành công</option>
+            <option value="Chờ xóa">Đã xóa</option>
           </select>
         </div>
         <div className="relative border-border flex w-full gap-2 mx-4 md:w-max">
@@ -304,7 +247,7 @@ export default function StatisticRoom() {
               </TableRow>
             </TableHead>
             <TableBody style={{ backgroundColor: "#162233" }}>
-              {allRooms.map((room, index) => (
+              {allRooms?.map((room, index) => (
                 <TableRow
                   key={room._id}
                   style={{ borderRadius: "4px", marginBottom: "4px" }}
@@ -313,7 +256,7 @@ export default function StatisticRoom() {
                     {index + 1}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {room.phone}
+                    {room.provider}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
                     {room.code}
@@ -322,54 +265,22 @@ export default function StatisticRoom() {
                     {room.phone}
                   </TableCell>
                   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {room.phone}
+                    {room.state}
                   </TableCell>
-                  <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {room.participants?.length}
+                  <TableCell
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    <Link to={`/provider/auction/${room.code}`}>
+                      {room.participants?.length}
+                    </Link>
+                    {/*  <a href={`/provider/auction/${room.code}`}>
+                      {room.participants?.length}
+                    </a> */}
                   </TableCell>
-                  <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {/*                    {provider.state ? "Đã duyệt" : "Chờ duyệt"}
-                     */}
-                  </TableCell>
-                  {/*   <TableCell style={{ color: "white", textAlign: "center" }}>
-                    {!provider.state && (
-                      <div>
-                        <Button
-                          style={{
-                            border: "1px",
-                            borderRadius: "16px",
-                            padding: "8px",
-                            color: "white",
-                            fontWeight: "bold",
-                            width: "100%",
-                          }}
-                          onClick={() => handleButtonClick(provider, index)}
-                        >
-                          Duyệt
-                        </Button>
-                      </div>
-                    )}
-                    {provider.state && (
-                      <div>
-                        <Button
-                          style={{
-                            background: "red",
-                            border: "1px",
-                            borderRadius: "16px",
-                            padding: "8px",
-                            color: "white",
-                            fontWeight: "bold",
-                            width: "100%",
-                          }}
-                          onClick={() => handleButtonClick(provider, index)}
-                        >
-                          Xóa
-                        </Button>
-                      </div>
-                    )}
-                    {index === cf_index && <div>{confirmWindow}</div>}
-                    <div>{createWindow}</div>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
