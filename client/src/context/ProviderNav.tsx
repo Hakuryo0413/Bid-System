@@ -34,8 +34,8 @@ export const ProviderNav = [
         }, */
       {
         icon: <FaSimCard {...icon} />,
-        name: "Sim chờ đấu giá",
-        path: "/provider/waiting_list",
+        name: "Yêu cầu",
+        path: "/provider/yeucau",
       },
       /*  {
           icon: <GoHistory {...icon} />,

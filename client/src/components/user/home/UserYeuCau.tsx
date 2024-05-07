@@ -243,9 +243,9 @@ function UserYeuCau() {
           </form>
         </div>
       </div>
-      <div className="mt-10">
+    {/*   <div className="mt-10">
         <UserSideFooter />
-      </div>
+      </div> */}
     </div>
   );
 }

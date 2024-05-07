@@ -7,6 +7,7 @@ import UserProfile from "../../components/user/home/UserProfile";
 import UserMessenger from "../messenger/UserMessenger";
 import { ProviderNav } from "../../context/ProviderNav";
 import ViewBidder from "../../components/provider/ViewBidder";
+import UserYeuCau from "../../components/user/home/UserYeuCau";
 
 function ProviderHome() {
   return (
@@ -22,12 +23,13 @@ function ProviderHome() {
             <Routes>
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/waiting_list" element={<SimWaitingList />} />
-
+              <Route path="/yeucau" element={<UserYeuCau />} />
               <Route path="/messager" element={<UserMessenger />} />
             </Routes>
           </div>
         </div>
       </div>
+      <UserSideFooter />
     </div>
   );
 }
