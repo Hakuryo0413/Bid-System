@@ -19,8 +19,8 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
-  { name: "DS công bố", href: "/", current: false },
-  { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
+  { name: "DS công bố", href: "/user/auction-list", current: false },
+  { name: "Sim sắp đấu giá", href: "/user/upcomming", current: false },
   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
   { name: "Kết quả đấu giá", href: "/", current: false },
   { name: "Thông báo đấu giá", href: "/", current: false },
@@ -56,20 +56,6 @@ function UserHeader() {
     };
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (isLoggedIn === true && accountDetails !== undefined) {
-  //       console.log('role', accountDetails)
-  //       if (accountDetails?.role === "user") {
-  //         navigate("/user/home");
-  //       } else if (accountDetails?.role === "provider") {
-  //         navigate("/provider/home");
-  //       }
-  //       setIsLoading(false)
-  //     }
-  //   }, 500);
-  // })
-
   const handleLogout = () => {
     try {
       dispatch(logout());
@@ -90,21 +76,21 @@ function UserHeader() {
           <div className="lg:mx-2 mx-auto px-4 md:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               {/* Tên của trang web */}
-              <a
-                href="/homepage"
+              <Link
+                to="/user/home"
                 className="text-white flex text-bold text-4xl font-logo"
               >
                 DGS
-              </a>
+              </Link>
 
               {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
               {/* Navigation trên kích thước lớn hơn kích thước điện thoại (lgall).*/}
               <div className="flex-1 justify-center items-center hidden lg:flex">
                 <div className="flex space-x-4 ">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className={classNames(
                         "text-white hover:text-currentText",
                         "rounded-lg px-3 py-2 text-base font-mediun"
@@ -112,7 +98,7 @@ function UserHeader() {
                       aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

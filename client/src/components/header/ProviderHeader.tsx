@@ -1,16 +1,16 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { accountData } from "../../features/axios/api/account/AccountsDetail";
-import { RootState } from "../../features/redux/reducers/Reducer";
+import { userInterface } from "../../types/UserInterface";
+
 import {
   loginSuccess,
   logout,
 } from "../../features/redux/slices/account/accountLoginAuthSlice";
-import { userInterface } from "../../types/UserInterface";
-import AuctionInfor from "../auction/AuctionInfor";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/redux/reducers/Reducer";
 import { clearToken } from "../../features/redux/slices/account/tokenSlice";
 import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
 
@@ -20,12 +20,11 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
-  { name: "DS công bố", href: "/admin/sim/list", current: false },
+  { name: "DS công bố", href: "/", current: false },
   { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
-  { name: "DS đấu giá", href: "/admin/auctionlist", current: false },
-  { name: "DS cá nhân", href: "/admin/userList", current: false },
-  { name: "DS tổ chức", href: "/admin/providerList", current: false },
+  { name: "DS đấu giá", href: "/provider/statistic", current: false },
+  { name: "Thông báo đấu giá", href: "/", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
@@ -33,7 +32,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-function AdminHeader() {
+function ProviderHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let isLoggedIn = useSelector((state: RootState) => state.userAuth.isLoggedIn);
@@ -58,24 +57,11 @@ function AdminHeader() {
     };
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (isLoggedIn === true && accountDetails !== undefined) {
-  //       console.log('role', accountDetails)
-  //       if (accountDetails?.role === "admin") {
-  //         navigate("/admin/home");
-  //       } else if (accountDetails?.role === "provider") {
-  //         navigate("/provider/home");
-  //       }
-  //       setIsLoading(false)
-  //     }
-  //   }, 500);
-  // })
-
   const handleLogout = () => {
     try {
       dispatch(logout());
       localStorage.removeItem("username");
+
       dispatch(clearToken()); // Clear localStorage
       console.log("LocalStorage cleared successfully!");
     } catch (error) {
@@ -84,10 +70,6 @@ function AdminHeader() {
     }
   };
 
-  // if(isLoading) {
-  //   return (<div className="flex px-[10%] h-screen lg:py-4 py-4 text-white text-[20px] font-bold">Loading...</div>)
-  // }
-
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
@@ -95,21 +77,21 @@ function AdminHeader() {
           <div className="lg:mx-2 mx-auto px-4 md:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               {/* Tên của trang web */}
-              <a
-                href="/homepage"
+              <Link
+                to="/provider/home"
                 className="text-white flex text-bold text-4xl font-logo"
               >
                 DGS
-              </a>
+              </Link>
 
               {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
               {/* Navigation trên kích thước lớn hơn kích thước điện thoại (lgall).*/}
               <div className="flex-1 justify-center items-center hidden lg:flex">
                 <div className="flex space-x-4 ">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className={classNames(
                         "text-white hover:text-currentText",
                         "rounded-lg px-3 py-2 text-base font-mediun"
@@ -117,7 +99,7 @@ function AdminHeader() {
                       aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -197,10 +179,9 @@ function AdminHeader() {
           <Disclosure.Panel className="lg:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
-                <Disclosure.Button
+                <Link
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  to={item.href}
                   className={classNames(
                     "bg-white bg-opacity-20 text-textColor",
                     "hover:text-currentText",
@@ -209,7 +190,7 @@ function AdminHeader() {
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
-                </Disclosure.Button>
+                </Link>
               ))}
             </div>
           </Disclosure.Panel>
@@ -219,4 +200,5 @@ function AdminHeader() {
   );
 }
 
-export default AdminHeader;
+export default ProviderHeader;
+export {};

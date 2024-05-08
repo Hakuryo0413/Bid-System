@@ -4,7 +4,7 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import { RoomInterface } from "../../../../types/RoomInterface";
 
 const api = setupAxiosInterceptors();
-
+ 
 const createNewRoom = async (
   payload: RoomInterface,
 ): Promise<any> => {

@@ -29,7 +29,7 @@ body {
   }
 
   .badge {
-    @apply flex justify-between items-center bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2 min-w-[25%];
+    @apply justify-between items-center bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2;
   }
 }
 

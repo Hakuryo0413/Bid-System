@@ -16,15 +16,89 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/account/AccountAuthentication";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
-import { accountData } from "../../../features/axios/api/account/AccountsDetail";
+import { accountData, getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
+import { set } from "lodash";
 
 //************************************
 // Description: Phần Đăng nhập tài khoản
 //************************************
 
+function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+
+  const [email, setEmail] = useState<string>("");
+  const [checkEmail, setCheckEmail] = useState<boolean>(false);
+  const checkAccountEmail = async (email:string) => {
+    // try {
+      console.log(email,"hihi");
+      const data = await getAccountsByEmail(email);
+      console.log(data);
+      // if (data) {
+      //   setCheckEmail(true);
+      //   console.log("checkEmail", email)
+      //   notify("Email đã được gửi", "success");
+      //   return data;
+      // }
+    // }
+    // catch (error: any) {
+    //   notify(error.message, "error");
+    //   return error;
+    // }
+  }
+  useEffect(() => {
+    console.log("checkEmail", email)
+    
+  }, [email])
+  return (
+    // Create check email forgotPasswordForm
+    <div className="fixed z-10 inset-0 overflow-y-auto bg-dialog bg-opacity-60">
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-background p-4 rounded-lg w-1/2">
+          <h1 className="text-2xl font-bold text-white">Đổi mật khẩu</h1>
+          <div className="mt-4">
+          
+            <form>
+              <div>
+                <label className="text-base font-light text-white" htmlFor="email">
+                  Nhập email đã đăng ký vào đây
+                </label>
+                <input
+                  id="email"
+                  type="text"
+                  className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
+                onClick={() => checkAccountEmail(email)}
+              >
+                Gửi
+              </button>
+              <button
+                className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
+                onClick={() => setForgotPassword(false)}
+              >
+                Quay lại
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+}
+
 export default function UserLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
   // const isLoggedIn = useSelector(
   //   (state: RootState) => state.userAuth.isLoggedIn
   // );
@@ -79,7 +153,7 @@ export default function UserLogin() {
           if (accountDetails?.role === "admin") {
             navigate("/admin/sim/list");
           } else if (accountDetails?.role === "provider") {
-            navigate("/user/home");
+            navigate("/provider/home");
           } else {
             // navigate("/user/home");
              navigate("/test/testdb");
@@ -126,6 +200,10 @@ export default function UserLogin() {
         notify(error.message, "error");
       });
   };
+  const handleForgotPassword = () => {
+    setForgotPassword(true);
+    console.log("onclick", forgotPassword)
+  }
 
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">
@@ -165,13 +243,25 @@ export default function UserLogin() {
           >
             Đăng nhập
           </button>
-          <div className="flex justify-center items-center">
-            <span className="text-white">Bạn chưa có tài khoản?</span>
-            <a href="/signup" className="mx-2 text-signupText hover:underline">
-              Đăng ký
-            </a>
+          <div>
+            <div >
+              <span className="text-white">Bạn chưa có tài khoản?</span>
+              <a href="/signup" className="mx-2 text-signupText hover:underline">
+                Đăng ký
+              </a>
+            </div>
+
           </div>
         </form>
+        <div className="mt-4">
+          <span className="text-white">Còn bạn quên mật khẩu rồi thì ấn </span>
+          <button
+            className="text-button-class text-red-600"
+            onClick={() => handleForgotPassword()}
+          > vào đây</button>
+
+        </div>
+        {forgotPassword && <ForgotPasswordForm setForgotPassword={setForgotPassword} />}
       </div>
       <ToastContainer />
     </div>

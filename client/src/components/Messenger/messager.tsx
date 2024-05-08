@@ -12,18 +12,27 @@ import Conversations from "./user/UserConversations";
 import Message from "./user/UserMessage";
 import { Tooltip } from "@material-tailwind/react";
 import { IoPaperPlaneSharp } from "react-icons/io5";
+import { ChatList, IChatItemProps } from "react-chat-elements";
+import { ConversationInterface, MessagesInterface } from "../../types/messengerInterface";
+import SearchConversation from "./user/SearchConversations";
+
+interface arrivalMessage {
+  "sender": string,
+  "text": string,
+  "createdAt": any,
+}
 
 function Messenger() {
   const dispatch = useDispatch();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const socket = useRef<Socket | null>(null);
-  const [user, setUser] = useState<userInterface>();
+  const scrollRef = useRef<HTMLDivElement>({} as HTMLDivElement);
+  const socket = useRef<Socket>({} as Socket);
+  const [user, setUser] = useState<userInterface>({} as userInterface);
   const [conversations, setConversations] = useState([]);
-  const [currentChat, setCurrentChat] = useState<any>(null);
-  const [messages, setMessages] = useState<any>(null);
-  const [newMessage, setNewMessage] = useState<any>("");
-  const [arrivalMessage, setArrivalMessage] = useState<any>(null);
-  const [onlineUsers, setOnlineUsers] = useState<any>([]);
+  const [currentChat, setCurrentChat] = useState<ConversationInterface>({ members: [] } as ConversationInterface);
+  const [messages, setMessages] = useState<MessagesInterface[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [arrivalMessage, setArrivalMessage] = useState<arrivalMessage>({} as arrivalMessage);
+  const [onlineUsers, setOnlineUsers] = useState<userInterface[]>([]);
 
 
   useEffect(() => {
@@ -37,6 +46,9 @@ function Messenger() {
   const getAccountDetails = async () => {
     try {
       const data = await accountData();
+      if (data == null) {
+        return;
+      }
       setUser(data);
     } catch (error) {
       console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
@@ -76,6 +88,9 @@ function Messenger() {
       if (user) {
         if (user._id) {
           const res = await getUserConversations(user?._id);
+          if (res == null) {
+            return;
+          }
           setConversations(res);
         }
       }
@@ -88,6 +103,9 @@ function Messenger() {
       if (currentChat) {
         try {
           const res = await getUserMessages(currentChat?._id);
+          if (res == null) {
+            return;
+          }
           setMessages(res);
         } catch (error) {
           console.log(error);
@@ -98,7 +116,7 @@ function Messenger() {
   }, [currentChat]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    // scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSubmit = async (e: any) => {
@@ -121,6 +139,9 @@ function Messenger() {
 
     try {
       const res = await postUserMessages(message);
+      if (res == null) {
+        return;
+      }
       setMessages([...messages, res]);
       setNewMessage("");
     } catch (error) {
@@ -136,7 +157,9 @@ function Messenger() {
         {/* button with text */}
         {/* svg lock button  */}
       </div>
-      <div className="pt-16 h-screen pb-[70px] flex mx-auto p-2 mt-4 rounded border border-border rounded-2xl text-white">
+      {/* add search user to create new conversation*/}
+      <SearchConversation />
+      <div className="pt-4 h-screen pb-[70px] flex mx-auto p-2 mt-4 rounded border border-border rounded-2xl text-white">
         <div className="flex-auto p-3 w-1/3">
           <div>
             <div className="h-96 overflow-y-auto">
@@ -150,7 +173,9 @@ function Messenger() {
                 </div>
               ))}
             </div>
+
           </div>
+
         </div>
 
         <div className="flex-auto p-3 w-64 border-l pr-4 w-2/3">
@@ -170,7 +195,7 @@ function Messenger() {
                 </div>
                 <div className="mt-2 flex items-center justify-between">
                   <textarea
-                    className="w-10/12 h-24 p-3 focus:outline-none"
+                    className="w-10/12 h-24 p-3 focus:outline-none text-black"
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Write something..."
                     value={newMessage}

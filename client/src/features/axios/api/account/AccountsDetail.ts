@@ -29,7 +29,8 @@ export const allAccounts = async (): Promise<any> => {
       method: "get",
     };
     const response = await api(config);
-    return response?.data.allAccounts;
+    console.log(response);
+    return response?.data;
   } catch (error) {
     throw new Error("Gặp lỗi khi lấy dữ liệu về account.");
   }
