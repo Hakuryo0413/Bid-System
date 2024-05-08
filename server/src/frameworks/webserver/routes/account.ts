@@ -16,7 +16,7 @@ const accountRoute = () => {
         accountRepositoryMongoDB,
         Account
     );
-    route.get('/account-data/email/:email', authenticationMiddleware, controller.getAccountByEmail);
+    route.get('/account-data/email/:email', controller.getAccountByEmail);
     route.get('/account-data/role/:role',   controller.getAccountByRole);
     route.get('/account-data/id', authenticationMiddleware,  controller.getAccountData);
     route.get('/id/:id',  controller.getAccountById);

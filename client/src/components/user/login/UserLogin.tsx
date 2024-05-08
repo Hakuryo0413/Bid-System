@@ -31,26 +31,28 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
 
   const [email, setEmail] = useState<string>("");
   const [checkEmail, setCheckEmail] = useState<boolean>(false);
-  const checkAccountEmail = async (email:string) => {
-    // try {
-      console.log(email,"hihi");
-      const data = await getAccountsByEmail(email);
+  const { register, handleSubmit } = useForm<any>();
+  const checkAccountEmail = async (email: any) => {
+    try {
+      console.log(email, "hihi");// "123"
+      const data = await getAccountsByEmail(email.email);
       console.log(data);
-      // if (data) {
-      //   setCheckEmail(true);
-      //   console.log("checkEmail", email)
-      //   notify("Email đã được gửi", "success");
-      //   return data;
-      // }
-    // }
-    // catch (error: any) {
-    //   notify(error.message, "error");
-    //   return error;
-    // }
+      if (data) {
+        setCheckEmail(true);
+        console.log("checkEmail má", email)
+        notify("Email đã được gửi", "success");
+        setForgotPassword(false);
+        return data;
+      }
+    }
+    catch (error: any) {
+      notify(error.message, "error");
+      return error;
+    }
   }
   useEffect(() => {
     console.log("checkEmail", email)
-    
+
   }, [email])
   return (
     // Create check email forgotPasswordForm
@@ -59,34 +61,34 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
         <div className="bg-background p-4 rounded-lg w-1/2">
           <h1 className="text-2xl font-bold text-white">Đổi mật khẩu</h1>
           <div className="mt-4">
-          
-            <form>
+
+            <form onSubmit={handleSubmit(checkAccountEmail)}>
               <div>
                 <label className="text-base font-light text-white" htmlFor="email">
                   Nhập email đã đăng ký vào đây
                 </label>
                 <input
-                  id="email"
+
                   type="text"
                   className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+
+                  {...register("email")}
                 />
               </div>
               <button
                 type="submit"
                 className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
-                onClick={() => checkAccountEmail(email)}
+
               >
                 Gửi
               </button>
-              <button
-                className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
-                onClick={() => setForgotPassword(false)}
-              >
-                Quay lại
-              </button>
             </form>
+            <button
+              className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
+              onClick={() => setForgotPassword(false)}
+            >
+              Quay lại
+            </button>
           </div>
         </div>
       </div>
