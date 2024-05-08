@@ -157,8 +157,8 @@ export default function UserLogin() {
           } else if (accountDetails?.role === "provider") {
             navigate("/provider/home");
           } else {
-            navigate("/user/home");
-            //  navigate("/test/testdb");
+            // navigate("/user/home");
+             navigate("/test/testdb");
           }
         }
       }
@@ -185,7 +185,7 @@ export default function UserLogin() {
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
       .then((response) => {
-        const token = response.token;
+        const token = response.data.token;
         localStorage.setItem("username", formData.username);
 
         dispatch(setToken(token));
