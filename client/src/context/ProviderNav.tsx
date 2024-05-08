@@ -4,6 +4,9 @@ import {
   FaEnvelope,
   FaFacebookMessenger,
   FaUser,
+  FaCrosshairs,
+  FaCross,
+  FaAutoprefixer,
 } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa6";
 import { GoHistory } from "react-icons/go";
@@ -34,8 +37,13 @@ export const ProviderNav = [
         }, */
       {
         icon: <FaSimCard {...icon} />,
-        name: "Yêu cầu",
+        name: "Yêu cầu tạo auction",
         path: "/provider/yeucau",
+      },
+      {
+        icon: <FaAutoprefixer {...icon} />,
+        name: "Yêu cầu xóa auction",
+        path: "/provider/xoa",
       },
       /*  {
           icon: <GoHistory {...icon} />,

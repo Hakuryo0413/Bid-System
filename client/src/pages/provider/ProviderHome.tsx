@@ -8,6 +8,7 @@ import UserMessenger from "../messenger/UserMessenger";
 import { ProviderNav } from "../../context/ProviderNav";
 import ViewBidder from "../../components/provider/ViewBidder";
 import UserYeuCau from "../../components/user/home/UserYeuCau";
+import YeuCauXoa from "../../components/user/home/YeuCauXoas";
 
 function ProviderHome() {
   return (
@@ -25,6 +26,7 @@ function ProviderHome() {
               <Route path="/waiting_list" element={<SimWaitingList />} />
               <Route path="/yeucau" element={<UserYeuCau />} />
               <Route path="/messager" element={<UserMessenger />} />
+              <Route path="/xoa" element={<YeuCauXoa />} />
             </Routes>
           </div>
         </div>

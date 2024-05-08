@@ -17,7 +17,7 @@ import { NotificationInterface } from "../../../types/NotificationInterface";
 import { userInterface } from "../../../types/UserInterface";
 function UserYeuCau() {
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState:{errors} } = useForm<any>();
+  const { register, handleSubmit, formState: { errors } } = useForm<any>();
   const [sim, setSim] = useState<SimInterface>({} as SimInterface);
   const [room, setRoom] = useState<RoomInterface>({} as RoomInterface);
   const [notification, setNotification] = useState<NotificationInterface>({} as NotificationInterface);
@@ -26,41 +26,45 @@ function UserYeuCau() {
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
       : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
-      const getAccountDetails = async () => {
-        try {
-          const data = await accountData();
-          setUser(data);
-        } catch (error) {
-          console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
-        }
-      };
-      useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          dispatch(loginSuccess());
-          getAccountDetails();
-        }
-      }, [dispatch]);
+  const getAccountDetails = async () => {
+    try {
+      const data = await accountData();
+      setUser(data);
+    } catch (error) {
+      console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(loginSuccess());
+      getAccountDetails();
+    }
+  }, [dispatch]);
   const submitHandler = async (data: any) => {
 
     if (data.start_at) {
       data.start_at = new Date(data.start_at);
     }
-    if(data.provider === "Viettel"){
+    if (data.provider === "Viettel") {
       data.code = "VTL" + "-" + Math.floor(Math.random() * 1000000);
     }
-    if(data.provider === "Vinaphone"){
+    else if (data.provider === "Vinaphone") {
       data.code = "VNP" + "-" + Math.floor(Math.random() * 1000000);
     }
-    if(data.provider === "Mobifone"){
+    else if (data.provider === "Mobifone") {
       data.code = "MBF" + "-" + Math.floor(Math.random() * 1000000);
     }
-    if(data.provider === "Vietnamobile"){
+    else if (data.provider === "Vietnamobile") {
       data.code = "VNM" + "-" + Math.floor(Math.random() * 1000000);
     }
-    if(data.provider === "Gmobile"){
+    else if (data.provider === "Gmobile") {
       data.code = "GMB" + "-" + Math.floor(Math.random() * 1000000);
     }
+    else {
+      data.code = "OTH" + "-" + Math.floor(Math.random() * 1000000);
+    }
+
 
     room.phone = data.phone;
     room.provider = data.provider;
@@ -69,6 +73,7 @@ function UserYeuCau() {
     room.start_at = data.start_at;
     room.state = "Chờ duyệt";
     room.code = data.code;
+
     sim.number = data.phone;
     sim.provider = data.provider;
     sim.type = data.type;
@@ -78,7 +83,7 @@ function UserYeuCau() {
     notification.account = "hihi@gmail.com";
     notification.content = "Yêu cầu tạo phiên đấu giá";
     notification.from = user.email;
-    
+
     createNewNotification(notification)
       .then((response: any) => {
         notify("Ziu create notification thành công", "success");
@@ -90,6 +95,7 @@ function UserYeuCau() {
     console.log(data);
     createNewRoom(room)
       .then((response: any) => {
+        console.log(room);
         notify("Ziu create room thành công", "success");
       })
       .catch((error: any) => {
@@ -159,7 +165,7 @@ function UserYeuCau() {
                     Loại sim:
                     <span className="ml-2"></span>
                     <select
-                    {...register("type", { required: true })}
+                      {...register("type", { required: true })}
                       className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
                       <option value="Lặp2">Tam hoa, Tứ quý, ... </option>
                       <option value="Soi gương">Soi gương ABC.CBA</option>
@@ -175,31 +181,29 @@ function UserYeuCau() {
                   <label className="block  font-medium leading-6 text-white">
                     Nhà mạng:
                     <span
-                      
+
                       className="ml-2"></span>
                     {/* <input type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" /> */}
-                    <select
-                    {...register("provider", { required: true })}
-                     className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none">
-                      <option value="Viettel">Viettel</option>
-                      <option value="Vinaphone">Vinaphone</option>
-                      <option value="Mobifone">Mobifone</option>
-                      <option value="Vietnamobile">Vietnamobile</option>
-                      <option value="Gmobile">Gmobile</option>
-                    </select>
+                    <input
+                      {...register("provider", { required: true })}
+                      type="text"
+                      className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
+                      value={user.name}
+                      readOnly
+                    />
                   </label>
                 </div>
                 <div className="sm:col-span-2">
                   <label
-                    
+
                     className="block font-medium leading-6 text-white">
 
                     Đặt mức sàn (đơn vị: Đồng):
                     <span className="ml-2"></span>
                     <input
-                    required
-                    {...register("price", { required: true })} 
-                    type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                      required
+                      {...register("price", { required: true })}
+                      type="text" className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
 
                   </label>
                 </div>
@@ -234,7 +238,7 @@ function UserYeuCau() {
                     <input
 
                       {...register("time_limit", { required: true })}
-                       className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
+                      className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none" />
                   </label>
                 </div>
               </div>
@@ -243,7 +247,7 @@ function UserYeuCau() {
           </form>
         </div>
       </div>
-    {/*   <div className="mt-10">
+      {/*   <div className="mt-10">
         <UserSideFooter />
       </div> */}
     </div>
