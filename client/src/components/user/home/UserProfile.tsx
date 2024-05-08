@@ -81,7 +81,7 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
 
     if (user) {
       user.password = formData.password;
-      
+
       try {
         const response = await updateAccount(user);
         console.log(response)
@@ -125,63 +125,63 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
                 onChange={(event) => setEnteredPassword(event.target.value)}
               />
 
-              <p className={`text-red-500 ${isVisible2 ? '' : 'hidden'}`}>Mật khẩu không khớp</p>            
-        
-        </div>
+              <p className={`text-red-500 ${isVisible2 ? '' : 'hidden'}`}>Mật khẩu không khớp</p>
 
-        <div className="flex flex-col mb-8">
-          {/* <label className="text-white" htmlFor="new-password">Mật khẩu mới</label> */}
-          <input
-            className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
-            type="password"
-            id="new-password"
-            placeholder="Nhập mật khẩu mới"
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
-          />
-        </div>
-        <div className="flex flex-col mb-8">
-          {/* <label className="text-white" htmlFor="confirm-password">Xác nhận mật khẩu</label> */}
-          <input
-            {...register("password")}
-            className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
-            type="password"
-            id="confirm-password"
-            placeholder="Nhập lại mật khẩu mới"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
+            </div>
 
-          />
-          <p className={`text-red-500 ${isVisible ? '' : 'hidden'}`}>Mật khẩu không khớp</p>            </div>
-        {/* password rule */}
-        <div className="bg-note  justify-start mb-4 rounded-lg">
-          <p className="text-white text-sm p-4 font-semibold">
-            Lưu ý khi thay đổi mật khẩu:
-          </p>
-          <div className="ml-9 pb-4">
+            <div className="flex flex-col mb-8">
+              {/* <label className="text-white" htmlFor="new-password">Mật khẩu mới</label> */}
+              <input
+                className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
+                type="password"
+                id="new-password"
+                placeholder="Nhập mật khẩu mới"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+              />
+            </div>
+            <div className="flex flex-col mb-8">
+              {/* <label className="text-white" htmlFor="confirm-password">Xác nhận mật khẩu</label> */}
+              <input
+                {...register("password")}
+                className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
+                type="password"
+                id="confirm-password"
+                placeholder="Nhập lại mật khẩu mới"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
 
-            <ul className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-500">
-              <li>Mật khẩu phải chứa ít nhất 8 ký tự</li>
-              <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa</li>
-              <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết thường</li>
-              <li>Mật khẩu phải chứa ít nhất 1 số</li>
-            </ul>
+              />
+              <p className={`text-red-500 ${isVisible ? '' : 'hidden'}`}>Mật khẩu không khớp</p>            </div>
+            {/* password rule */}
+            <div className="bg-note  justify-start mb-4 rounded-lg">
+              <p className="text-white text-sm p-4 font-semibold">
+                Lưu ý khi thay đổi mật khẩu:
+              </p>
+              <div className="ml-9 pb-4">
 
-          </div>
-        </div>
+                <ul className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-500">
+                  <li>Mật khẩu phải chứa ít nhất 8 ký tự</li>
+                  <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa</li>
+                  <li>Mật khẩu phải chứa ít nhất 1 chữ cái viết thường</li>
+                  <li>Mật khẩu phải chứa ít nhất 1 số</li>
+                </ul>
+
+              </div>
+            </div>
 
 
-        <div className="flex justify-center mb-3">
-          <form onSubmit={handleSubmit(submitHandler)} >
-          <button
-            className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
-          >
-            Đổi mật khẩu
-          </button>
+            <div className="flex justify-center mb-3">
+              <form onSubmit={handleSubmit(submitHandler)} >
+                <button
+                  className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
+                >
+                  Đổi mật khẩu
+                </button>
+              </form>
+            </div>
           </form>
         </div>
-      </form>
-    </div>
       </div >
     </div >
 
