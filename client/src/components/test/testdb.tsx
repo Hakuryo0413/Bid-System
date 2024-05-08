@@ -6,37 +6,38 @@ import { getNotificationByAccount } from "../../features/axios/api/notification/
 import createNewNotification from "../../features/axios/api/notification/CreateNotification";
 import { updateAccount } from "../../features/axios/api/account/UpdateAccount";
 import deleteAccount from "../../features/axios/api/account/DeleteAccount";
+import axios from "axios";
+import apiConfig from "../../utils/apiConfig";
+import { login } from "../../features/axios/api/account/AccountAuthentication";
+import { LoginPayload } from "../../types/PayloadInterface";
+import { getHistoryByAccount } from "../../features/axios/api/history/HistoryDetails";
+import { HistoryInterface } from "../../types/HistoryInterface";
 
 
 export default function TestDB() {
 
-  const [account, setAccount] = useState<userInterface>();
-
-  const getAccount = async () => {
-    const data = await getAccountsByEmail("mmunt59@gmail.com");
-    setAccount(data);
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+  const [history,setHistory] = useState<HistoryInterface>();
+    const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  };
+  const getHis = async (email: string) => {
+    const data = await getHistoryByAccount(email);
+    setHistory(data);
   }
-
-  const _updateAccount = async () => {
-    if (account) {
-      account.name = "hi";
-      if (account._id) {
-        const data = await deleteAccount(account._id)
-        setAccount(data)
-      }
-    }
-  }
-
   useEffect(() => {
-    getAccount();
+    getAccountDetails();
   }, [])
 
+
   useEffect(() => {
-    _updateAccount();
-  }, [account])
+    if (accountDetails) {
+      getHis(accountDetails.email);
+    }
+  }, [accountDetails])
 
-  console.log(account)
-
+  console.log(history);
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">
       <p>Hello</p>

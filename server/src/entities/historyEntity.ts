@@ -14,7 +14,7 @@ export class historyEntity{
     }
 
     public async getHistoryByAccount(email: string):Promise<historyInterface[] | null>{
-        const histories: any = this.model.find({email: email});
+        const histories: any = this.model.find({account: email});
         return histories;
     }
 
