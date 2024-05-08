@@ -16,7 +16,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/account/AccountAuthentication";
 // import { employerData } from "../../../features/axios/api/account/AccountDetails";
 import { userInterface } from "../../../types/UserInterface";
-import { accountData, getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
+import {
+  accountData,
+  getAccountsByEmail,
+} from "../../../features/axios/api/account/AccountsDetail";
 import { set } from "lodash";
 
 //************************************
@@ -34,26 +37,24 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
   const { register, handleSubmit } = useForm<any>();
   const checkAccountEmail = async (email: any) => {
     try {
-      console.log(email, "hihi");// "123"
+      console.log(email, "hihi"); // "123"
       const data = await getAccountsByEmail(email.email);
       console.log(data);
       if (data) {
         setCheckEmail(true);
-        console.log("checkEmail má", email)
+        console.log("checkEmail má", email);
         notify("Email đã được gửi", "success");
         setForgotPassword(false);
         return data;
       }
-    }
-    catch (error: any) {
+    } catch (error: any) {
       notify(error.message, "error");
       return error;
     }
-  }
+  };
   useEffect(() => {
-    console.log("checkEmail", email)
-
-  }, [email])
+    console.log("checkEmail", email);
+  }, [email]);
   return (
     // Create check email forgotPasswordForm
     <div className="fixed z-10 inset-0 overflow-y-auto bg-dialog bg-opacity-60">
@@ -61,24 +62,23 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
         <div className="bg-background p-4 rounded-lg w-1/2">
           <h1 className="text-2xl font-bold text-white">Đổi mật khẩu</h1>
           <div className="mt-4">
-
             <form onSubmit={handleSubmit(checkAccountEmail)}>
               <div>
-                <label className="text-base font-light text-white" htmlFor="email">
+                <label
+                  className="text-base font-light text-white"
+                  htmlFor="email"
+                >
                   Nhập email đã đăng ký vào đây
                 </label>
                 <input
-
                   type="text"
                   className="w-full mt-2 h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none"
-
                   {...register("email")}
                 />
               </div>
               <button
                 type="submit"
                 className="w-full mt-4 h-12 text-lg bg-buttonOrigin text-white rounded-lg hover:bg-activeButton flex justify-center items-center"
-
               >
                 Gửi
               </button>
@@ -93,8 +93,7 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
         </div>
       </div>
     </div>
-  )
-
+  );
 }
 
 export default function UserLogin() {
@@ -158,7 +157,7 @@ export default function UserLogin() {
             navigate("/provider/home");
           } else {
             // navigate("/user/home");
-             navigate("/test/testdb");
+            navigate("/user/home");
           }
         }
       }
@@ -185,9 +184,8 @@ export default function UserLogin() {
   const submitHandler = async (formData: LoginPayload) => {
     login(formData)
       .then((response) => {
-        const token = response.data.token;
+        const token = response.token;
         localStorage.setItem("username", formData.username);
-
         dispatch(setToken(token));
         dispatch(loginSuccess());
         notify("Đăng nhập thành công", "success");
@@ -199,13 +197,14 @@ export default function UserLogin() {
         }, 2000);
       })
       .catch((error: any) => {
+        console.log("huhu");
         notify(error.message, "error");
       });
   };
   const handleForgotPassword = () => {
     setForgotPassword(true);
-    console.log("onclick", forgotPassword)
-  }
+    console.log("onclick", forgotPassword);
+  };
 
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">
@@ -245,25 +244,27 @@ export default function UserLogin() {
           >
             Đăng nhập
           </button>
-          <div>
-            <div >
-              <span className="text-white">Bạn chưa có tài khoản?</span>
-              <a href="/signup" className="mx-2 text-signupText hover:underline">
-                Đăng ký
-              </a>
-            </div>
-
-          </div>
         </form>
-        <div className="mt-4">
-          <span className="text-white">Còn bạn quên mật khẩu rồi thì ấn </span>
-          <button
-            className="text-button-class text-red-600"
-            onClick={() => handleForgotPassword()}
-          > vào đây</button>
-
+        <div className="justify-center text-center mt-2">
+          <div>
+            <span className="text-white">Bạn chưa có tài khoản?</span>
+            <a href="/signup" className="mx-2 text-signupText hover:underline">
+              Đăng ký
+            </a>
+          </div>
+          <div className="mt-1">
+            <button
+              className="text-button-class"
+              onClick={() => handleForgotPassword()}
+            >
+              Quên mật khẩu ?
+            </button>
+          </div>
         </div>
-        {forgotPassword && <ForgotPasswordForm setForgotPassword={setForgotPassword} />}
+
+        {forgotPassword && (
+          <ForgotPasswordForm setForgotPassword={setForgotPassword} />
+        )}
       </div>
       <ToastContainer />
     </div>
