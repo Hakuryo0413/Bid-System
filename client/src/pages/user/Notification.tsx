@@ -12,6 +12,9 @@ import { getNotificationByAccount } from "../../features/axios/api/notification/
 import { NotificationInterface } from "../../types/NotificationInterface";
 import NotiCard from "../../components/auction/NotiCard";
 import deleteNotification from "../../features/axios/api/notification/DeleteNotification";
+import AdminHeader from "../../components/header/AdminHeader";
+import ProviderHeader from "../../components/header/ProviderHeader";
+import ProviderHome from "../provider/ProviderHome";
 
 const Notification = () => {
   const dispatch = useDispatch();
@@ -104,27 +107,47 @@ const Notification = () => {
 
   return (
     <>
-      <UserHomePage />
-      <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
-
-      {notifications?.length > 0 ? (
-            <div className="relative top-[-13vw] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
-                {notifications
-                    .slice() // Tạo một bản sao của mảng notifications
-                    .sort((a, b) => {
-                        if (!a.created_at || !b.created_at) return 0; // Kiểm tra xem created_at có giá trị không
-                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-                    }) // Sắp xếp theo thời gian giảm dần
-                    .map((noti) => (
-                        <NotiCard key={noti._id} noti={noti} onDelete={handleDeleteNotification}/>
-                    ))
-                }
-            </div>
-        ) : (
-            <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
-                <p className="p-2">Bạn chưa nhận được thông báo nào.</p>
-            </div>
+      {accountDetails?.role == "admin" ? (
+        <div className="mb-5">
+          <AdminHeader />
+          <div>
+            <h1 className="ml-[25vw] mb-[15px] top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+          </div>
+        </div>
+      ) : accountDetails?.role == "provider" ?
+        (
+          <>
+          <ProviderHome />
+          <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+          </>
+          // <ProviderHeader/>
+        ) :
+        (
+          <>
+          <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+          <UserHomePage />
+          </>
         )}
+
+      {/* top-[-13vw] */}
+      {notifications?.length > 0 ? (
+        <div className="relative left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
+          {notifications
+            .slice() // Tạo một bản sao của mảng notifications
+            .sort((a, b) => {
+              if (!a.created_at || !b.created_at) return 0; // Kiểm tra xem created_at có giá trị không
+              return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            }) // Sắp xếp theo thời gian giảm dần
+            .map((noti) => (
+              <NotiCard key={noti._id} noti={noti} onDelete={handleDeleteNotification} />
+            ))
+          }
+        </div>
+      ) : (
+        <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
+          <p className="p-2">Bạn chưa nhận được thông báo nào.</p>
+        </div>
+      )}
 
       {/* {notifications?.length > 0 ? (
         <div className="relative top-[-13vw] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">

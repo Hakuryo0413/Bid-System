@@ -25,7 +25,7 @@ const navigation = [
    */
   /*   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
    */ { name: "Phòng đấu giá", href: "/provider/statistic", current: false },
-  { name: "Thông báo", href: "/provider/notification", current: false },
+  { name: "Thông báo", href: "/user/notification", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
