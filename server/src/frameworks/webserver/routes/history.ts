@@ -15,11 +15,11 @@ const historyRoute = () => {
         historyRepositoryMongoDB,
         History
     );
-    route.get('/history-data/email/:email', authenticationMiddleware, controller.getHistoryByAccount);
-    route.get('/history-data/id', authenticationMiddleware,  controller.getHistoryById);
-    route.get('/all-historys', authenticationMiddleware,  controller.getAllHistory);
-    route.put('/update-history', authenticationMiddleware,  controller.updateHistory);
-    route.post('/create', authenticationMiddleware,  controller.historyCreate);
+    route.get('/history-data/email/:email', controller.getHistoryByAccount);
+    route.get('/history-data/id',  controller.getHistoryById);
+    route.get('/all-historys', controller.getAllHistory);
+    route.put('/update-history', controller.updateHistory);
+    route.post('/create', controller.historyCreate);
 
     return route;
 }

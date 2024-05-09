@@ -7,6 +7,8 @@ import { getRoomByCode } from "../../features/axios/api/room/RoomDetails";
 import { calcTime, calcTimeInSeconds, formatMoney } from "./utils/format";
 import UpCommingAuction from "./UpcommingAuction";
 import ParticipantsListSmall from "./ParticipantsListSmall";
+import { SimInterface } from "../../types/SimInterface";
+import { getSimByNumber } from "../../features/axios/api/sim/SimDetails";
 
 interface AuctionInforProps {
     code: string;
@@ -37,6 +39,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
     };
     userInfo();
   }, []);
+
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
@@ -117,7 +120,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
               calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) < (AuctionInfor?.time_limit ?? 0) * 60 ? (
                     <HappeningAuction auctionDetails={AuctionInfor} fromHappeningList={false} />
                 ) : (
-                    <CompletedAuction auctionDetails={AuctionInfor}/>
+                    <CompletedAuction auctionDetails={AuctionInfor} fromHappeningList={false}/>
                 )
             )}
 

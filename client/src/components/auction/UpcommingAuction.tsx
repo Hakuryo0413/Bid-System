@@ -17,9 +17,9 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
           try {
             const result = await successBidder(auctionDetails?.participants ?? []);
             if (result) {
-              setSuccessfulBidder(result.successbidder); // Extract successbidder property from result
+              setParticipant(result.successbidder); // Extract successbidder property from result
             } else {
-              setSuccessfulBidder(null); // Handle case where result is falsy (e.g., null or undefined)
+              setParticipant(null); // Handle case where result is falsy (e.g., null or undefined)
             }
           } catch (error) {
             // Handle error if necessary
@@ -30,7 +30,7 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
       }, [auctionDetails]); // Dependency array ensures useEffect runs when auctionDetails changes
       
       // Define state to hold the result of successBidder
-      const [successfulBidder, setSuccessfulBidder] = useState<ParticipantInterface | null>(null);
+      const [participant, setParticipant] = useState<ParticipantInterface[] | null>(null);
     
 
     

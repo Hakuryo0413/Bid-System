@@ -64,7 +64,7 @@ const ConfirmSuccessfulBidder: React.FC<ConfirmSuccessfulBidderProps> = ({ code,
             />
             </div>
         </div>
-        <div className="text-background min-h-[100px] w-auto mx-8 my-4 md:text-[18px] text-small">
+        <div className="text-background min-h-[100px] w-auto mx-8 my-4 md:text-[15px] text-sm">
             <div className="text-left mb-8">
                 <div className="mb-2">
                     <p className="font-bold">Họ và tên người đấu giá thành công</p>

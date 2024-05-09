@@ -24,6 +24,7 @@ export const getRoomByCode = async (code: string): Promise<any> => {
             url: `${apiConfig.roomCode}/${code}`,
             method: "get",
         };
+        console.log("Lấy phiên đấu giá!")
         const response = await api(config);
         return response.data;
     } catch (error) {

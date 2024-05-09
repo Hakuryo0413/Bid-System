@@ -117,7 +117,7 @@ const ViewBidder: React.FC<ViewBidderProps> = ({ code }) => {
               calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) < (ViewBidder?.time_limit ?? 0) * 60 ? (
                     <HappeningAuction auctionDetails={ViewBidder} fromHappeningList={false} />
                 ) : (
-                    <CompletedAuction auctionDetails={ViewBidder}/>
+                    <CompletedAuction auctionDetails={ViewBidder} fromHappeningList={false}/>
                 )
             )}
 

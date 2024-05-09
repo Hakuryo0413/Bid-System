@@ -135,7 +135,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         {headCell.id === "highest_price" && (
                             <TableSortLabel
                                 active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
+                                direction={orderBy === headCell.id ? order : 'desc'}
                                 onClick={createSortHandler(headCell.id)}
                             >
                                 {headCell.label}
@@ -190,7 +190,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
   }, [dispatch]);
 
   
-    const [order, setOrder] = React.useState<Order>('asc');
+    const [order, setOrder] = React.useState<Order>('desc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('highest_price');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
