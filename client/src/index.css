@@ -31,6 +31,9 @@ body {
   .badge {
     @apply justify-between items-center bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2;
   }
+  .goto {
+    @apply justify-between items-center bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md absolute top-2 left-2 p-2;
+  }
 }
 
 
