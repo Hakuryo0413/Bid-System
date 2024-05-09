@@ -12,7 +12,7 @@ import Conversations from "./user/UserConversations";
 import Message from "./user/UserMessage";
 import { Tooltip } from "@material-tailwind/react";
 import { IoPaperPlaneSharp } from "react-icons/io5";
-import { ChatList, IChatItemProps } from "react-chat-elements";
+// import { ChatList, IChatItemProps } from "react-chat-elements";
 import { ConversationInterface, MessagesInterface } from "../../types/messengerInterface";
 import SearchConversation from "./user/SearchConversations";
 

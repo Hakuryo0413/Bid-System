@@ -7,7 +7,7 @@ const HistoryAunctionCard = ({
   historyAuction: HistoryInterface;
   cardState: String;
 }) => {
-  const { sim, room, created_at } = historyAuction;
+  const {_id, sim, room, created_at } = historyAuction;
   const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
 
   return (
@@ -17,10 +17,10 @@ const HistoryAunctionCard = ({
       <td>{formattedCreatedAt}</td>
       {cardState === "chưa thanh toán" ? (
         <td>
-          <a className="button Bpay" href={`/user/payment/${sim}`}>
+          <a className="button Bpay" href={`/user/payment/${room}/${sim}/${_id}`}>
             Thanh toán
           </a>
-          <a className="button BDpay" href={`/user/cancel/${sim}`}>
+          <a className="button BDpay" href={`/user/cancel/${room}/${sim}/${_id}`}>
             Hủy thanh toán
           </a>
         </td>

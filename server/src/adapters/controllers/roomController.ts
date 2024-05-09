@@ -3,7 +3,7 @@ import { roomDbInterface } from "../../app/repositories/roomDbRepository";
 import { roomModel } from "../../frameworks/database/mongoDb/models/roomModel";
 import { roomRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/roomRepositoryMongoDB";
 import { CustomRequest } from "../../types/expressRequest";
-import { createRoom, deleteRoom, findAllRooms, findRoomByAccount, findRoomByCode, findRoomByProvider, findRoomOngoing, updatedRoom } from "../../app/useCases/room/room";
+import { createRoom, deleteRoom, findAllRooms, findRoomByAccount, findRoomByCode, findRoomByPhone, findRoomByProvider, findRoomOngoing, updatedRoom } from "../../app/useCases/room/room";
 import { Request, Response } from "express";
 import { roomInterface } from "../../types/roomInterface";
 import AppError from "../../utils/appError";
@@ -21,6 +21,14 @@ export const roomController = (
             const { code } = req.params;
             console.log(code)
             const rooms = await findRoomByCode(code, dbRepositoryRoom);
+            res.json(rooms);
+        }
+    );
+
+    const getRoomByPhone = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const { phone } = req.params;
+            const rooms = await findRoomByPhone(phone, dbRepositoryRoom);
             res.json(rooms);
         }
     );
@@ -107,6 +115,7 @@ export const roomController = (
     return{
         getRoomByCode,
         getRoomByAccount,
+        getRoomByPhone,
         getAllRoom,
         getRoomByProvider,
         getRoomOngoing,

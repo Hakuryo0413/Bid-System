@@ -9,6 +9,10 @@ export const roomDbRepository = (
         const room = await repository.getRoomByCode(code);
         return room;
     }
+    const getRoomByPhone = async (phone: string) => {
+        const room = await repository.getRoomByPhone(phone);
+        return room;
+    }
     const getRoomByAccount = async (email: string) => {
         const room = await repository.getRoomByAccount(email);
         return room;
@@ -45,7 +49,8 @@ export const roomDbRepository = (
         updateRoom,
         deleteRoom,
         getAllRoom,
-        getRoomOngoing
+        getRoomOngoing,
+        getRoomByPhone
     }
 }
 

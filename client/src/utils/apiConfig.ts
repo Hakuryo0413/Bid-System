@@ -29,6 +29,7 @@ const apiConfig = {
 
     roomAccount: `${configKeys.API_URL}room/room-data/email`,
     roomCode: `${configKeys.API_URL}room/room-data/code`,
+    roomPhone: `${configKeys.API_URL}room/room-data/phone`,
     roomProvider: `${configKeys.API_URL}room/room-data/provider`,
     allRooms: `${configKeys.API_URL}room/all-rooms`,
     ongogingRooms: `${configKeys.API_URL}room/ongoging-rooms`,
