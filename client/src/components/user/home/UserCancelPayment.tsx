@@ -4,17 +4,30 @@ import { getAccountsByEmail } from "../../../features/axios/api/account/Accounts
 import { getSimByNumber } from "../../../features/axios/api/sim/SimDetails";
 import { useParams } from "react-router-dom";
 import { getRoomByCode } from "../../../features/axios/api/room/RoomDetails";
+import { HistoryInterface } from "../../../types/HistoryInterface";
+import { getHistoryById } from "../../../features/axios/api/history/HistoryDetails";
+import { updateHistory } from "../../../features/axios/api/history/UpdateHistory";
+import {
+  ParticipantInterface,
+  RoomInterface,
+} from "../../../types/RoomInterface";
+import { updateRoom } from "../../../features/axios/api/room/UpdateRoom";
+import createNewNotification from "../../../features/axios/api/notification/CreateNotification";
+import { NotificationInterface } from "../../../types/NotificationInterface";
 
 function UserCancelPayment() {
-  const { number, code } = useParams();
+  const { number, code, historyId } = useParams();
   const navigate = useNavigate();
   console.log(number);
   const [name, setName] = useState("");
   const [email, setEmail] = useState(localStorage.getItem("username") || "");
   const [provider, setProvider] = useState("");
   const [sim, setSim] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState<RoomInterface>();
   const [lastPrice, setLastPrice] = useState(0);
+  const [historyInfo, setHistoryInfo] = useState<HistoryInterface>();
+  const [noti, setNoti] = useState<NotificationInterface>();
+  const [particinpants, setParticipants] = useState<ParticipantInterface[]>();
   const getData = async (email: string) => {
     const data = await getAccountsByEmail(email);
     setName(data.name);
@@ -40,13 +53,68 @@ function UserCancelPayment() {
       getDataSim(number);
     }
   }, [number]);
+  useEffect(() => {
+    const getHistory = async (id: string) => {
+      try {
+        const data = await getHistoryById(id);
+        console.log(data);
+        setHistoryInfo(data);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+    if (historyId) {
+      getHistory(historyId);
+    }
+  }, [historyId]);
+
+  // const createNoti = async (email: string) => {
+  //   const data: NotificationInterface = {};
+  //   data.account = particinpants?.[2].email;
+  //   data.type = "traTien";
+  //   data.content = "Chúc mừng bạn đã đấu giá thành công";
+  //   data.from = email;
+  //   data.state = false;
+  //   const res = await createNewNotification(data);
+  //   console.log(res);
+  //   /* setNoti(res); */
+  // }
+
+  const updateHis = async () => {
+    if (historyInfo) {
+      console.log(historyInfo);
+      historyInfo.state = "Đã hủy thanh toán";
+      await updateHistory(historyInfo);
+    }
+  };
+  const updateRoomParticipant = async () => {
+    if (room) {
+      room.state = "Chưa gửi thông báo";
+      room.participants = room.participants?.filter((p) => p.email !== email);
+      await updateRoom(room);
+    }
+  };
+
+  useEffect(() => {
+    updateRoomParticipant();
+  }, [updateHis]);
+  
+  const paymentCancel = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    updateHis();
+    // createNoti(email);
+
+    navigate("/auction/history");
+  };
 
   useEffect(() => {
     const getRoom = async (code: string) => {
       try {
         const data = await getRoomByCode(code);
-        console.log(data);
-        setRoom(data.code);
+        /*         setParticipants(data.participants);
+         */ console.log(data);
+        console.log(data.participants);
+        setRoom(data);
       } catch (error) {
         console.error("Error fetching SIM data:", error);
         // Xử lý lỗi tại đây nếu cần
@@ -86,7 +154,7 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Phiên đấu giá:
-                <span className="ml-2">{room}</span>
+                <span className="ml-2">{room?.code}</span>
               </label>
             </div>
             <div className="sm:col-span-2">
@@ -151,7 +219,7 @@ function UserCancelPayment() {
             Huỷ
           </button>
           <button
-            type="submit"
+            onClick={paymentCancel}
             className="hover:bg-green-500 border-2 border-border text-white px-4 w-32 py-2 mx-4 rounded-lg"
           >
             Xác nhận

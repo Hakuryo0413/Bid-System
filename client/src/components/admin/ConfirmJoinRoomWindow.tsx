@@ -67,6 +67,7 @@ const ConfirmJoinRoomWindow: React.FC<ConfirmJoinRoomWindowProps> = ({
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
       : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+      
   const buttonHandle = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (roomInfor && roomInfor?.participants && accountDetails) {
       let isParticipantExisting = roomInfor.participants.some((participant) => {
