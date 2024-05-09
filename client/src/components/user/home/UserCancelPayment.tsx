@@ -84,7 +84,7 @@ function UserCancelPayment() {
   const updateHis = async () => {
     if (historyInfo) {
       console.log(historyInfo);
-      historyInfo.state = "Đã hủy thanh toán";
+      historyInfo.state = "Đã hủy";
       await updateHistory(historyInfo);
     }
   };
@@ -99,7 +99,7 @@ function UserCancelPayment() {
   useEffect(() => {
     updateRoomParticipant();
   }, [updateHis]);
-  
+
   const paymentCancel = async (event: React.MouseEvent<HTMLButtonElement>) => {
     updateHis();
     // createNoti(email);
