@@ -14,6 +14,10 @@ import { accountData } from "../../features/axios/api/account/AccountsDetail";
 import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
 import { loginSuccess } from "../../features/redux/slices/account/accountLoginAuthSlice";
 import { userInterface } from "../../types/UserInterface";
+import { getSimByNumber } from "../../features/axios/api/sim/SimDetails";
+import { SimInterface } from "../../types/SimInterface";
+import AuctionInfor from "./AuctionInfor";
+import { NotificationInterface } from "../../types/NotificationInterface";
 
 interface HappeningAuctionProps {
   auctionDetails: RoomInterface;
@@ -25,6 +29,21 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
   const dispatch = useDispatch();
   
   const [accountDetails, setAccountDetails] = useState<userInterface>();
+  const [hasError, setHasError] = useState(false); 
+  const [error, setError] = useState('');
+  const [price, setPrice] = useState<number | null>(null);
+
+  const handlePriceChange = (value: number) => {
+      setPrice(value);// Assuming the current highest price is 50,000
+
+      if (auctionDetails && auctionDetails?.price) {
+        if (value <= auctionDetails?.price) {
+            setError(`*Giá đưa ra phải lớn hơn giá cao nhất hiện tại là ${formatMoney(auctionDetails.price)} đồng.`);
+        } else {
+            setError('');
+        }
+      }
+  };
 
   const getAccountDetails = async () => {
     const data = await accountData();
@@ -68,15 +87,24 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
       userInfo();
   }, []);
 
-  const [price, setPrice] = useState<number | null>(null);
-  const handlePriceChange = (value: number) => {
-    if(value) {
-      setPrice(value);
-    } else {
-      setPrice(0)
-    }
-    
-  };
+  // const [SimInfor, setSimInfor] = useState<SimInterface>();
+  // useEffect(() => {
+  //   const userInfo = async () => {
+  //     try {
+  //       const data = await getSimByNumber(auctionDetails.phone ?? '');
+  //       setSimInfor(data);
+  //       setHasError(false);
+  //     }
+  //     catch (error) {
+  //       setSimInfor(undefined);
+  //       setHasError(true);
+  //     }
+  //   };
+  //   userInfo();
+  // }, [AuctionInfor]);
+  
+  
+
 
   const buttonHandle = async (event: React.MouseEvent<HTMLButtonElement>) => {
       if (auctionInfor && auctionInfor?.participants && accountDetails) {
@@ -89,6 +117,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
           }
 
           auctionInfor.participants.push(participant)
+          auctionInfor.price = participant.highest_price
           updateRoom(auctionInfor)
           setShowModal(false)
           const reloadPage = () => {
@@ -108,9 +137,9 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
           try {
             const result = await successBidder(auctionDetails?.participants ?? []);
             if (result) {
-              setSuccessfulBidder(result.successbidder); // Extract successbidder property from result
+              setParticipant(result.successbidder); // Extract successbidder property from result
             } else {
-              setSuccessfulBidder(null); // Handle case where result is falsy (e.g., null or undefined)
+              setParticipant(null); // Handle case where result is falsy (e.g., null or undefined)
             }
           } catch (error) {
             // Handle error if necessary
@@ -121,7 +150,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
       }, [auctionDetails]); // Dependency array ensures useEffect runs when auctionDetails changes
       
       // Define state to hold the result of successBidder
-      const [successfulBidder, setSuccessfulBidder] = useState<ParticipantInterface | null>(null);
+      const [participant, setParticipant] = useState<ParticipantInterface[] | null>(null);
     
 
     
@@ -174,19 +203,26 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </p>
 
               <p className="text-white mb-2">
-                    <strong> Thời gian còn lại: </strong>{-timeDisplay.minutes}:{-timeDisplay.seconds}
+                    <strong> Thời gian còn lại: </strong>{-timeDisplay.days} ngày {-timeDisplay.hours} giờ {-timeDisplay.minutes} phút {-timeDisplay.seconds} giây
               </p>
               
-              
+          </div>
 
-              
+          <div className="grid lg:grid-cols-2">
+              <p className="text-white mb-2">
+                <strong>Nhà cung cấp: </strong>{auctionDetails.provider}
+              </p>
+
+              <p className="text-white mb-2">
+                  {/* <strong>Giá khởi điểm: </strong> {formatMoney(SimInfor?.starting_price ?? 0)} */}
+              </p>
           </div>
 
           <div className="border-2 border-white mb-2"></div>
 
           <div className="grid lg:grid-cols-2">
             <p className="text-white mb-2 lg:mb-0">
-            <strong>Giá cao nhất: </strong>{formatMoney(successfulBidder?.highest_price ?? 0)}
+            <strong>Giá cao nhất: </strong>{formatMoney(participant ? (participant.length > 0 ? participant[0].highest_price : 0) : 0)}
             </p>
             
             {
@@ -244,11 +280,11 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
                   id="exampleFormControlInput1"
                   placeholder="Vui lòng nhập số tiền." />
                 
-                <div
-                className="absolute w-full text-[10px] left-3 text-red-200"
-                data-twe-input-helper-ref>
-                *Lưu ý: Giá đưa ra phải lớn hơn giá cao nhất hiện tại là 50,000 đồng.
-              </div>
+                <div className="flex items-center text-[10px] text-red-800" role="alert">
+                  <div className="flex justify-start">
+                    {error && <span>{error}</span>}
+                  </div>
+                </div>
               </div>
 
               <div className="flex justify-center">

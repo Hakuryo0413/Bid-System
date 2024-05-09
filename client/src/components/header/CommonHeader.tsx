@@ -1,5 +1,8 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
+import { useAuctionData } from "../auction/utils/utils";
+
 
 //************************************
 // Description: Phần Header cho trang chung của người dùng.
@@ -9,7 +12,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 /* const navigation = [
   { name: "DS công bố", href: "/auction-list", current: false },
   { name: "Sim sắp đấu giá", href: "/upcomming-auction-list", current: false },
-  { name: "Kết quả đấu giá", href: "/statistic", current: false },
+  { name: "Kết quả đấu giá", href: "/auction/completed", current: false },
   { name: "Thông báo đấu giá", href: "/", current: false },
 ]; */
 
@@ -19,6 +22,13 @@ function classNames(...classes: string[]) {
 }
 
 function CommonHeader() {
+  const [allAuctions, completedAuctions] = useAuctionData();
+
+  // Example useEffect hook that runs when `completedAuctions` changes
+  useEffect(() => {
+    console.log("Completed auctions updated:", completedAuctions);
+  }, [completedAuctions]);
+
   return (
     <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
