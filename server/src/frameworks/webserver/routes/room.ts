@@ -17,6 +17,7 @@ const roomRoute = () => {
     );
     route.get('/room-data/email/:email' , controller.getRoomByAccount);
     route.get('/room-data/code/:code',  controller.getRoomByCode);
+    route.get('/room-data/phone/:phone',  controller.getRoomByPhone);
     route.get('/all-rooms',  controller.getAllRoom);
     route.get('/room-data/provider/:provider',controller.getRoomByProvider);
     route.get('ongoging-rooms/:date',controller.getRoomOngoing);
