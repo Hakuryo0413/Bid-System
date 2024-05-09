@@ -129,10 +129,10 @@ const HistoryAuction = () => {
       <UserHomePage />
 
       <div className="container content" style={{ display: "flex" }}>
-        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('chưa thanh toán')}>
+        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Chưa thanh toán')}>
           Chưa thanh toán
         </button>
-        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('đã thanh toán')}>
+        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Đã thanh toán')}>
           Đã thanh toán
         </button>
         <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Đã hủy')}>
