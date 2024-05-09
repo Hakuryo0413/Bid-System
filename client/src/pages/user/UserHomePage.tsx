@@ -13,6 +13,7 @@ import UserHeader from "../../components/header/UserHeader";
 import HistoryAuction from "../auction/HistoryAuctionPage";
 import SimWaitingList from "../../components/user/home/SimWaitingList";
 import UserMessenger from "../messenger/UserMessenger";
+import QRThanhToan from "../../components/user/home/QRThanhToan";
 
 function UserHomePage() {
   return (
@@ -36,6 +37,7 @@ function UserHomePage() {
               element={<UserCancelPayment />}
             />
             <Route path="/messager" element={<UserMessenger/>} />
+            <Route path="/payment/QRCode" element={<QRThanhToan />} />
 
             {/* Add more routes here */}
           </Routes>
