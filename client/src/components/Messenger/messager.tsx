@@ -6,7 +6,7 @@ import { loginSuccess } from "../../features/redux/slices/account/accountLoginAu
 import { accountData } from "../../features/axios/api/account/AccountsDetail";
 import configKeys from "../../utils/config";
 import { fetchUser } from "../../features/redux/slices/account/accountDetailsSlice";
-import { getUserConversations } from "../../features/axios/api/messenger/conversation";
+import { createConversation, getUserConversations } from "../../features/axios/api/messenger/conversation";
 import { getUserMessages, postUserMessages } from "../../features/axios/api/messenger/messages";
 import Conversations from "./user/UserConversations";
 import Message from "./user/UserMessage";
@@ -33,7 +33,28 @@ function Messenger() {
   const [newMessage, setNewMessage] = useState<string>("");
   const [arrivalMessage, setArrivalMessage] = useState<arrivalMessage>({} as arrivalMessage);
   const [onlineUsers, setOnlineUsers] = useState<userInterface[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<userInterface | null>(null);
 
+  // Define function to handle selected account
+  const handleSelectedAccount = (account: userInterface) => {
+    // Set selected account to state
+    setSelectedAccount(account);
+  };
+
+
+  useEffect(() => {
+    if (selectedAccount) {
+      const createConv = async () => {
+        if (user?._id && selectedAccount._id) {
+          const res = await createConversation(user?._id, selectedAccount._id);
+          if (res) {
+            getConversations();
+          }
+        }
+      };
+      createConv();
+    }
+  }, [selectedAccount])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -83,18 +104,19 @@ function Messenger() {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    const getConversations = async () => {
-      if (user) {
-        if (user._id) {
-          const res = await getUserConversations(user?._id);
-          if (res == null) {
-            return;
-          }
-          setConversations(res);
+  const getConversations = async () => {
+    if (user) {
+      if (user._id) {
+        const res = await getUserConversations(user?._id);
+        if (res == null) {
+          return;
         }
+        setConversations(res);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     getConversations();
   }, [user]);
 
@@ -158,7 +180,7 @@ function Messenger() {
         {/* svg lock button  */}
       </div>
       {/* add search user to create new conversation*/}
-      <SearchConversation />
+      <SearchConversation onSelectAccount={handleSelectedAccount} />
       <div className="pt-4 h-screen pb-[70px] flex mx-auto p-2 mt-4 rounded border border-border rounded-2xl text-white">
         <div className="flex-auto p-3 w-1/3">
           <div>
