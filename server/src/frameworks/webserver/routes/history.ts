@@ -6,9 +6,8 @@ import { historyRepositoryMongoDB } from "../../database/mongoDb/repositories/hi
 import { History } from "../../database/mongoDb/models/historyModel";
 import authenticationMiddleware from "../middleware/authenticationMiddleware";
 
-
 const historyRoute = () => {
-    const route = express.Router();
+  const route = express.Router();
 
     const controller = historyController(
         historyDbRepository,
@@ -21,7 +20,7 @@ const historyRoute = () => {
     route.put('/update-history', controller.updateHistory);
     route.post('/create', controller.historyCreate);
 
-    return route;
-}
+  return route;
+};
 
 export default historyRoute;

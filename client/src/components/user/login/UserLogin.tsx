@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { LoginPayload } from "../../../types/PayloadInterface";
+import { ForgotPasswordPayload, LoginPayload } from "../../../types/PayloadInterface";
 import { userLoginValidationSchema } from "../../../utils/validation";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -21,6 +21,7 @@ import {
   getAccountsByEmail,
 } from "../../../features/axios/api/account/AccountsDetail";
 import { set } from "lodash";
+import { forgot_password } from "../../../features/axios/api/account/forgotPassword";
 
 //************************************
 // Description: Phần Đăng nhập tài khoản
@@ -43,7 +44,15 @@ function ForgotPasswordForm({ setForgotPassword }: { setForgotPassword: any }) {
       if (data) {
         setCheckEmail(true);
         console.log("checkEmail má", email);
+      forgot_password({email: email.email} as ForgotPasswordPayload)
+      .then((response) => {
         notify("Email đã được gửi", "success");
+      })
+      .catch((error: any) => {
+        console.log("huhu");
+        notify(error.message, "error");
+      });
+        // notify("Email đã được gửi", "success");
         setForgotPassword(false);
         return data;
       }
@@ -156,8 +165,8 @@ export default function UserLogin() {
           } else if (accountDetails?.role === "provider") {
             navigate("/provider/home");
           } else {
-            // navigate("/user/home");
             navigate("/user/home");
+            // navigate("/test/tesdb");
           }
         }
       }

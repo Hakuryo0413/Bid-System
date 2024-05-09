@@ -6,8 +6,11 @@ import { get, set } from 'lodash';
 import { createConversation } from '../../../features/axios/api/messenger/conversation';
 
 
+interface SearchConversationProps {
+    onSelectAccount: (account: userInterface) => void;
+}
 
-function SearchConversation() {
+function SearchConversation({ onSelectAccount }: SearchConversationProps) {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<userInterface[]>([]);
@@ -45,12 +48,7 @@ function SearchConversation() {
     const setSelectedUserAccount = (account: userInterface) => {
         setSelectedUser(account);
         setIsResultsVisible(false);
-        console.log("Account", account);
-        console.log(account._id, "|", accountDetails?._id);
-        if (accountDetails?._id && account._id) {
-            createConversation(accountDetails?._id, account._id);
-        }
-        // This effect runs whenever selectedUser or currentUser changes
+        onSelectAccount(account);
     }
 
     return (

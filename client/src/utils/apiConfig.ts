@@ -10,6 +10,7 @@ const apiConfig = {
     allAccounts: `${configKeys.API_URL}account/all-accounts`,
     deleteAccountId: `${configKeys.API_URL}account/delete-account`,
     updateAccount: `${configKeys.API_URL}account/update-account`,
+    forgotPassword: `${configKeys.API_URL}account/forgot-password`,
 
     createAccount: `${configKeys.API_URL}account-auth/create`,
     login: `${configKeys.API_URL}account-auth/login`,
@@ -28,6 +29,7 @@ const apiConfig = {
 
     roomAccount: `${configKeys.API_URL}room/room-data/email`,
     roomCode: `${configKeys.API_URL}room/room-data/code`,
+    roomPhone: `${configKeys.API_URL}room/room-data/phone`,
     roomProvider: `${configKeys.API_URL}room/room-data/provider`,
     allRooms: `${configKeys.API_URL}room/all-rooms`,
     ongogingRooms: `${configKeys.API_URL}room/ongoging-rooms`,

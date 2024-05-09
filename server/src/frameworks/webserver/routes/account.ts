@@ -23,7 +23,7 @@ const accountRoute = () => {
     route.get('/all-accounts', authenticationMiddleware,  controller.getAllAccount);
     route.put('/update-account',  controller.updateAccount);
     route.delete('/delete-account/:id', authenticationMiddleware,  controller.deleteAccountById);
-
+    route.put('/forgot-password',  controller.forgot_password);
     return route;
 }
 

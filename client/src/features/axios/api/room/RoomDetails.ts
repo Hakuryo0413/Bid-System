@@ -32,6 +32,19 @@ export const getRoomByCode = async (code: string): Promise<any> => {
     }
 }
 
+export const getRoomByPhone = async (phone: string): Promise<any> => {
+    try {
+        const config: AxiosRequestConfig = {
+            url: `${apiConfig.roomPhone}/${phone}`,
+            method: "get",
+        };
+        const response = await api(config);
+        return response.data;
+    } catch (error) {
+        throw new Error("Gặp lỗi khi lấy dữ liệu về room");
+    }
+}
+
 export const getRoomByProvider = async (email: string): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {

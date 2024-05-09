@@ -124,3 +124,20 @@ export const findRoomByCode = async (
         throw new Error("Failed to find room")
     }
 }
+
+export const findRoomByPhone = async (
+    phone: string,
+    roomRepository: ReturnType<roomDbInterface>
+) => {
+    try {
+        const results = await roomRepository.getRoomByPhone(phone);
+        if (!results) {
+            throw new AppError("not found", HttpStatus.BAD_REQUEST);
+        }
+        return results;
+    } catch (error: any) {
+        console.log(error)
+        throw new Error("Failed to find room")
+    }
+}
+

@@ -13,35 +13,42 @@ import UserHeader from "../../components/header/UserHeader";
 import HistoryAuction from "../auction/HistoryAuctionPage";
 import SimWaitingList from "../../components/user/home/SimWaitingList";
 import UserMessenger from "../messenger/UserMessenger";
+import QRThanhToan from "../../components/user/home/QRThanhToan";
 
 function UserHomePage() {
   return (
     <div>
       <UserHeader />
-      <div className = "grid-cols-5">
+      <div className="grid-cols-5">
+        <div className="flex col-span-1">
+          <div className="w-1/5">
+            <Sidenav routes={NavRoutes} />
+          </div>
+          {/* import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the missing component */}
 
-      <div className="flex col-span-1">
-        <div className="w-1/5">
-          <Sidenav routes={NavRoutes} />
-        </div>
-        {/* import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the missing component */}
+          <div className="w-4/5 pl-6 pr-6">
+            <Routes>
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/waiting_list" element={<SimWaitingList />} />
+              <Route
+                path="/payment/:code/:number/:historyId"
+                element={<UserPayment />}
+              />
+                <Route path="/payment/QRCode" element={<QRThanhToan />} />
+              <Route
+                path="/cancel/:code/:number/:historyId"
+                element={<UserCancelPayment />}
+              />
+              <Route path="/messager" element={<UserMessenger />} />
 
-        <div className="w-4/5 pl-6 pr-6">
-          <Routes>
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/waiting_list"  element={<SimWaitingList />} />
-            <Route path="/payment/:code/:number" element={<UserPayment />} />
-            <Route
-              path="/cancel/:code/:number"
-              element={<UserCancelPayment />}
-            />
-            <Route path="/messager" element={<UserMessenger/>} />
-
+        
+            
             {/* Add more routes here */}
           </Routes>
+          
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
