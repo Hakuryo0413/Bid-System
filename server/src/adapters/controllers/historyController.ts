@@ -17,9 +17,9 @@ export const historyController = (
     const dbRepositoryHistory = historyDbRepository(historyDbRepositoryImpl(historyModel));
 
     const getHistoryById = expressAsyncHandler(
-        async (req: Request, res: Response) => {
-            const customReq = req as CustomRequest;
-            const id = customReq.payload ?? "";
+        async (req: Request, res: Response) =>{
+            const id = req.params.id;
+            console.log(id);
             const history = await findHistoryById(id, dbRepositoryHistory);
             res.json(history);
         }

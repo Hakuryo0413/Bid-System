@@ -3,23 +3,31 @@ import { Checkbox } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
-import { get, set } from "lodash";
+import { get, set, update } from "lodash";
 import { getSimByNumber } from "../../../features/axios/api/sim/SimDetails";
 import { getRoomByCode } from "../../../features/axios/api/room/RoomDetails";
+import { HistoryInterface } from "../../../types/HistoryInterface";
+import { updateHistory } from "../../../features/axios/api/history/UpdateHistory";
+import { getHistoryById } from "../../../features/axios/api/history/HistoryDetails";
+import { RoomInterface } from "../../../types/RoomInterface";
+import { updateRoom } from "../../../features/axios/api/room/UpdateRoom";
+
 
 function UserPayment() {
-  const { number, code } = useParams();
+  const { number, code, historyId } = useParams();
 
   console.log(number);
   console.log(code);
+  console.log(historyId);
   const navigate = useNavigate();
   const [name, setName] = useState("");
 
   const [email, setEmail] = useState(localStorage.getItem("username") || "");
   const [provider, setProvider] = useState("");
   const [sim, setSim] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState<RoomInterface>();
   const [lastPrice, setLastPrice] = useState(0);
+  const [historyInfo, setHistoryInfo] = useState<HistoryInterface>();
   const handleClick = () => {
     navigate("/auction/history");
   };
@@ -27,6 +35,41 @@ function UserPayment() {
     const data = await getAccountsByEmail(email);
     setName(data.name);
   };
+
+  useEffect(() => {
+    const getHistory = async (id: string) => {
+      try {
+        const data = await getHistoryById(id);
+        console.log(data);
+        setHistoryInfo(data);
+      } catch (error) {
+        console.error("Error fetching SIM data:", error);
+        // Xử lý lỗi tại đây nếu cần
+      }
+    };
+    if (historyId) {
+      getHistory(historyId);
+      console.log(historyInfo, "ewfwe");
+    }
+  }, [historyId]);
+
+  const paymentSuccess = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    /* alert("ok"); */
+
+    if (historyInfo) {
+      console.log("test");
+      console.log(historyInfo);
+      historyInfo.state = "Đã thanh toán";
+      updateHistory(historyInfo);
+    }
+    if (room) {
+      room.state = "Đã thanh toán";
+      updateRoom(room);
+    }
+    navigate("/auction/history");
+
+  };
+
   useEffect(() => {
     const getDataSim = async (number: string) => {
       try {
@@ -45,17 +88,17 @@ function UserPayment() {
       getDataSim(number);
     }
   }, [number]);
+  const getRoom = async (code: string) => {
+    try {
+      const data = await getRoomByCode(code);
+      console.log(data);
+      setRoom(data.code);
+    } catch (error) {
+      console.error("Error fetching SIM data:", error);
+      // Xử lý lỗi tại đây nếu cần
+    }
+  };
   useEffect(() => {
-    const getRoom = async (code: string) => {
-      try {
-        const data = await getRoomByCode(code);
-        console.log(data);
-        setRoom(data.code);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
     if (code) {
       getRoom(code);
     }
@@ -65,6 +108,7 @@ function UserPayment() {
     console.log(email);
     getData(email);
   }, []);
+
   return (
     <div>
       <div className="border border-border rounded-2xl text-white  ">
@@ -90,7 +134,7 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Phiên đấu giá:
-                  <span className="ml-2">{room}</span>
+                  <span className="ml-2">{room?._id}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
@@ -123,7 +167,7 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block font-medium leading-6 text-white">
                   Phiên đấu giá:
-                  <span className="ml-2">{room}</span>
+                  <span className="ml-2">{room?.code}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
@@ -182,9 +226,7 @@ function UserPayment() {
                 Huỷ
               </button>
               <button
-                onClick={() => {
-                  navigate("/user/payment/QRCode");
-                }}
+                onClick={paymentSuccess}
                 className="hover:bg-green-500 border-2 border-border text-white px-2 w-32 py-2 mx-4 rounded-lg"
               >
                 Thanh toán
