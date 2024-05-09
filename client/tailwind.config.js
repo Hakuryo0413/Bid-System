@@ -42,6 +42,7 @@ export default withMT({
         border: "#27364B",
         textTable: "#94a3b8",
         primary: "#111A29",
+        bgDefault: "rgb(15,26,42)",
       },
     },
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],

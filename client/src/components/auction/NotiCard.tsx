@@ -1,7 +1,8 @@
 import { NotificationInterface } from "../../types/NotificationInterface";
 import { Link } from "react-router-dom"; // Đảm bảo bạn import Link từ react-router-dom
+import { updateNotification } from "../../features/axios/api/notification/UpdateNotification";
 
-const NotiCard = ({ noti, onDelete }: { noti: NotificationInterface; onDelete: (id: string) => void; }) => {
+const NotiCard = ({ noti, onDelete, reLoad, currentState }: { noti: NotificationInterface; onDelete: (id: string) => void; reLoad: () => void; currentState: Boolean }) => {
   const { _id, from, content, created_at, type } = noti;
   const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
 
@@ -12,6 +13,13 @@ const NotiCard = ({ noti, onDelete }: { noti: NotificationInterface; onDelete: (
     }
   };
 
+  const handleChangeState = async () => {
+    if (noti) {
+      noti.state = !noti.state;
+      updateNotification(noti);
+      reLoad();
+    }
+  }
   const goToLink = () => {
     switch (type) {
       case "duyetProvider":
@@ -32,11 +40,19 @@ const NotiCard = ({ noti, onDelete }: { noti: NotificationInterface; onDelete: (
       <span className="ml-2 mr-2 mt-4 p-2 bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md ">From: {from}</span>
       <button onClick={handleDelete} className="bg-gradient-to-r from-[#e45757] to-[#f01212] rounded-md mt-4 p-1 text-gray-50
               hover:shadow-md hover:shadow-[#d5b7b7]">Delete</button>
+
       {type && (
         <Link to={goToLink()}>
           <button className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md mt-4 p-1 ml-2  hover:shadow-md hover:shadow-[#d5b7b7]">Go to</button>
         </Link>
       )}
+      {currentState == false ? (
+        <button onClick={() => handleChangeState()} className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md mt-4 p-1 ml-2  hover:shadow-md hover:shadow-[#d5b7b7]">Đánh dấu là đã đọc</button>
+      ) : (
+        <button onClick={() => handleChangeState()} className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md mt-4 p-1 ml-2  hover:shadow-md hover:shadow-[#d5b7b7]">Đánh dấu là chưa đọc</button>
+      )
+      }
+
       {/* <div className="flex justify-start items-start">
         <span className="mr-4 bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2">{from}</span>
         {type && (
