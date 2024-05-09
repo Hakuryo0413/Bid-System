@@ -12,7 +12,6 @@ import { getHistoryById } from "../../../features/axios/api/history/HistoryDetai
 import { RoomInterface } from "../../../types/RoomInterface";
 import { updateRoom } from "../../../features/axios/api/room/UpdateRoom";
 
-
 function UserPayment() {
   const { number, code, historyId } = useParams();
 
@@ -52,22 +51,28 @@ function UserPayment() {
       console.log(historyInfo, "ewfwe");
     }
   }, [historyId]);
-
-  const paymentSuccess = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    /* alert("ok"); */
-
+  const updateHis = async () => {
     if (historyInfo) {
       console.log("test");
       console.log(historyInfo);
       historyInfo.state = "Đã thanh toán";
       updateHistory(historyInfo);
     }
+  };
+  const updateRoomDetails = async () => {
     if (room) {
       room.state = "Đã thanh toán";
       updateRoom(room);
     }
-    navigate("/auction/history");
+  };
 
+  useEffect(() => {
+    updateRoomDetails();
+  }, [updateHis]);
+  const paymentSuccess = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    updateHis();
+
+    navigate("/user/payment/QRCode");
   };
 
   useEffect(() => {
@@ -92,7 +97,7 @@ function UserPayment() {
     try {
       const data = await getRoomByCode(code);
       console.log(data);
-      setRoom(data.code);
+      setRoom(data);
     } catch (error) {
       console.error("Error fetching SIM data:", error);
       // Xử lý lỗi tại đây nếu cần
