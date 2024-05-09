@@ -10,6 +10,8 @@ import AppError from "../../utils/appError";
 import { HttpStatus } from "../../types/httpStatus";
 import { authService } from "../../frameworks/services/authService";
 import { authServiceInterface } from "../../app/services/authServiceInterface";
+import { emailService } from "../../frameworks/services/emailService";
+import configKeys from "../../config";
 
 export const accountController = (
     accountDbRepository: accountDbInterface,
@@ -101,59 +103,33 @@ export const accountController = (
                 const id = account._id.toString();
                 const authServices = authServiceInterface(authService());
 
-                account.password = await authServices.encryptPassword(account.password ?? "");
+                const password =  "Abc123" //authServices.randomPassword();
+                account.password = await authServices.encryptPassword(password ?? "");
 
                 if (account._id) {
-                    const updateAccountData = await updatedAccount(
+                    await updatedAccount(
                         id,
                         account,
                         dbRepositoryAccount
                     );
+                }
 
+                if (account.email) {
+                    await emailService().send_email(
+                        configKeys.EMAIL_USER,
+                        account.email,
+                        `password = ${password}`,
+                        "QUEN MAT KHAU",
+                    )
                 }
             }
 
-
+            res.json({
+                status: "success",
+                message: "Reset pass successfully"
+            });
         }
     )
-
-    // const forgot_password = async (req, res) => {
-    //     try {
-    //         if (!check_required_field(req.body, ["email"])) {
-    //             logger.error(`${statusCode.HTTP_400_BAD_REQUEST} Missing required fields.`);
-    //             return res.status(statusCode.HTTP_400_BAD_REQUEST).json("Missing required fields.");
-    //         }
-
-    //         const role = await this.model.findOne({
-    //             where: { email: email },
-    //         });
-
-    //         if (!role) {
-    //             // logger.warn(`${statusCode.HTTP_404_NOT_FOUND} Không tìm thấy người dùng`);
-    //             return res.status(404).json("Không tìm thấy người dùng")
-    //         }
-
-    //         // const new_password = random_password();
-    //         // let { success, hashedPassword } = await hash_password(new_password);
-    //         if (!success) {
-    //             return res.status(406).json("Lỗi")
-    //         }
-    //         role.password = hashedPassword;
-    //         await role.save();
-
-    //         await send_email(
-    //             'ntdat12a03@gmail.com',
-    //             role.email,
-    //             `password = ${new_password}`,
-    //             "QUEN MAT KHAU",
-    //         )
-
-    //         return res.status(statusCode.HTTP_205_RESET_CONTENT);
-    //     } catch (error) {
-    //         logger.error(`Forgot password error: ${error}`)
-    //         return res.status(statusCode.HTTP_408_REQUEST_TIMEOUT).json("TIME OUT");
-    //     }
-    // }
 
     return {
         getAccountByEmail,
@@ -162,7 +138,8 @@ export const accountController = (
         getAccountById,
         updateAccount,
         deleteAccountById,
-        getAccountData
+        getAccountData,
+        forgot_password
     }
 }
 
