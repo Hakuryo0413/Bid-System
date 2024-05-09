@@ -17,10 +17,10 @@ const HistoryAunctionCard = ({
       <td>{formattedCreatedAt}</td>
       {cardState === "chưa thanh toán" ? (
         <td>
-          <a className="button Bpay" href={`/user/payment/${sim}`}>
+          <a className="button Bpay" href={`/user/payment/${room}/${sim}`}>
             Thanh toán
           </a>
-          <a className="button BDpay" href={`/user/cancel/${sim}`}>
+          <a className="button BDpay" href={`/user/cancel/${room}/${sim}`}>
             Hủy thanh toán
           </a>
         </td>
