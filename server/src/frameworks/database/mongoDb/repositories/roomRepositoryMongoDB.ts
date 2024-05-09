@@ -10,6 +10,11 @@ export const roomRepositoryMongoDB = (model: roomModel) =>{
         return room;
     }
 
+    const getRoomByPhone = async (phone: string) =>{
+        const room = await RoomEntity.getRoomByPhone(phone);
+        return room;
+    }
+
     const getRoomByAccount = async (email: string) =>{
         const room = await RoomEntity.getRoomByAccount(email);
         return room;
@@ -52,7 +57,8 @@ export const roomRepositoryMongoDB = (model: roomModel) =>{
         getAllRoom,
         getRoomByProvider,
         getRoomOngoing,
-        deleteRoom
+        deleteRoom,
+        getRoomByPhone
     }
 }
 
