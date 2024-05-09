@@ -5,7 +5,10 @@ const NotiCard = ({ noti, onDelete }: { noti: NotificationInterface; onDelete: (
   const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
 
   const handleDelete = () => {
-    onDelete(_id || "");
+    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa thông báo này?");
+    if (confirmDelete) {
+      onDelete(_id || "");
+    }
   };
 
   return (
