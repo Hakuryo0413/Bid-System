@@ -21,7 +21,7 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 const navigation = [
   { name: "DS công bố", href: "/user/auction-list", current: false },
   { name: "Sim sắp đấu giá", href: "/user/upcomming", current: false },
-  { name: "Phòng đấu giá", href: "/auction/happening", current: false },
+  { name: "Phòng đấu giá", href: "/user/happening", current: false },
   /*   { name: "Kết quả đấu giá", href: "/", current: false },
    */ { name: "Thông báo", href: "/user/notification", current: false },
   { name: "Kết quả đấu giá", href: "/auction/completed", current: false },

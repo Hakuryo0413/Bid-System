@@ -6,6 +6,7 @@ import UserYeuCau from "../../components/user/home/UserYeuCau"; // Import the mi
 import UserMessenger from "../../pages/messenger/UserMessenger";
 import SearchSimPage from "../../pages/home/SearchSimPage";
 import UpCommingRoomPage from "../../pages/user/UpCommingRoomPage";
+import HappeningAuctionListPage from "../../pages/user/HappeningAuctionListPage";
 
 const UserRouter = () => {
   return (
@@ -13,6 +14,8 @@ const UserRouter = () => {
       <Routes>
         <Route path="/notification" element={<Notification />}></Route>
         <Route path="/*" element={<UserHomePage />} />
+        <Route path="/happening" element={<HappeningAuctionListPage />} />
+
         {/* <Route path="/yeucau" element={<UserYeuCau />} /> */}
         <Route path="/auction-list" element={<SearchSimPage />} />
         <Route path="/upcomming" element={<UpCommingRoomPage />} />
