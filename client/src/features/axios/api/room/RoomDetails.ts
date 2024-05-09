@@ -34,7 +34,7 @@ export const getRoomByCode = async (code: string): Promise<any> => {
 export const getRoomByPhone = async (phone: string): Promise<any> => {
     try {
         const config: AxiosRequestConfig = {
-            url: `${apiConfig.roomCode}/${phone}`,
+            url: `${apiConfig.roomPhone}/${phone}`,
             method: "get",
         };
         const response = await api(config);
