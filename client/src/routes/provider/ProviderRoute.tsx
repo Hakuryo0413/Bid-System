@@ -4,11 +4,14 @@ import ProviderHome from "../../pages/provider/ProviderHome";
 import StatisticPage from "../../pages/auction/StatisticPage";
 
 import ViewBidderInforPage from "../../pages/auction/ViewBidderPage";
+import Notification from "../../pages/user/Notification";
 
 const ProviderRouter = () => {
   return (
     <div>
       <Routes>
+        {/*         <Route path="/notification" element={<Notification />} />
+         */}
         <Route path="/home" element={<ProviderHome />} />
         <Route path="/*" element={<ProviderHome />} />
         <Route path="/statistic" element={<StatisticPage />} />
