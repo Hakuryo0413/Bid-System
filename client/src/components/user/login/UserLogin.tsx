@@ -157,7 +157,7 @@ export default function UserLogin() {
             navigate("/provider/home");
           } else {
             // navigate("/user/home");
-            navigate("/user/home");
+            navigate("user/testdb");
           }
         }
       }

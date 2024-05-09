@@ -12,32 +12,37 @@ import { login } from "../../features/axios/api/account/AccountAuthentication";
 import { LoginPayload } from "../../types/PayloadInterface";
 import { getHistoryByAccount } from "../../features/axios/api/history/HistoryDetails";
 import { HistoryInterface } from "../../types/HistoryInterface";
+import { RoomInterface } from "../../types/RoomInterface";
+import { getRoomByAccount } from "../../features/axios/api/room/RoomDetails";
 
 
 export default function TestDB() {
 
   const [accountDetails, setAccountDetails] = useState<userInterface>();
-  const [history,setHistory] = useState<HistoryInterface>();
-    const getAccountDetails = async () => {
+  const [room,setRoom] = useState<RoomInterface[]>();
+  const getAccountDetails = async () => {
     const data = await accountData();
     setAccountDetails(data);
   };
-  const getHis = async (email: string) => {
-    const data = await getHistoryByAccount(email);
-    setHistory(data);
-  }
-  useEffect(() => {
+
+  useEffect(() =>{
     getAccountDetails();
-  }, [])
-
-
+  },[])
+ 
   useEffect(() => {
     if (accountDetails) {
-      getHis(accountDetails.email);
+      const _getRoomByAccount = async () =>{
+        if(accountDetails.email){
+        const room = await getRoomByAccount(accountDetails.email);
+        setRoom(room);
+        }
+      }
+      _getRoomByAccount();
     }
   }, [accountDetails])
 
-  console.log(history);
+  console.log(room);
+
   return (
     <div className="justify-center py-36 flex min-h-screen bg-background">
       <p>Hello</p>
