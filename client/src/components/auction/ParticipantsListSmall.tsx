@@ -7,7 +7,6 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 import { loginSuccess } from "../../features/redux/slices/account/accountLoginAuthSlice";
 import { ParticipantInterface } from "../../types/RoomInterface";
 import { userInterface } from "../../types/UserInterface";
-import ConfirmSuccessfulBidder from "./confim action/ConfirmSuccessfulBidder";
 import { formatMoney } from "./utils/format";
 import { Button } from "@mui/material";
 
@@ -47,18 +46,6 @@ const ParticipantsListSmall: React.FC<ParticipantsListSmallProps> = ({ participa
   
   const [items, setItems] = useState<React.ReactNode>();
 
-    const handleButtonClick = (participant: ParticipantInterface) => {
-        const onClose = () => {
-          setItems(undefined);
-          window.location.reload();
-        }
-        const onCloseButt = () => {
-          setItems(undefined);
-        }
-        if (participant.status === 'Đang chờ xác nhận') {
-          setItems(<ConfirmSuccessfulBidder code={code} participants={participants} onClose={onClose} onCloseButt={onCloseButt}/>)
-        } 
-    }
 
     // Mảng lưu trữ màu của từng trạng thái.
     const statusColors: Record<string, string> = {
@@ -108,22 +95,7 @@ const ParticipantsListSmall: React.FC<ParticipantsListSmallProps> = ({ participa
             </table>
 
             <div className="mt-4">
-                <Button
-                style={{
-                    backgroundColor: getStatusColor(participant.status),
-                    border: '1px',
-                    borderRadius: '4px',
-                    padding: '8px',
-                    color: "black",
-                    fontWeight: 'bold',
-                    width: '100%',
-                    pointerEvents: isDisable(participant.status)  ? 'none' : 'auto' ,
-                    cursor: isDisable(participant.status) ? 'default' : 'pointer',
-                }}
-                onClick={() => handleButtonClick(participant)}
-                >
                 {participant.status}
-                </Button>
             {items}
             </div>
             </div>
