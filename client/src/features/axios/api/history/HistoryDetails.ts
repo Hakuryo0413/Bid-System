@@ -12,6 +12,8 @@ export const getHistoryByAccount = async (email: string): Promise<any> => {
             method: "get",
         };
         const response = await api(config);
+        console.log("input email", email);
+        console.log("response data", response.data);
         return response.data;
     } catch (error) {
         throw new Error("Gặp lỗi khi lấy dữ liệu về lịch sử");
