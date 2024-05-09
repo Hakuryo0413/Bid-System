@@ -82,6 +82,7 @@ function UserYeuCau() {
     sim.starting_price = data.price;
     notification.account = "hihi@gmail.com";
     notification.content = "Yêu cầu tạo phiên đấu giá";
+    notification.type = "yeuCauDuyet"
     notification.from = user.email;
 
     createNewNotification(notification)

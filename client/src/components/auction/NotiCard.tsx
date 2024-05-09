@@ -20,30 +20,57 @@ const NotiCard = ({ noti, onDelete }: { noti: NotificationInterface; onDelete: (
         return "/admin/auctionlist";
       case "yeuCauDuyet":
         return "/admin/auctionlist";
+      case "traTien":
+        return "auction/history";
       default:
         return "/";
     }
   };
 
   return (
-    <div className="card">
-      <div className="badge">
+    <div className="card relative">
+      <span className="ml-2 mr-2 mt-4 p-2 bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md ">From: {from}</span>
+      <button onClick={handleDelete} className="bg-gradient-to-r from-[#e45757] to-[#f01212] rounded-md mt-4 p-1 text-gray-50
+              hover:shadow-md hover:shadow-[#d5b7b7]">Delete</button>
+      {type && (
+        <Link to={goToLink()}>
+          <button className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md mt-4 p-1 ml-2  hover:shadow-md hover:shadow-[#d5b7b7]">Go to</button>
+        </Link>
+      )}
+      {/* <div className="flex justify-start items-start">
+        <span className="mr-4 bg-gradient-to-r from-[#00d289] to-[#00cdb4] rounded-md absolute top-2 left-2 p-2">{from}</span>
+        {type && (
+          <Link to={goToLink()}>
+            <button className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md absolute top-2 left-2 p-2">Go to</button>
+          </Link>
+        )}
+        <button onClick={handleDelete} className="bg-gradient-to-r from-[#5d77be] to-[#7c50c9] rounded-md absolute top-2 left-2 p-2">Delete</button>
+      </div> */}
+      {/* <div className="badge">
         <div>
           <span>From: {from}</span>
         </div>
-      </div>
+
+        <button onClick={handleDelete} className="ml-2 text-red-600">Delete</button>
+        {type && (
+          <Link to={goToLink()}>
+            <button className="goto">Go to</button>
+          </Link>
+        )}
+
+      </div> */}
 
       <div className="absolute top-0 right-0 mt-4 mr-4 text-[#506b94]">
         <span>Time: {formattedCreatedAt}</span>
-        <button onClick={handleDelete} className="ml-2 text-red-600">Delete</button>
+        {/* <button onClick={handleDelete} className="ml-2 text-red-600">Delete</button>
         {type && (
           <Link to={goToLink()}>
             <button className="ml-2 mt-2 text-blue-600">Go to</button>
           </Link>
-        )}
+        )} */}
       </div>
 
-      <div className="p-4 pt-10 mt-5">
+      <div className="p-2 mt-1">
         {content}
       </div>
     </div>

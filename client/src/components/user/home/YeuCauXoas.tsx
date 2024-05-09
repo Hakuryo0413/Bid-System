@@ -18,7 +18,7 @@ import { userInterface } from "../../../types/UserInterface";
 import { getSimByNumber, getSimByProvider } from "../../../features/axios/api/sim/SimDetails";
 import { get, set, update } from "lodash";
 import { list } from "@material-tailwind/react";
-import {  getRoomByProvider } from "../../../features/axios/api/room/RoomDetails";
+import {getRoomByPhone,getRoomByProvider } from "../../../features/axios/api/room/RoomDetails";
 import { updateRoom } from "../../../features/axios/api/room/UpdateRoom";
 function YeuCauXoa() {
     const dispatch = useDispatch();
@@ -41,17 +41,20 @@ function YeuCauXoa() {
         }
     };
     useEffect(() => {
-        const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    
+    if (token) {
+        dispatch(loginSuccess());
+        getAccountDetails();
+        getListSim(); 
         
-            dispatch(loginSuccess());
-            getAccountDetails();
-            getListSim(); 
-            console.log("Đây là user trong useEffect", user);
-        
-    }, [dispatch]);
+    } else {
+        console.log("No token found");
+    }
+}, [dispatch, user, room]);
     const getListSim = async () => {
         try {
-            console.log(user.email);
+
             if (user.name) {
                 const data = await getRoomByProvider(user.name);
                 setListSim(data);
@@ -71,21 +74,25 @@ function YeuCauXoa() {
     }
     const getRoomByNumber_ = async (number: string) => {
         try {
-            const data = 2;
+            const data = await getRoomByPhone(number);
+            setRoom(data);
             // setRoom(data);
-            console.log("Đây là room trong getRoom", room);
+            console.log("Đây là room trong getRoom", data);
+            return data;
         } catch (error) {
             console.error("Lỗi xảy ra khi lấy Room:", error);
         }
     }
     const submitHandler = async (data: any) => {
-        getRoomByNumber_(data.phone);
-        console.log("Đây là room", data);
+        const room2 =  getRoomByNumber_(data.phone);
+        console.log("Đây là room2", room2);
+        console.log("Đây là room", room);
         room.state = "Chờ xóa";
         
         notification.account = "hihi@gmail.com";
         notification.content = data.content;
         notification.from = user.email;
+        notification.type = "yeuCauXoa"
 
         createNewNotification(notification)
             .then((response: any) => {
