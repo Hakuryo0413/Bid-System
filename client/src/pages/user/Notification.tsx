@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "../../assets/css/HistoryAuctionPage.css";
 import UserHomePage from "../user/UserHomePage";
 
-
 import { useDispatch } from "react-redux/es/exports";
 import "react-toastify/dist/ReactToastify.css";
 import { accountData } from "../../features/axios/api/account/AccountsDetail";
@@ -18,14 +17,16 @@ import ProviderHome from "../provider/ProviderHome";
 import AdminHome from "../admin/AdminHome";
 const Notification = () => {
   const dispatch = useDispatch();
-  const [notifications, setNotifications] = useState<[NotificationInterface] | []>([]);
+  const [notifications, setNotifications] = useState<
+    [NotificationInterface] | []
+  >([]);
   const [accountDetails, setAccountDetails] = useState<userInterface | null>(
     null
   ); // Đảm bảo setAccountDetails có thể nhận giá trị null
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("get token")
+    console.log("get token");
     if (token) {
       console.log("login success");
       dispatch(loginSuccess());
@@ -89,7 +90,6 @@ const Notification = () => {
 
         console.log(notiData);
         console.log(accountDetails);
-
       } catch (error) {
         console.error("Lỗi xảy ra khi thiết lập lịch sử đấu giá:", error);
       }
@@ -117,31 +117,46 @@ const Notification = () => {
         <div className="mb-5">
           <div>
             <AdminHeader />
-            <h1 className="ml-[25vw] mb-[15px] top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+            <h1 className="ml-[25vw] mb-[15px] top-[15%] left-[25vw] text-[1.75rem] font-bold">
+              Thông báo
+            </h1>
           </div>
         </div>
-      ) : accountDetails?.role == "provider" ?
-        (
-          <>
-            <ProviderHome />
-            <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
-          </>
-          // <ProviderHeader/>
-        ) :
-        (
-          <>
-            <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
-            <UserHomePage />
-          </>
-        )}
+      ) : accountDetails?.role == "provider" ? (
+        <>
+          <ProviderHome />
+          <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">
+            Thông báo
+          </h1>
+        </>
+      ) : (
+        // <ProviderHeader/>
+        <>
+          <UserHomePage />
+          <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">
+            Thông báo
+          </h1>
+        </>
+      )}
 
       {/* top-[-13vw] */}
-      <div className = "mb-10px">
-        <div className="relative left-[27%] w-[65vw] mb-[[1rem]" style={{ display: "flex" }}>
-          <button className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]" style={{ flex: 1 }} onClick={() => setNotiState(false)}>
+      <div className="mb-10px">
+        <div
+          className="relative left-[27%] w-[65vw] mb-[[1rem]"
+          style={{ display: "flex" }}
+        >
+          <button
+            className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]"
+            style={{ flex: 1 }}
+            onClick={() => setNotiState(false)}
+          >
             Thông báo mới
           </button>
-          <button className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]" style={{ flex: 1 }} onClick={() => setNotiState(true)}>
+          <button
+            className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]"
+            style={{ flex: 1 }}
+            onClick={() => setNotiState(true)}
+          >
             Thông báo đã xem
           </button>
         </div>
@@ -152,15 +167,23 @@ const Notification = () => {
               .slice() // Tạo một bản sao của mảng notifications
               .sort((a, b) => {
                 if (!a.created_at || !b.created_at) return 0; // Kiểm tra xem created_at có giá trị không
-                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                return (
+                  new Date(b.created_at).getTime() -
+                  new Date(a.created_at).getTime()
+                );
               }) // Sắp xếp theo thời gian giảm dần
               .filter((notification) => {
-                return notification.state == notiState
+                return notification.state == notiState;
               })
               .map((noti) => (
-                <NotiCard key={noti._id} noti={noti} onDelete={handleDeleteNotification} reLoad={fetchData} currentState={notiState}/>
-              ))
-            }
+                <NotiCard
+                  key={noti._id}
+                  noti={noti}
+                  onDelete={handleDeleteNotification}
+                  reLoad={fetchData}
+                  currentState={notiState}
+                />
+              ))}
           </div>
         ) : (
           <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
@@ -182,10 +205,9 @@ const Notification = () => {
         </div>
       )
       } */}
-
       </div>
     </>
-  )
+  );
 };
 
 export default Notification;

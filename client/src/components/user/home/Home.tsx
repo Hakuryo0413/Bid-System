@@ -3,8 +3,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../features/redux/reducers/Reducer";
-import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice"
-
+import { loginSuccess } from "../../../features/redux/slices/account/accountLoginAuthSlice";
 
 const links = [
   { name: "Phù hợp cho tất cả giai đoạn phát triển", href: "#" },
@@ -40,21 +39,19 @@ function HomePage() {
   }, [dispatch, isLoggedIn]);
 
   return (
-    <div className="relative isolate overflow-hidden py-24 sm:py-15 ">
+    <div className="relative isolate overflow-hidden py-24 sm:py-15 bg-white ">
       <div className="max-w-8xl px-6 lg:px-8 ">
         <div className="flex items-center" style={{ marginTop: -20 }}>
-          <div className="" style={{ marginLeft: 100 }}>
-            <h2 className="text-xl font-black font-mono  sm:text-6xl">
-              Tìm được sim số đẹp tại<br></br>
-              <p>
-                
-                <span style={{ color: "#7339AB", display: "inline" }}>
-                  DGS
-                </span>
-              </p>
+          <div className="" style={{ marginLeft: 40 }}>
+            <h2 className="text-sm font-black font-mono text-black sm:text-5xl">
+              Unlock Your Identity: Bid for Your Signature Sim!<br></br>
+              {/* <p>
+                <span style={{ color: "green", display: "inline" }}>DGS</span>
+              </p> */}
             </h2>
-            <p className="mt-6 text-xl leading-8 text-h6 font-semibold text-white  ">
-            Một chiếc sim số đẹp sẽ giúp chủ nhân mang tới nhiều may mắn, thành công trong cuộc sống. 
+            <p className="mt-6 text-xl leading-8 text-h6 font-semibold text-black  ">
+              Một chiếc sim số đẹp sẽ giúp chủ nhân mang tới nhiều may mắn,
+              thành công trong cuộc sống.
             </p>
             <br></br>
             <br></br>
@@ -74,7 +71,7 @@ function HomePage() {
                   className={classNames(
                     item.current
                       ? "bg-activeButton text-white "
-                      : "text-white hover:bg-buttonPurple bg-button hover:text-white",
+                      : "text-white hover:bg-buttonPurple bg-activeButton hover:text-white",
                     "rounded-md  px-3 py-2 text-xl font-semibold"
                   )}
                   aria-current={item.current ? "page" : undefined}
@@ -91,13 +88,13 @@ function HomePage() {
             </div>
           </div>
           <img
-            src={require("../../../assets/images/image.png")}
+            src={
+              "https://miro.medium.com/v2/resize:fit:2000/format:webp/1*3jEGMFM-bDYe9g30nbn5LA.jpeg"
+            }
             alt="Img"
-            style={{ marginLeft: 250, width: 450, height: 450 }}
+            style={{ marginLeft: 180, width: 520, height: 450 }}
           />
         </div>
-
-        
       </div>
     </div>
   );

@@ -11,7 +11,8 @@ const ProviderRouter = () => {
     <div>
       <Routes>
         {/*         <Route path="/notification" element={<Notification />} />
-         */}
+         */}{" "}
+        <Route path="/notification" element={<Notification />}></Route>
         <Route path="/home" element={<ProviderHome />} />
         <Route path="/*" element={<ProviderHome />} />
         <Route path="/statistic" element={<StatisticPage />} />

@@ -24,8 +24,8 @@ const navigation = [
   { name: "Phòng đấu giá", href: "/user/happening", current: false },
   /*   { name: "Kết quả đấu giá", href: "/", current: false },
    */ { name: "Thông báo", href: "/user/notification", current: false },
-  { name: "Kết quả đấu giá", href: "/auction/completed", current: false },
-];
+/*   { name: "Kết quả đấu giá", href: "/auction/completed", current: false },
+ */];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
 function classNames(...classes: string[]) {

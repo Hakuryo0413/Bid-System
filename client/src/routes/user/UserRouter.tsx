@@ -12,7 +12,7 @@ const UserRouter = () => {
   return (
     <div>
       <Routes>
-        <Route path="/notification" element={<Notification />}></Route>
+        <Route path="/notification" element={<Notification />} />
         <Route path="/*" element={<UserHomePage />} />
         <Route path="/happening" element={<HappeningAuctionListPage />} />
 

@@ -24,9 +24,10 @@ const navigation = [
   { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
   { name: "DS đấu giá", href: "/admin/auctionlist", current: false },
+  { name: "Kết quả đấu giá", href: "/auction/completed", current: false },
   { name: "DS cá nhân", href: "/admin/userList", current: false },
   { name: "DS tổ chức", href: "/admin/providerList", current: false },
-  { name: "Thông báo", href: "/user/notification", current: false}
+  { name: "Thông báo", href: "/admin/notification", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
@@ -97,7 +98,7 @@ function AdminHeader() {
             <div className="relative flex h-16 items-center justify-between">
               {/* Tên của trang web */}
               <a
-                href="/homepage"
+                href="/admin/sim/list"
                 className="text-white flex text-bold text-4xl font-logo"
               >
                 DGS
