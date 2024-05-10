@@ -7,6 +7,8 @@ import { getRoomByCode } from "../../features/axios/api/room/RoomDetails";
 import { calcTime, calcTimeInSeconds, formatMoney } from "./utils/format";
 import UpCommingAuction from "./UpcommingAuction";
 import ParticipantsListSmall from "./ParticipantsListSmall";
+import { SimInterface } from "../../types/SimInterface";
+import { getSimByNumber } from "../../features/axios/api/sim/SimDetails";
 
 interface AuctionInforProps {
     code: string;
@@ -17,9 +19,10 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
   const isLargeScreen = window.innerWidth >= 768;
 
   const [AuctionInfor, setAuctionInfor] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
-  const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
+  const [hasError, setHasError] = useState(false); // State
   const [timeDisplay, setTimeDisplay] = useState<{ days: number, hours: number, minutes: number, seconds: number }>(
     calcTime(AuctionInfor?.start_at ?? new Date())
+    
   );
 
   
@@ -37,6 +40,7 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
     };
     userInfo();
   }, []);
+
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
@@ -92,7 +96,6 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
       const intervalId = setInterval(() => {
           setTimeDisplay(calcTime(AuctionInfor?.start_at ?? new Date()));
       }, 1000);
-
       // Clean up the interval when the component unmounts
       return () => clearInterval(intervalId);
   }, [AuctionInfor]);
@@ -112,12 +115,12 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
             <div className="mx-0 ">
             {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) <= 0 ? (
-                <UpCommingAuction auctionDetails={AuctionInfor} fromListPage={false}/>     
+                <UpCommingAuction auctionDetails={AuctionInfor} fromListPage={false}/> 
             ) : (
               calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) < (AuctionInfor?.time_limit ?? 0) * 60 ? (
                     <HappeningAuction auctionDetails={AuctionInfor} fromHappeningList={false} />
                 ) : (
-                    <CompletedAuction auctionDetails={AuctionInfor}/>
+                    <CompletedAuction auctionDetails={AuctionInfor} fromHappeningList={false}/>
                 )
             )}
 
@@ -127,7 +130,10 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
 
         <div className="pt-4">
             <p className="flex py-4  text-white text-[20px] font-bold">
-                Danh sách người tham gia
+              {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) > 0
+              ? 'Danh sách người tham gia'
+              :"Danh sách người đăng ký tham gia"
+              }
             </p>
 
             <div className="flex justify-end pb-4">
@@ -143,10 +149,19 @@ const AuctionInfor: React.FC<AuctionInforProps> = ({ code }) => {
             {
               isLargeScreen ? (
                 <div className="border-white text-black border-2 py-4 px-4 pb-10 rounded-lg bg-white">
-                  <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} />
+                  {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) > 0
+                  ? <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} isHappening={true}/>
+                  :<ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} isHappening={false}/>
+                  }
                 </div>
               ) : (
-                <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code}/>
+                <div>
+                  {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) > 0
+                  ? <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} isHappening={true}/>
+                  :<ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (AuctionInfor.participants ?? []) : filteredAuction} code={code} isHappening={false}/>
+                  }
+                </div>
+                
               )
             }
         </div>

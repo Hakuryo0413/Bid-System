@@ -17,9 +17,9 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
           try {
             const result = await successBidder(auctionDetails?.participants ?? []);
             if (result) {
-              setSuccessfulBidder(result.successbidder); // Extract successbidder property from result
+              setParticipant(result.successbidder); // Extract successbidder property from result
             } else {
-              setSuccessfulBidder(null); // Handle case where result is falsy (e.g., null or undefined)
+              setParticipant(null); // Handle case where result is falsy (e.g., null or undefined)
             }
           } catch (error) {
             // Handle error if necessary
@@ -30,7 +30,7 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
       }, [auctionDetails]); // Dependency array ensures useEffect runs when auctionDetails changes
       
       // Define state to hold the result of successBidder
-      const [successfulBidder, setSuccessfulBidder] = useState<ParticipantInterface | null>(null);
+      const [participant, setParticipant] = useState<ParticipantInterface[] | null>(null);
     
 
     
@@ -83,25 +83,21 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
 
           <div className="border-2 border-white mb-2"></div>
 
-          <div className="grid lg:grid-cols-2">
+          <div className="grid lg:grid-cols-2 flex items-center">
             <p className="text-white mb-2 lg:mb-0">
                 <strong>Giá khởi điểm: </strong>{formatMoney(auctionDetails.price ?? 0)}
             </p>
             {
               !fromListPage ? (
                 <div className="flex lg:justify-end">
-                  <button
-                  className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-gray-600 rounded-lg" 
-                  >
-                  Tham gia đấu giá
-                  </button>
                 </div>
               ) : (
                 <div className="flex lg:justify-end">
                   <a href={href} className="w-full">
-                    <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                    <button className="relative rounded w-full py-2 overflow-hidden group bg-white relative hover:bg-gradient-to-r hover:from-white hover:to-grey-300 text-background hover:ring-2 hover:ring-offset-2 hover:ring-grey-300 transition-all ease-out duration-300"
                     >
-                    Xem chi tiết
+                      <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                      <span className="relative font-bold">Xem chi tiết</span>
                     </button>
                   </a>
                 </div>

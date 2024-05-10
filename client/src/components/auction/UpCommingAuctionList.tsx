@@ -25,7 +25,7 @@ export default function UpommingAuctionList() {
     const upommingAuctionsInfor = async () => {
       if(allAuctions && allAuctions.length > 0) {
         let upommingAuction: RoomInterface[] = []
-        for (let i = 0; i< allAuctions.length; i++) {
+        for (let i = 0; i < allAuctions.length; i++) {
           let time_intervals = calcTime(allAuctions[i].start_at ?? new Date)
           let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
           if (auctions_intervals_in_seconds < 0) {

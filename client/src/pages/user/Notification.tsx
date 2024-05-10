@@ -12,7 +12,10 @@ import { getNotificationByAccount } from "../../features/axios/api/notification/
 import { NotificationInterface } from "../../types/NotificationInterface";
 import NotiCard from "../../components/auction/NotiCard";
 import deleteNotification from "../../features/axios/api/notification/DeleteNotification";
-
+import AdminHeader from "../../components/header/AdminHeader";
+import ProviderHeader from "../../components/header/ProviderHeader";
+import ProviderHome from "../provider/ProviderHome";
+import AdminHome from "../admin/AdminHome";
 const Notification = () => {
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState<[NotificationInterface] | []>([]);
@@ -102,31 +105,70 @@ const Notification = () => {
     }
   };
 
+  const [notiState, setNotiState] = useState<Boolean>(false);
+
   return (
     <>
-      <UserHomePage />
-      <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
-
-      {notifications?.length > 0 ? (
-            <div className="relative top-[-13vw] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
-                {notifications
-                    .slice() // Tạo một bản sao của mảng notifications
-                    .sort((a, b) => {
-                        if (!a.created_at || !b.created_at) return 0; // Kiểm tra xem created_at có giá trị không
-                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-                    }) // Sắp xếp theo thời gian giảm dần
-                    .map((noti) => (
-                        <NotiCard key={noti._id} noti={noti} onDelete={handleDeleteNotification}/>
-                    ))
-                }
-            </div>
-        ) : (
-            <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
-                <p className="p-2">Bạn chưa nhận được thông báo nào.</p>
-            </div>
+      {accountDetails?.role == "admin" ? (
+        // <>
+        //   <AdminHome/>
+        //   <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+        // </>
+        <div className="mb-5">
+          <div>
+            <AdminHeader />
+            <h1 className="ml-[25vw] mb-[15px] top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+          </div>
+        </div>
+      ) : accountDetails?.role == "provider" ?
+        (
+          <>
+            <ProviderHome />
+            <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+          </>
+          // <ProviderHeader/>
+        ) :
+        (
+          <>
+            <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+            <UserHomePage />
+          </>
         )}
 
-      {/* {notifications?.length > 0 ? (
+      {/* top-[-13vw] */}
+      <div className = "mb-10px">
+        <div className="relative left-[27%] w-[65vw] mb-[[1rem]" style={{ display: "flex" }}>
+          <button className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]" style={{ flex: 1 }} onClick={() => setNotiState(false)}>
+            Thông báo mới
+          </button>
+          <button className="text-white bg-bgDefault text-[1rem] border-none w-[30%] pb-[0.5rem] hover:border-b-2 hover:border-solid hover:border-[#00b49e]" style={{ flex: 1 }} onClick={() => setNotiState(true)}>
+            Thông báo đã xem
+          </button>
+        </div>
+
+        {notifications?.length > 0 ? (
+          <div className="relative left-[27%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%] mt-[10px]">
+            {notifications
+              .slice() // Tạo một bản sao của mảng notifications
+              .sort((a, b) => {
+                if (!a.created_at || !b.created_at) return 0; // Kiểm tra xem created_at có giá trị không
+                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+              }) // Sắp xếp theo thời gian giảm dần
+              .filter((notification) => {
+                return notification.state == notiState
+              })
+              .map((noti) => (
+                <NotiCard key={noti._id} noti={noti} onDelete={handleDeleteNotification} reLoad={fetchData} currentState={notiState}/>
+              ))
+            }
+          </div>
+        ) : (
+          <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
+            <p className="p-2">Bạn chưa nhận được thông báo nào.</p>
+          </div>
+        )}
+
+        {/* {notifications?.length > 0 ? (
         <div className="relative top-[-13vw] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
           {notifications.map((noti)=> (
                 <NotiCard noti = {noti}/>
@@ -140,6 +182,8 @@ const Notification = () => {
         </div>
       )
       } */}
+
+      </div>
     </>
   )
 };

@@ -12,5 +12,4 @@ export interface NotificationPayload extends NotificationInterface {
   content: string;
   from: string;
   state: boolean;
-  
 }

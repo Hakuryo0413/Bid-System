@@ -203,7 +203,7 @@ export default function UserList() {
             Tìm kiếm
           </Button>
         </div>
-        <div>
+        {/* <div>
           <Button
             size="md"
             className=" rounded-xl font-medium text-sm ml-8"
@@ -212,7 +212,7 @@ export default function UserList() {
           >
             Tạo tài khoản
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className=" my-8  m-auto rounded-lg border-2 border-border w-4/5 items-center justify-center">

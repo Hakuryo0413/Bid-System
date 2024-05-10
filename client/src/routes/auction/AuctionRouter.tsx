@@ -4,6 +4,7 @@ import HappeningAuctionListPage from "../../pages/auction/HappeningAuctionListPa
 import HistoryAuction from "../../pages/auction/HistoryAuctionPage";
 import UpCommingAuctionListPage from "../../pages/auction/UpcommingAuctionListPage";
 import SearchSimPage from "../../pages/auction/ListOfSimsPage";
+import CompletedAuctionListPage from "../../pages/auction/CompletedAuctionPage";
 function AuctionInforPageWrapper() {
   const { code } = useParams();
   const codeValue = code || "";
@@ -19,6 +20,7 @@ const AuctionRouter = () => {
         <Route path="/upcomming" element={<UpCommingAuctionListPage />} />
         <Route path="/search" element={<SearchSimPage />} />
         <Route path="/history" element={<HistoryAuction />} />
+        <Route path="/completed" element={<CompletedAuctionListPage />} />
       </Routes>
     </div>
   );

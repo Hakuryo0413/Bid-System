@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { ParticipantInterface } from '../../types/RoomInterface';
 import { formatMoney } from './utils/format';
 import { Typography } from '@material-tailwind/react';
-import ConfirmSuccessfulBidder from './confim action/ConfirmSuccessfulBidder';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { accountData } from '../../features/axios/api/account/AccountsDetail';
@@ -21,6 +20,7 @@ import { userInterface } from '../../types/UserInterface';
 interface ParticipantsListProps {
     participants: ParticipantInterface [],
     code: string,
+    isHappening: boolean,
 }
 
 interface Data {
@@ -105,11 +105,31 @@ const headCells: readonly HeadCell[] = [
     },
 ];
 
+const headCellsUpcomming: readonly HeadCell[] = [
+    {
+        id: 'name',
+        label: 'Họ và tên',
+    },
+    {
+        id: 'email',
+        label: 'Email',
+    },
+    {
+        id: 'phone',
+        label: 'Điện thoại',
+    },
+    {
+        id: 'status',
+        label: 'Trạng thái',
+    },
+];
+
 interface EnhancedTableProps {
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
+    isHappening: boolean;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -122,7 +142,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {props.isHappening ? headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={'center'}
@@ -135,7 +155,39 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         {headCell.id === "highest_price" && (
                             <TableSortLabel
                                 active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
+                                direction={orderBy === headCell.id ? order : 'desc'}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
+                                {orderBy === headCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel>)
+                        }
+
+                        {headCell.id !== "highest_price" && (
+                            <div>
+                                {headCell.label}
+                            </div>)
+                        }
+
+                    </TableCell>
+                )) : headCellsUpcomming.map((headCell) => (
+                        <TableCell
+                        key={headCell.id}
+                        align={'center'}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{
+                            fontWeight: 'bold',
+                            width: headCell.id === "highest_price" ||  headCell.id === "phone" ? '12.5%' : '25%'
+                        }}
+                    >
+                        {headCell.id === "highest_price" && (
+                            <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'desc'}
                                 onClick={createSortHandler(headCell.id)}
                             >
                                 {headCell.label}
@@ -160,12 +212,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code }) => {
-    const dispatch = useDispatch();
+const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code, isHappening }) => {
+const dispatch = useDispatch();
   const navigate = useNavigate();
   let isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
+
+  console.log('happen:',isHappening)
   const [isLoading, setIsLoading] = useState(true);
   
   const [accountDetails, setAccountDetails] = useState<userInterface>();
@@ -190,7 +244,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
   }, [dispatch]);
 
   
-    const [order, setOrder] = React.useState<Order>('asc');
+    const [order, setOrder] = React.useState<Order>('desc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('highest_price');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -238,22 +292,9 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
         setDense(event.target.checked);
     };
 
-    const handleButtonClick = (row: Data) => {
-        const onClose = () => {
-          setItems(undefined);
-          window.location.reload();
-        }
-        const onCloseButt = () => {
-          setItems(undefined);
-        }
-        if (row.status === 'Đang chờ xác nhận') {
-          setItems(<ConfirmSuccessfulBidder code={code} participants={participants} onClose={onClose} onCloseButt={onCloseButt}/>)
-        } 
-    }
 
     // Mảng lưu trữ màu của từng trạng thái.
     const statusColors: Record<string, string> = {
-        'Đang chờ xác nhận': '#B8E1FF',
         'Đấu giá thành công': '#4FFBDF',
         'Đấu giá thất bại': '#FF6F91',
         'Đang chờ thanh toán': '#FEFEDF',
@@ -264,13 +305,6 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
     const getStatusColor = (status: string) => {
         return statusColors[status] || 'transparent';
     };
-
-    const isDisable = (status: string) => {
-        if (status === "Đang chờ xác nhận" && accountDetails?.role === 'admin') {
-            return false;
-        }
-        return true
-    }
 
     return (
         <Box sx={{ width: '100%', maxWidth: 1600 }} id="box">
@@ -286,6 +320,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
+                            isHappening= {isHappening}
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
@@ -300,25 +335,11 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants, code 
                                         <TableCell align="center" sx={{ width: "25%" }}>{row.name}</TableCell>
                                         <TableCell align="center" sx={{ width: "25%" }}>{row.email}</TableCell>
                                         <TableCell align="center" sx={{ width: "12.5%" }}>{row.phone}</TableCell>
-                                        <TableCell align="center" sx={{ width: "12.5%" }} >{formatMoney(row.highest_price ?? 0)}</TableCell>
+                                        {isHappening &&  
+                                            <TableCell align="center" sx={{ width: "12.5%" }} >{formatMoney(row.highest_price ?? 0)}</TableCell>
+                                        }
                                         <TableCell align="center">
-                                            <Button
-                                            style={{
-                                                backgroundColor: getStatusColor(row.status),
-                                                border: '1px',
-                                                borderRadius: '16px',
-                                                padding: '8px',
-                                                color: "black",
-                                                fontWeight: 'bold',
-                                                width: '100%',
-                                                pointerEvents: isDisable(row.status)  ? 'none' : 'auto' ,
-                                                cursor: isDisable(row.status) ? 'default' : 'pointer',
-                                            }}
-                                            onClick={() => handleButtonClick(row)}
-                                            >
                                             {row.status}
-                                            </Button>
-                                            {items}
                                         </TableCell>
                                     </TableRow>
                                 );

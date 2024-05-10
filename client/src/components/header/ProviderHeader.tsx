@@ -20,11 +20,12 @@ import { clearUserDetails } from "../../features/redux/slices/account/accountDet
 
 // Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
-  { name: "DS công bố", href: "/", current: false },
-  { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
-  { name: "Phòng đấu giá", href: "/auction/happening", current: false },
-  { name: "DS đấu giá", href: "/provider/statistic", current: false },
-  { name: "Thông báo đấu giá", href: "/", current: false },
+  { name: "DS công bố", href: "/provider/auction-list", current: false },
+  /*   { name: "Sim sắp đấu giá", href: "/auction/upcomming", current: false },
+   */
+  /*   { name: "Phòng đấu giá", href: "/auction/happening", current: false },
+   */ { name: "Phòng đấu giá", href: "/provider/statistic", current: false },
+  { name: "Thông báo", href: "/user/notification", current: false },
 ];
 
 // Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
