@@ -170,7 +170,7 @@ export default function CompletedAuctionList() {
             <TableBody style={{ backgroundColor: "#162233" }}>
             {searchQuery === '' ? 
                 (
-                    allAuctions?.map((room, index) => (
+                    completedAuctions?.map((room, index) => (
                         <TableRow
                           key={room._id}
                           style={{ borderRadius: "4px", marginBottom: "4px" }}

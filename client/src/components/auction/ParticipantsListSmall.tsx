@@ -13,9 +13,10 @@ import { Button } from "@mui/material";
 interface ParticipantsListSmallProps {
     participants: ParticipantInterface [],
     code: string,
+    isHappening: boolean,
 }
 
-const ParticipantsListSmall: React.FC<ParticipantsListSmallProps> = ({ participants, code }) => {
+const ParticipantsListSmall: React.FC<ParticipantsListSmallProps> = ({ participants, code, isHappening }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let isLoggedIn = useSelector(
@@ -87,10 +88,12 @@ const ParticipantsListSmall: React.FC<ParticipantsListSmallProps> = ({ participa
                     <td><strong>Số điện thoại:</strong></td>
                     <td className="flex justify-end">{participant.phone}</td>
                 </tr>
+                {isHappening &&
                 <tr>
                     <td><strong>Giá cao nhất:</strong></td>
                     <td className="flex justify-end">{formatMoney(participant.highest_price ?? 0)}</td>
                 </tr>
+                }
                 </tbody>
             </table>
 

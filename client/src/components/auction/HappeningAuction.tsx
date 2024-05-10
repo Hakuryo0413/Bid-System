@@ -220,7 +220,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
 
           <div className="border-2 border-white mb-2"></div>
 
-          <div className="grid lg:grid-cols-2">
+          <div className="grid lg:grid-cols-2 flex items-center">
             <p className="text-white mb-2 lg:mb-0">
             <strong>Giá cao nhất: </strong>{formatMoney(participant ? (participant.length > 0 ? participant[0].highest_price : 0) : 0)}
             </p>
@@ -228,17 +228,19 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
             {
               !fromHappeningList ? (
                 <div className="flex lg:justify-end">
-                  <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                  <button className="relative rounded w-full py-2 overflow-hidden group bg-white relative hover:bg-gradient-to-r hover:from-white hover:to-grey-300 text-background hover:ring-2 hover:ring-offset-2 hover:ring-grey-300 transition-all ease-out duration-300"
                   onClick={openModal}>
-                  Tham gia đấu giá
+                    <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span className="relative font-bold">Tham gia đấu giá</span>
                   </button>
                 </div>
               ) : (
                 <div className="flex lg:justify-end">
                   <a href={href} className="w-full">
-                    <button className="text-black font-bold p-2 w-full lg:w-[50] items-center bg-white rounded-lg hover:bg-gray-300 hover:bg-opacity-50"
+                    <button className="relative rounded w-full py-2 overflow-hidden group bg-white relative hover:bg-gradient-to-r hover:from-white hover:to-grey-300 text-background hover:ring-2 hover:ring-offset-2 hover:ring-grey-300 transition-all ease-out duration-300"
                     >
-                    Xem chi tiết
+                      <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                      <span className="relative font-bold">Xem chi tiết</span>
                     </button>
                   </a>
                 </div>
@@ -288,8 +290,9 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </div>
 
               <div className="flex justify-center">
-                <button type="submit" className="font-bold bg-background text-white px-8 py-2 rounded-lg" onClick={buttonHandle}>
-                  Xác nhận
+                <button type="submit" className="rounded-md px-16 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 border-background text-background text-white" onClick={buttonHandle}>
+                  <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-background top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                  <span className="relative text-background transition duration-300 group-hover:text-white ease font-bold">Xác nhận</span>
                 </button>
               </div>
               

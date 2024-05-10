@@ -17,7 +17,8 @@ const ViewBidder: React.FC<ViewBidderProps> = ({ code }) => {
   const isLargeScreen = window.innerWidth >= 768;
 
   const [ViewBidder, setViewBidder] = useState<RoomInterface>(); // State để lưu trữ mã vận đơn
-  const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
+  const [hasError, setHasError] = useState(false); 
+  const [isHappening, setIsHappening] = useState(false); // State để kiểm tra lỗi
   const [timeDisplay, setTimeDisplay] = useState<{ days: number, hours: number, minutes: number, seconds: number }>(
     calcTime(ViewBidder?.start_at ?? new Date())
   );
@@ -93,6 +94,11 @@ const ViewBidder: React.FC<ViewBidderProps> = ({ code }) => {
           setTimeDisplay(calcTime(ViewBidder?.start_at ?? new Date()));
       }, 1000);
 
+      if (calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) <= 0) {
+        setIsHappening(false)
+      } else{
+        setIsHappening(true)
+      }
       // Clean up the interval when the component unmounts
       return () => clearInterval(intervalId);
   }, [ViewBidder]);
@@ -143,10 +149,19 @@ const ViewBidder: React.FC<ViewBidderProps> = ({ code }) => {
             {
               isLargeScreen ? (
                 <div className="border-white text-black border-2 py-4 px-4 pb-10 rounded-lg bg-white">
-                  <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code} />
+                  {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) > 0
+                  ? <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code} isHappening={true}/>
+                  : <ParticipantsList participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code} isHappening={false}/>
+                  }
                 </div>
               ) : (
-                <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code}/>
+                <div>
+                  {calcTimeInSeconds(timeDisplay.days, timeDisplay.hours, timeDisplay.minutes, timeDisplay.seconds) > 0
+                  ? <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code} isHappening={true}/>
+                  : <ParticipantsListSmall participants={(filteredAuction.length === 0 && searchQuery === '' && filter === '') ? (ViewBidder.participants ?? []) : filteredAuction} code={code} isHappening={false}/>
+                  }
+                </div>
+                
               )
             }
         </div>

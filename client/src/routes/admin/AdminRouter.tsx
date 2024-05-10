@@ -15,7 +15,6 @@ const AdminRouter = () => {
     <div>
       <Routes>
         <Route path="/auctionList" element={<AuctionListPage />} />
-
         <Route path="/providerList" element={<ProviderListPage />} />
         <Route path="/userList" element={<UserListPage />} />
         <Route path="/sim/list" element={<ListOfSimsPage />} />
