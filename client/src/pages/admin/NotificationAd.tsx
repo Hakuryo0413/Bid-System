@@ -15,7 +15,7 @@ import AdminHeader from "../../components/header/AdminHeader";
 import ProviderHeader from "../../components/header/ProviderHeader";
 import ProviderHome from "../provider/ProviderHome";
 import AdminHome from "../admin/AdminHome";
-const Notification = () => {
+const NotificationAd = () => {
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState<
     [NotificationInterface] | []
@@ -109,7 +109,20 @@ const Notification = () => {
 
   return (
     <>
-      {accountDetails?.role == "provider" ? (
+      {accountDetails?.role == "admin" ? (
+        // <>
+        //   <AdminHome/>
+        //   <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">Thông báo</h1>
+        // </>
+        <div className="mb-5">
+          <div>
+            <AdminHeader />
+            <h1 className="ml-[25vw] mb-[15px] top-[15%] left-[25vw] text-[1.75rem] font-bold">
+              Thông báo
+            </h1>
+          </div>
+        </div>
+      ) : accountDetails?.role == "provider" ? (
         <>
           <ProviderHome />
           <h1 className="absolute top-[15%] left-[25vw] text-[1.75rem] font-bold">
@@ -129,7 +142,7 @@ const Notification = () => {
       {/* top-[-13vw] */}
       <div className="mb-10px">
         <div
-          className="relative top-[-15vw] left-[27%] w-[65vw] mb-[[1rem]"
+          className="relative left-[27%] w-[65vw] mb-[[1rem]"
           style={{ display: "flex" }}
         >
           <button
@@ -149,7 +162,7 @@ const Notification = () => {
         </div>
 
         {notifications?.length > 0 ? (
-          <div className="relative top-[-13vw] left-[27%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%] mt-[10px]">
+          <div className="relative left-[27%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%] mt-[10px]">
             {notifications
               .slice() // Tạo một bản sao của mảng notifications
               .sort((a, b) => {
@@ -197,4 +210,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default NotificationAd;

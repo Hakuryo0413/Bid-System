@@ -4,7 +4,23 @@ import { updateNotification } from "../../features/axios/api/notification/Update
 
 const NotiCard = ({ noti, onDelete, reLoad, currentState }: { noti: NotificationInterface; onDelete: (id: string) => void; reLoad: () => void; currentState: Boolean }) => {
   const { _id, from, content, created_at, type } = noti;
-  const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
+
+  const formatCreatedAt = (dateString: string) => {
+    //const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+    // return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+  // const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
+  const formattedCreatedAt = created_at ? formatCreatedAt(created_at.toLocaleString()) : "";
+  
 
   const handleDelete = () => {
     const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa thông báo này?");

@@ -82,6 +82,7 @@ const HistoryAuction = () => {
       };
 
       fetchHistoryAuctions();
+      console.log("debug hisState", HisSate)
     }
   }, [accountDetails, HisSate]); // Chỉ gọi lại khi accountDetails thay đổi
 
@@ -139,7 +140,7 @@ const HistoryAuction = () => {
           Đã hủy thanh toán
         </button>
       </div>
-            {console.log(HisSate)}
+            {/* {console.log(HisSate)} */}
       <div className="container content">
         <table className="custom-table table-dark table-striped">
           <thead>
