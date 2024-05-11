@@ -8,8 +8,24 @@ const HistoryAunctionCard = ({
   cardState: String;
 }) => {
   const {_id, sim, room, created_at,state} = historyAuction;
-  const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
+  //const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
 
+  const formatCreatedAt = (dateString: string) => {
+    //const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+    // return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+  // const formattedCreatedAt = created_at ? created_at.toLocaleString() : "";
+  const formattedCreatedAt = created_at ? formatCreatedAt(created_at.toLocaleString()) : "";
+  
   // console.log("hisAuctionCard", cardState);
   return (
     <tr>
