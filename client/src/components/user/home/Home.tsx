@@ -17,7 +17,7 @@ const stats = [
   { name: "Nhà sáng lập", value: "100+" },
   { name: "Miễn phí", value: "Không giới hạn" },
 ];
-const navigation = [{ name: "Khám phá", href: "user/login", current: false }];
+const navigation = [{ name: "Khám phá", href: "/login", current: false }];
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -80,7 +80,7 @@ function HomePage() {
                 </a>
               ))}
               <a
-                href="#"
+                href="/login"
                 className="text-xl font-semibold leading-6 text-black"
               >
                 Learn more <span aria-hidden="true">→</span>

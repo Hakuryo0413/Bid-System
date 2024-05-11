@@ -55,10 +55,11 @@ export function CreateCaNhan() {
   };
   const createNoti = async (email: string) => {
     const data: NotificationInterface = {};
-    data.account = "hihi@gmail.com";
+    data.account = "admin@gmail.com";
     data.content = "Có người đăng ký tài khoản mới";
     data.from = email;
     data.state = false;
+    data.type = "duyetProvider";
 
     const res = await createNewNotification(data);
     setNoti(res);

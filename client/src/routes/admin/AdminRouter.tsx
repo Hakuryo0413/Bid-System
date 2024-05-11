@@ -16,7 +16,6 @@ const AdminRouter = () => {
     <div>
       <Routes>
         <Route path="/notification" element={<Notification />}></Route>
-
         <Route path="/auctionList" element={<AuctionListPage />} />
         <Route path="/providerList" element={<ProviderListPage />} />
         <Route path="/userList" element={<UserListPage />} />

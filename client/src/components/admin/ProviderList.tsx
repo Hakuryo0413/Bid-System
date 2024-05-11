@@ -185,6 +185,8 @@ export default function ProviderList() {
             <option value="Viettel">Viettel</option>
             <option value="Vinaphone">Vinaphone</option>
             <option value="Mobifone">Mobifone</option>
+            <option value="Vietnammobile">Vietnammobile</option>
+            <option value="Gmobile">Gmobile</option>
           </select>
         </div>
 
