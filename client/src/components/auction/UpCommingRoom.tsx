@@ -352,6 +352,7 @@ export default function UpCommingRoom() {
                             width: "100%",
                           }}
                           onClick={() => handleButtonClick(room, index)}
+                          disabled={room.state == "Đang đấu giá"}
                         >
                           Huỷ đấu giá
                         </Button>

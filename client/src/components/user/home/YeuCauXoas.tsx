@@ -63,6 +63,7 @@ function YeuCauXoa() {
       console.log("No token found");
     }
   }, [dispatch, user, room]);
+  
   const getListSim = async () => {
     try {
       if (user.name) {

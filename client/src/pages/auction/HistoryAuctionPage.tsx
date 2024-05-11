@@ -107,14 +107,14 @@ const HistoryAuction = () => {
     }
   };
 
-  useEffect(()=> {
+ /*  useEffect(()=> {
     debug();
-  },[])
+  },[]) */
 
-  const debug = async() => {
+  /* const debug = async() => {
     const test = await getHistoryByAccount("doanthiminhhangit@gmail.com");
     console.log("test", test);
-  }
+  } */
   
   return (
     <>
