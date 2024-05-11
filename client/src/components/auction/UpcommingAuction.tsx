@@ -35,14 +35,14 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
 
     
     const [timeDisplay, setTimeDisplay] = React.useState<{ days: number, hours: number, minutes: number, seconds: number }>(
-        calcTime(endTimeCalc(auctionDetails?.start_at || new Date(), auctionDetails?.time_limit || 0))
+        calcTime(auctionDetails?.start_at || new Date())
     );
     
-    const updateCounters = () => setTimeDisplay(calcTime(endTimeCalc(auctionDetails?.start_at || new Date(), auctionDetails?.time_limit || 0)));
+    const updateCounters = () => setTimeDisplay(calcTime(auctionDetails?.start_at || new Date()));
     
     React.useEffect(() => {
         const intervalId = setInterval(() => {
-            setTimeDisplay(calcTime(endTimeCalc(auctionDetails?.start_at || new Date(), auctionDetails?.time_limit || 0)));
+            setTimeDisplay(calcTime(auctionDetails?.start_at || new Date()));
         }, 1000);
     
         // Clean up the interval when the component unmounts
@@ -63,7 +63,7 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
                   <strong>Số điện thoại:</strong> {auctionDetails?.phone}
               </p>
               <p className="text-white mb-2">
-                  <strong>Số người tham gia: </strong>{auctionDetails?.participants?.length}
+                  <strong>Số người đăng ký tham gia: </strong>{auctionDetails?.participants?.length}
               </p>
           </div>
 
@@ -73,7 +73,7 @@ const UpCommingAuction: React.FC<UpCommingAuctionProps> = ({ auctionDetails, fro
               </p>
 
               <p className="text-white mb-2">
-                    <strong> Đếm ngược thời gian diễn ra: </strong>{-timeDisplay.days} ngày {-timeDisplay.hours} giờ {-timeDisplay.minutes} phút {-timeDisplay.seconds} giây
+                    <strong> Đếm ngược thời gian diễn ra: </strong>{-timeDisplay.days - 1} ngày {-timeDisplay.hours - 1} giờ {-timeDisplay.minutes - 1} phút {-timeDisplay.seconds} giây
               </p>
               
               

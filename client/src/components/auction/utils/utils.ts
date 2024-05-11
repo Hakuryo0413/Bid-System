@@ -52,9 +52,13 @@ export function useAuctionData(): [RoomInterface[] | undefined, RoomInterface[] 
     
     console.log("HI: ", completedAuctions)
     if (!completedAuctions) return;
-
     completedAuctions.forEach((auction) => {
-      if (auction.state === "Chưa gửi thông báo" || auction.state === 'Đang đấu giá') {
+      let time_intervals = calcTime(auction.start_at ?? new Date)
+      let auctions_time_limit_in_seconds = (auction.time_limit ?? 0) * 60;
+      let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
+
+      if (auction.state === "Chưa gửi thông báo" || auction.state === 'Đang đấu giá' 
+      || (auction.state === "Chờ đấu giá")) {
         const len = auction.participants?.length ?? 0;
         const successBidder = auction.participants?.[len - 1];
         console.log(successBidder, auctionInfor)
@@ -86,6 +90,21 @@ export function useAuctionData(): [RoomInterface[] | undefined, RoomInterface[] 
                 updateRoom(auctionInfor_);
             }
         }
+      } 
+    });
+
+    allAuctions?.forEach((auction) => {
+      let time_intervals = calcTime(auction.start_at ?? new Date)
+      let auctions_time_limit_in_seconds = (auction.time_limit ?? 0) * 60;
+      let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
+      if (auction.state === "Chờ đấu giá"){
+        console.log("hiheh")
+        if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds < auctions_time_limit_in_seconds) {
+          let auctionInfor_ = auction;
+          auctionInfor_.state = 'Đang đấu giá';
+            updateRoom(auctionInfor_);
+            
+        } 
       }
     });
   }, [completedAuctions]);

@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
  
 export default function UserSideFooter() {
   return (
-    <footer className="w-full bg-background mt-auto">
+    <footer className="w-full bg-background mt-8">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="grid  grid-cols-1 justify-between gap-4 md:grid-cols-2">
           <Typography variant="h5" className="mb-6 text-textColor">
@@ -20,8 +20,7 @@ export default function UserSideFooter() {
             variant="small"
             className="mb-4 text-center text-textColor font-normal md:mb-0"
           >
-            &copy; {currentYear} Đấu giá sim. All
-            Rights Reserved.
+            &copy; {currentYear} Đấu giá sim. All Rights Reserved.
           </Typography>
           <div className="flex gap-4 sm:justify-center">
             <Typography as="a" href="#" className="opacity-80 transition-opacity hover:opacity-100">

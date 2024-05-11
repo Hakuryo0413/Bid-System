@@ -15,7 +15,7 @@ export interface roomInterface {
     _id?: Types.ObjectId,
     code?: string,
     participants?: ParticipantInterface[],
-    start_at?: Date,
+    Start_at?: Date,
     time_limit?: number,
     provider?: string,
     price?:number,

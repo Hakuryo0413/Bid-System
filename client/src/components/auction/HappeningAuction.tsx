@@ -87,21 +87,21 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
       userInfo();
   }, []);
 
-  // const [SimInfor, setSimInfor] = useState<SimInterface>();
-  // useEffect(() => {
-  //   const userInfo = async () => {
-  //     try {
-  //       const data = await getSimByNumber(auctionDetails.phone ?? '');
-  //       setSimInfor(data);
-  //       setHasError(false);
-  //     }
-  //     catch (error) {
-  //       setSimInfor(undefined);
-  //       setHasError(true);
-  //     }
-  //   };
-  //   userInfo();
-  // }, [AuctionInfor]);
+  const [SimInfor, setSimInfor] = useState<SimInterface>();
+  useEffect(() => {
+    const userInfo = async () => {
+      try {
+        const data = await getSimByNumber(auctionDetails.phone ?? '');
+        setSimInfor(data);
+        setHasError(false);
+      }
+      catch (error) {
+        setSimInfor(undefined);
+        setHasError(true);
+      }
+    };
+    userInfo();
+  }, [AuctionInfor]);
   
   
 
@@ -203,7 +203,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </p>
 
               <p className="text-white mb-2">
-                    <strong> Thời gian còn lại: </strong>{-timeDisplay.days} ngày {-timeDisplay.hours} giờ {-timeDisplay.minutes} phút {-timeDisplay.seconds} giây
+                    <strong> Thời gian còn lại: </strong>{-timeDisplay.days - 1} ngày {-timeDisplay.hours - 1} giờ {-timeDisplay.minutes - 1} phút {-timeDisplay.seconds} giây
               </p>
               
           </div>
@@ -214,7 +214,7 @@ const HappeningAuction: React.FC<HappeningAuctionProps> = ({ auctionDetails, fro
               </p>
 
               <p className="text-white mb-2">
-                  {/* <strong>Giá khởi điểm: </strong> {formatMoney(SimInfor?.starting_price ?? 0)} */}
+                  <strong>Giá khởi điểm: </strong> {formatMoney(SimInfor?.starting_price ?? 0)}
               </p>
           </div>
 

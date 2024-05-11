@@ -34,7 +34,7 @@ export default function HappeningAuctionList() {
           let time_intervals = calcTime(allAuctions[i].start_at ?? new Date)
           let auctions_time_limit_in_seconds = (allAuctions[i].time_limit ?? 0) * 60;
           let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
-          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds < auctions_time_limit_in_seconds) {
+          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds < auctions_time_limit_in_seconds && allAuctions[i].state !== "Chờ xóa" && allAuctions[i].state !== "Đã xoá") {
             happeningAuction.push(allAuctions[i])
           }
         }

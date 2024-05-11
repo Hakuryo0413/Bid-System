@@ -9,7 +9,5 @@ export async function successBidder(
     }
     participants.sort((a, b) => b.highest_price - a.highest_price);
 
-    participants[0].status = "Đang chờ xác nhận";
-
     return {successbidder: participants};
 };

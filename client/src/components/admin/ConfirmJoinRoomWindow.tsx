@@ -83,7 +83,7 @@ const ConfirmJoinRoomWindow: React.FC<ConfirmJoinRoomWindowProps> = ({
           email: accountDetails.email ?? "",
           phone: accountDetails.phone ?? "",
           highest_price: 0,
-          status: "Hàng đợi",
+          status: "Đang chờ đấu giá",
         };
 
         roomInfor.participants.push(participant);

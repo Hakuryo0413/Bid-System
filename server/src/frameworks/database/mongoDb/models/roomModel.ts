@@ -7,7 +7,7 @@ const roomSchema = new Schema({
     participants:{
         type: Array
     },
-    Start_at:{
+    start_at:{
         type:Date
     },
     provider:{
