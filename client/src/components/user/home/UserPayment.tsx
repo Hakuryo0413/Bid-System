@@ -20,10 +20,9 @@ function UserPayment() {
   console.log(historyId);
   const navigate = useNavigate();
   const [name, setName] = useState("");
-
+  const [CCCD, setCCCD] = useState("");
   const [email, setEmail] = useState(localStorage.getItem("username") || "");
   const [provider, setProvider] = useState("");
-  const [sim, setSim] = useState("");
   const [room, setRoom] = useState<RoomInterface>();
   const [lastPrice, setLastPrice] = useState(0);
   const [historyInfo, setHistoryInfo] = useState<HistoryInterface>();
@@ -33,24 +32,22 @@ function UserPayment() {
   const getData = async (email: string) => {
     const data = await getAccountsByEmail(email);
     setName(data.name);
+    setCCCD(data.cccd);
   };
 
-  useEffect(() => {
-    const getHistory = async (id: string) => {
-      try {
-        const data = await getHistoryById(id);
-        console.log(data);
-        setHistoryInfo(data);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
-    if (historyId) {
-      getHistory(historyId);
-      console.log(historyInfo, "ewfwe");
+  const getHistory = async (id: string) => {
+    try {
+      console.log("123");
+      const data = await getHistoryById(id);
+      console.log(data, "history do");
+
+      setHistoryInfo(data);
+    } catch (error) {
+      console.error("Error fetching SIM data:", error);
+      // Xử lý lỗi tại đây nếu cần
     }
-  }, [historyId]);
+  };
+
   const updateHis = async () => {
     if (historyInfo) {
       console.log("test");
@@ -61,7 +58,7 @@ function UserPayment() {
   };
   const updateRoomDetails = async () => {
     if (room) {
-      room.state = "Đã thanh toán";
+      room.state = "Đấu giá thành công";
       updateRoom(room);
     }
   };
@@ -75,24 +72,6 @@ function UserPayment() {
     navigate("/user/payment/QRCode");
   };
 
-  useEffect(() => {
-    const getDataSim = async (number: string) => {
-      try {
-        const data = await getSimByNumber(number);
-        console.log(data);
-        setSim(data.number);
-        setProvider(data.provider);
-        setLastPrice(data.last_price);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
-
-    if (number) {
-      getDataSim(number);
-    }
-  }, [number]);
   const getRoom = async (code: string) => {
     try {
       const data = await getRoomByCode(code);
@@ -106,8 +85,14 @@ function UserPayment() {
   useEffect(() => {
     if (code) {
       getRoom(code);
+      console.log("room");
     }
-  }, [code]);
+    console.log("abc");
+    if (historyId) {
+      getHistory(historyId);
+      console.log("history");
+    }
+  }, [code, historyId]);
 
   useEffect(() => {
     console.log(email);
@@ -125,13 +110,13 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block font-medium leading-6 text-white">
                   Số điện thoại:
-                  <span className="ml-2">{sim}</span>
+                  <span className="ml-2">{room?.phone}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Nhà phân phối:
-                  <span className="ml-2">{provider}</span>
+                  <span className="ml-2">{room?.provider}</span>
                 </label>
               </div>
             </div>
@@ -139,13 +124,13 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Phiên đấu giá:
-                  <span className="ml-2">{room?._id}</span>
+                  <span className="ml-2">{room?.code}</span>
                 </label>
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Giá tiền:
-                  <span className="ml-2">{lastPrice}</span>
+                  <span className="ml-2">{room?.price}</span>
                 </label>
               </div>
             </div>
@@ -164,7 +149,7 @@ function UserPayment() {
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
                   Số CCCD:
-                  <span className="ml-2"></span>
+                  <span className="ml-2">{CCCD}</span>
                 </label>
               </div>
             </div>
@@ -177,7 +162,7 @@ function UserPayment() {
               </div>
               <div className="sm:col-span-2">
                 <label className="block  font-medium leading-6 text-white">
-                  Giá tiền:<span className="ml-2">{lastPrice}</span>
+                  Giá tiền:<span className="ml-2">{room?.price}</span>
                 </label>
               </div>
             </div>

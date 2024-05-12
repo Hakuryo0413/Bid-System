@@ -14,6 +14,7 @@ import {
 import { updateRoom } from "../../../features/axios/api/room/UpdateRoom";
 import createNewNotification from "../../../features/axios/api/notification/CreateNotification";
 import { NotificationInterface } from "../../../types/NotificationInterface";
+import { set } from "lodash";
 
 function UserCancelPayment() {
   const { number, code, historyId } = useParams();
@@ -26,104 +27,77 @@ function UserCancelPayment() {
   const [room, setRoom] = useState<RoomInterface>();
   const [lastPrice, setLastPrice] = useState(0);
   const [historyInfo, setHistoryInfo] = useState<HistoryInterface>();
+  const [CCCD, setCCCD] = useState("");
+
   const [noti, setNoti] = useState<NotificationInterface>();
   const [particinpants, setParticipants] = useState<ParticipantInterface[]>();
   const getData = async (email: string) => {
     const data = await getAccountsByEmail(email);
     setName(data.name);
+    setCCCD(data.cccd);
   };
   const handleClick = () => {
     navigate("/auction/history");
   };
-  useEffect(() => {
-    const getDataSim = async (number: string) => {
-      try {
-        const data = await getSimByNumber(number);
-        console.log(data);
-        setSim(data.number);
-        setProvider(data.provider);
-        setLastPrice(data.last_price);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
-
-    if (number) {
-      getDataSim(number);
+  const getHistory = async (id: string) => {
+    try {
+      const data = await getHistoryById(id);
+      console.log(data);
+      setHistoryInfo(data);
+    } catch (error) {
+      console.error("Error fetching SIM data:", error);
+      // Xử lý lỗi tại đây nếu cần
     }
-  }, [number]);
-  useEffect(() => {
-    const getHistory = async (id: string) => {
-      try {
-        const data = await getHistoryById(id);
-        console.log(data);
-        setHistoryInfo(data);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
-    if (historyId) {
-      getHistory(historyId);
-    }
-  }, [historyId]);
-
-  // const createNoti = async (email: string) => {
-  //   const data: NotificationInterface = {};
-  //   data.account = particinpants?.[2].email;
-  //   data.type = "traTien";
-  //   data.content = "Chúc mừng bạn đã đấu giá thành công";
-  //   data.from = email;
-  //   data.state = false;
-  //   const res = await createNewNotification(data);
-  //   console.log(res);
-  //   /* setNoti(res); */
-  // }
+  };
 
   const updateHis = async () => {
     if (historyInfo) {
       console.log(historyInfo);
       historyInfo.state = "Đã hủy";
-      await updateHistory(historyInfo);
+      updateHistory(historyInfo);
     }
   };
   const updateRoomParticipant = async () => {
     if (room) {
       room.state = "Chưa gửi thông báo";
       room.participants = room.participants?.filter((p) => p.email !== email);
+      await updateHis(); // Gọi updateHis sau khi cập nhật phòng
+
       await updateRoom(room);
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     updateRoomParticipant();
-  }, [updateHis]);
+  }, []); */ // Không cần phụ thuộc vào updateHis ở đây
 
   const paymentCancel = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    updateHis();
-    // createNoti(email);
+    await updateRoomParticipant(); // Gọi updateHis trước khi chuyển hướng
 
     navigate("/auction/history");
   };
 
+  const getRoom = async (code: string) => {
+    try {
+      const data = await getRoomByCode(code);
+      /*         setParticipants(data.participants);
+       */ console.log(data);
+      console.log(data.participants);
+      setRoom(data);
+    } catch (error) {
+      console.error("Error fetching SIM data:", error);
+      // Xử lý lỗi tại đây nếu cần
+    }
+  };
   useEffect(() => {
-    const getRoom = async (code: string) => {
-      try {
-        const data = await getRoomByCode(code);
-        /*         setParticipants(data.participants);
-         */ console.log(data);
-        console.log(data.participants);
-        setRoom(data);
-      } catch (error) {
-        console.error("Error fetching SIM data:", error);
-        // Xử lý lỗi tại đây nếu cần
-      }
-    };
     if (code) {
       getRoom(code);
     }
-  }, [code]);
+    if (historyId) {
+      getHistory(historyId);
+      console.log("history");
+    }
+  }, [code, historyId]);
 
   useEffect(() => {
     console.log(email);
@@ -140,13 +114,13 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Số điện thoại:
-                <span className="ml-2">{sim}</span>
+                <span className="ml-2">{room?.phone}</span>
               </label>
             </div>
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Nhà phân phối:
-                <span className="ml-2">{provider}</span>
+                <span className="ml-2">{room?.provider}</span>
               </label>
             </div>
           </div>
@@ -160,7 +134,7 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Giá tiền:
-                <span className="ml-2">{lastPrice}</span>
+                <span className="ml-2">{room?.price}</span>
               </label>
             </div>
           </div>
@@ -178,7 +152,7 @@ function UserCancelPayment() {
             <div className="sm:col-span-2">
               <label className="block  font-medium leading-6 text-white">
                 Số CCCD:
-                <span className="ml-2"></span>
+                <span className="ml-2">{CCCD}</span>
               </label>
             </div>
           </div>
