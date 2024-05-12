@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/redux/reducers/Reducer";
 import { clearToken } from "../../features/redux/slices/account/tokenSlice";
 import { clearUserDetails } from "../../features/redux/slices/account/accountDetailsSlice";
+import { useAuctionData } from "../auction/utils/utils";
 
 //************************************
 // Description: Phần Header cho trang chung của người dùng.
@@ -34,6 +35,13 @@ function classNames(...classes: string[]) {
 }
 
 function ProviderHeader() {
+  const [allAuctions, completedAuctions] = useAuctionData();
+
+  // Example useEffect hook that runs when `completedAuctions` changes
+  useEffect(() => {
+    console.log("Completed auctions updated:", completedAuctions);
+  }, [completedAuctions]);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let isLoggedIn = useSelector((state: RootState) => state.userAuth.isLoggedIn);

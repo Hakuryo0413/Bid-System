@@ -5,6 +5,8 @@ import CompletedAuction from "./CompletedAuction";
 import HappeningAuction from "./HappeningAuction";
 import { calcTime, calcTimeInSeconds } from "./utils/format";
 import AuctionInfor from "./AuctionInfor";
+import { accountData } from "../../features/axios/api/account/AccountsDetail";
+import { userInterface } from "../../types/UserInterface";
 
 export default function HappeningAuctionList() {
   const [allAuctions, setAllAuctions] = useState<RoomInterface []>();
@@ -13,6 +15,23 @@ export default function HappeningAuctionList() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredAuction, setFilteredOrders] = useState([...happeningAuctions ?? []]);
 
+  const [accountDetails, setAccountDetails] = useState<userInterface>();
+  const getAccountDetails = async () => {
+    const data = await accountData();
+    setAccountDetails(data);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (true) {
+        // Gọi employerDetails() để cập nhật dữ liệu
+        getAccountDetails();
+      }
+    }, 2000);
+  }, []);
+
+  console.log(accountDetails?.role)
+  
   useEffect(() => {
     const auctionsInfor = async () => {
       try {
@@ -34,9 +53,22 @@ export default function HappeningAuctionList() {
           let time_intervals = calcTime(allAuctions[i].start_at ?? new Date)
           let auctions_time_limit_in_seconds = (allAuctions[i].time_limit ?? 0) * 60;
           let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
-          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds < auctions_time_limit_in_seconds && allAuctions[i].state !== "Chờ xóa" && allAuctions[i].state !== "Đã xoá") {
-            happeningAuction.push(allAuctions[i])
-          }
+          console.log(auctions_intervals_in_seconds, auctions_time_limit_in_seconds)
+          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds < auctions_time_limit_in_seconds && allAuctions[i].state !== "Chờ xóa" && allAuctions[i].state !== "Đã xoá" && allAuctions[i].state != 'Chờ duyệt') {
+            if(accountDetails?.role === 'user') {
+              if (allAuctions[i] && allAuctions[i].participants) {
+                let par = allAuctions[i].participants ?? [];
+                for (let j = 0; j < par.length; j++) {
+                  if(par[j].email === accountDetails?.email) {
+                    happeningAuction.push(allAuctions[i])
+                    continue
+                  }
+                }
+              }
+            } else if (accountDetails?.role === 'provider' || accountDetails?.role === 'admin') {
+              happeningAuction.push(allAuctions[i])
+            }
+          } 
         }
         console.log(happeningAuction)
         sethappeningAuctions(happeningAuction)
@@ -46,7 +78,7 @@ export default function HappeningAuctionList() {
       }
     };
     happeningAuctionsInfor();
-  }, [allAuctions]);
+  }, [allAuctions, accountDetails]);
 
   
   const handleSearch = (query: string) => {

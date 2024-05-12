@@ -35,7 +35,7 @@ export default function CompletedAuctionList() {
           let time_intervals = calcTime(allAuctions[i].start_at ?? new Date )
           let auctions_time_limit_in_seconds = (allAuctions[i].time_limit ?? 0) * 60;
           let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
-          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds >= auctions_time_limit_in_seconds && (allAuctions[i].state !== 'Chờ xóa' && allAuctions[i].state !== 'Đã xóa')) {
+          if (auctions_intervals_in_seconds > 0 && auctions_intervals_in_seconds >= auctions_time_limit_in_seconds && (allAuctions[i].state !== 'Chờ xóa' && allAuctions[i].state !== 'Đã xóa' && allAuctions[i].state != 'Chờ duyệt')) {
             completedAuction.push(allAuctions[i])
           }
         }

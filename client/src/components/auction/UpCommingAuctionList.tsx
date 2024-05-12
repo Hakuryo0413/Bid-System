@@ -28,7 +28,7 @@ export default function UpommingAuctionList() {
         for (let i = 0; i < allAuctions.length; i++) {
           let time_intervals = calcTime(allAuctions[i].start_at ?? new Date)
           let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
-          if (auctions_intervals_in_seconds < 0 && (allAuctions[i].state !== "Chờ xóa" && allAuctions[i].state !== "Đã xoá")) {
+          if (auctions_intervals_in_seconds < 0 && (allAuctions[i].state !== "Chờ xóa" && allAuctions[i].state !== "Đã xoá" && allAuctions[i].state != 'Chờ duyệt')) {
             upommingAuction.push(allAuctions[i])
           }
         }
