@@ -48,6 +48,7 @@ function SearchConversation({ onSelectAccount }: SearchConversationProps) {
     const setSelectedUserAccount = (account: userInterface) => {
         setSelectedUser(account);
         setIsResultsVisible(false);
+        
         onSelectAccount(account);
     }
 

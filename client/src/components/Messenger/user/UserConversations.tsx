@@ -3,9 +3,11 @@ import configKeys from "../../../utils/config";
 import axios from "axios";
 import { userInterface } from "../../../types/UserInterface";
 
-function Conversations({ conversation, currentUser, onlineUsers }: any) {
+function Conversations({ conversation, currentUser, onlineUsers, current_conversation}: any) {
   const [account, setAccount] = useState<userInterface>();
   const [isOnline, setIsOnline] = useState<boolean>(false);
+
+
   useEffect(() => {
     const senderId = conversation?.members?.find(
       (m: Array<string>) => m !== currentUser?._id
@@ -31,11 +33,13 @@ function Conversations({ conversation, currentUser, onlineUsers }: any) {
     if (onlineUser?.length > 0) {
       setIsOnline(true);
     }
+    console.log('hererere', current_conversation?._id, 'conversation', conversation?._id, 'currentUser', currentUser?._id)
   }, [account?._id, onlineUsers]);
 
 
   return (
-    <div className="flex items-center mt-5 p-3 cursor-pointer  relative border-b pr-4 hover:border-green-400">
+    <div className={`flex items-center mt-5 p-3 cursor-pointer  relative border-b-4 pr-4 hover:border-green-400
+    ${current_conversation === conversation?._id ? 'border-green-400' : ''}`}>
 
       <img
         className="mr-5 w-10 h-10 rounded-full object-cover"

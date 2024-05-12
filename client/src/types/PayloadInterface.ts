@@ -8,6 +8,11 @@ export interface ForgotPasswordPayload {
   email: string;
 }
 
+export interface ResetPasswordPayload {
+  email: string;
+  password: string;
+}
+
 export interface SignupPayload extends LoginPayload {
   name: string,
   email: string,

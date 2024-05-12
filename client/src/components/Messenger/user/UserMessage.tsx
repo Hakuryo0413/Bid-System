@@ -28,7 +28,7 @@ function Message({ message, own, id }: MessageType) {
       <div className="flex">
         <img
           className="mr-2 w-8 h-8 rounded-full object-cover"
-          src={user?.image ?? '../user.jpg'}
+          src={require("../../../assets/images/user.png")}          
           alt=""
         />
         <p
