@@ -147,10 +147,10 @@ const HistoryAuction = () => {
             <table className="custom-table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">SIM</th>
-                  <th scope="col">ROOM</th>
-                  <th scope="col">CREATE AT</th>
-                  <th scope="col">#</th>
+                  <th scope="col">Sim</th>
+                  <th scope="col">Room</th>
+                  <th scope="col">Create at</th>
+                  <th scope="col">Trạng thái</th>
                 </tr>
               </thead>
 

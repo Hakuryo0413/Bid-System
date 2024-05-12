@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAccountsByEmail } from "../../../features/axios/api/account/AccountsDetail";
 import { getSimByNumber } from "../../../features/axios/api/sim/SimDetails";
 import { useParams } from "react-router-dom";
@@ -61,6 +61,17 @@ function UserCancelPayment() {
     if (room) {
       room.state = "Chưa gửi thông báo";
       room.participants = room.participants?.filter((p) => p.email !== email);
+      // Tính toán highest_price từ các participants
+      let highestPrice = 0;
+      room.participants?.forEach((p) => {
+        if (p.highest_price && p.highest_price > highestPrice) {
+          highestPrice = p.highest_price;
+        }
+      });
+
+      // Cập nhật room.price bằng highestPrice
+      room.price = highestPrice;
+
       await updateHis(); // Gọi updateHis sau khi cập nhật phòng
 
       await updateRoom(room);
@@ -73,8 +84,8 @@ function UserCancelPayment() {
 
   const paymentCancel = async (event: React.MouseEvent<HTMLButtonElement>) => {
     await updateRoomParticipant(); // Gọi updateHis trước khi chuyển hướng
-
-    navigate("/auction/history");
+    /*     navigate("/auction/history");
+     */ window.location.href = "/auction/history";
   };
 
   const getRoom = async (code: string) => {
@@ -192,12 +203,14 @@ function UserCancelPayment() {
           >
             Huỷ
           </button>
-          <button
-            onClick={paymentCancel}
-            className="hover:bg-green-500 border-2 border-border text-white px-4 w-32 py-2 mx-4 rounded-lg"
-          >
-            Xác nhận
-          </button>
+          <Link to="/auction/history">
+            <button
+              onClick={paymentCancel}
+              className="hover:bg-green-500 border-2 border-border text-white px-4 w-32 py-2 mx-4 rounded-lg"
+            >
+              Xác nhận
+            </button>
+          </Link>
         </div>
       </form>
     </div>

@@ -163,9 +163,9 @@ export default function UserLogin() {
           if (accountDetails?.role === "admin") {
             navigate("/admin/sim/list");
           } else if (accountDetails?.role === "provider") {
-            navigate("/provider/home");
+            navigate("/provider/auction-list");
           } else {
-            navigate("/user/home");
+            navigate("/user/auction-list");
             // navigate("/test/tesdb");
           }
         }
