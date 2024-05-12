@@ -72,7 +72,7 @@ const HistoryAuction = () => {
       const fetchHistoryAuctions = async () => {
         try {
           console.log("1234");
-          console.log("acc",accountDetails);
+          console.log("acc", accountDetails);
           const hisData = await getHistoryByAccount(accountDetails.email);
           console.log("hisdata", hisData);
           setHistoryAuctions(hisData);
@@ -107,15 +107,15 @@ const HistoryAuction = () => {
     }
   };
 
- /*  useEffect(()=> {
-    debug();
-  },[]) */
+  /*  useEffect(()=> {
+     debug();
+   },[]) */
 
   /* const debug = async() => {
     const test = await getHistoryByAccount("doanthiminhhangit@gmail.com");
     console.log("test", test);
   } */
-  
+
   return (
     <>
       <h1 className="title"> Lịch sử đấu giá: </h1>
@@ -129,36 +129,46 @@ const HistoryAuction = () => {
 
       <UserHomePage />
 
-      <div className="container content" style={{ display: "flex" }}>
-        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Chưa thanh toán')}>
-          Chưa thanh toán
-        </button>
-        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Đã thanh toán')}>
-          Đã thanh toán
-        </button>
-        <button className="nav" style={{ flex: 1 }} onClick={()=>setHisSate('Đã hủy')}>
-          Đã hủy thanh toán
-        </button>
-      </div>
-            {/* {console.log(HisSate)} */}
-      <div className="container content">
-        <table className="custom-table table-dark table-striped">
-          <thead>
-            <tr>
-              <th scope="col">SIM</th>
-              <th scope="col">ROOM</th>
-              <th scope="col">CREATE AT</th>
-              <th scope="col">#</th>
-            </tr>
-          </thead>
+      {historyAuctions?.length > 0 ? (
+        <div>
+          <div className="container content" style={{ display: "flex" }}>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Chưa thanh toán')}>
+              Chưa thanh toán
+            </button>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Đã thanh toán')}>
+              Đã thanh toán
+            </button>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Đã hủy')}>
+              Đã hủy thanh toán
+            </button>
+          </div>
 
-          {historyAuctions?.length > 0 ? (
-            <tbody>
-              {historyAuctions.filter((historyAuction) => {return historyAuction.state?.toLowerCase() === HisSate?.toLowerCase()}).map((historyAuction) => (
-                <HistoryAunctionCard historyAuction={historyAuction} cardState={HisSate}/>
-              ))}
-            </tbody>
-          ) : (
+          <div className="container content">
+            <table className="custom-table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">SIM</th>
+                  <th scope="col">ROOM</th>
+                  <th scope="col">CREATE AT</th>
+                  <th scope="col">#</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {historyAuctions.filter((historyAuction) => historyAuction.state?.toLowerCase() === HisSate?.toLowerCase()).map((historyAuction) => (
+                  <HistoryAunctionCard historyAuction={historyAuction} cardState={HisSate} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div className="container content">
+          <div className="relative top-[-25vh] left-[25%] border-[2px] border-solid border-[#2B394F] rounded-xl w-[65%]">
+            <p className="p-2">Bạn chưa có lịch sử đấu giá.</p>
+          </div>
+
+          {/* <table className="custom-table table-dark table-striped">
             <tbody>
               <tr>
                 <th scope="row">nothing</th>
@@ -174,9 +184,62 @@ const HistoryAuction = () => {
                 </td>
               </tr>
             </tbody>
+          </table> */}
+        </div>
+      )}
+
+      {/* {historyAuctions?.length > 0 ? (
+        <div>
+          <div className="container content" style={{ display: "flex" }}>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Chưa thanh toán')}>
+              Chưa thanh toán
+            </button>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Đã thanh toán')}>
+              Đã thanh toán
+            </button>
+            <button className="nav" style={{ flex: 1 }} onClick={() => setHisSate('Đã hủy')}>
+              Đã hủy thanh toán
+            </button>
+          </div>
+
+          <div className="container content">
+            <table className="custom-table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">SIM</th>
+                  <th scope="col">ROOM</th>
+                  <th scope="col">CREATE AT</th>
+                  <th scope="col">#</th>
+                </tr>
+              </thead>
+
+
+              <tbody>
+                {historyAuctions.filter((historyAuction) => { return historyAuction.state?.toLowerCase() === HisSate?.toLowerCase() }).map((historyAuction) => (
+                  <HistoryAunctionCard historyAuction={historyAuction} cardState={HisSate} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+          ) : (
+          <tbody>
+            <tr>
+              <th scope="row">nothing</th>
+              <td>nothing</td>
+              <td>nothing</td>
+              <td>
+                <a className="button Bpay" href="/user/payment/123/1234213">
+                  Thanh toán
+                </a>
+                <a className="button BDpay" href="/user/cancel/123/1234213">
+                  Hủy thanh toán
+                </a>
+              </td>
+            </tr>
+          </tbody>
           )}
-        </table>
-      </div>
+
+        </div> */}
     </>
   );
 };

@@ -23,6 +23,11 @@ const Notification = () => {
   const [accountDetails, setAccountDetails] = useState<userInterface | null>(
     null
   ); // Đảm bảo setAccountDetails có thể nhận giá trị null
+  const [role_, setRole_] = useState("unsigned");
+  useEffect(() => {
+    console.log("role_", role_);
+  }, [role_]);
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -39,6 +44,10 @@ const Notification = () => {
       const data = await accountData();
       console.log("data", data);
       setAccountDetails(data);
+      const r = accountDetails?.role ? accountDetails.role : "unsigned";
+      setRole_(r);
+      
+      console.log("role_", role_)
     } catch (error) {
       console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
     }
@@ -50,6 +59,9 @@ const Notification = () => {
         const data = await accountData();
         console.log("data", data);
         setAccountDetails(data);
+        const r = accountDetails?.role ? accountDetails.role : "unsigned";
+        setRole_(r);
+        console.log("role_", role_)
       } catch (error) {
         console.error("Lỗi xảy ra khi lấy chi tiết tài khoản:", error);
       }
@@ -60,6 +72,12 @@ const Notification = () => {
 
   useEffect(() => {
     if (accountDetails) {
+     
+      const r = accountDetails?.role ? accountDetails.role : "unsigned";
+      console.log("r", r);
+      setRole_(r);
+      console.log("role", role_);
+
       const fetchNotifications = async () => {
         try {
           console.log("1234");
@@ -74,7 +92,7 @@ const Notification = () => {
 
       fetchNotifications();
     }
-  }, [accountDetails]); // Chỉ gọi lại khi accountDetails thay đổi
+  }, [accountDetails, role_]); // Chỉ gọi lại khi accountDetails thay đổi
 
   const fetchData = async () => {
     console.log("buoc 1");
@@ -83,6 +101,10 @@ const Notification = () => {
     console.log(accountDetails);
     if (accountDetails) {
       console.log("buoc 3");
+      const r = accountDetails?.role ? accountDetails.role : "unsigned";
+      console.log("r", r);
+      setRole_(r);
+      console.log("role_", role_)
       try {
         console.log("1234");
         const notiData = await getNotificationByAccount(accountDetails.email);
@@ -169,6 +191,7 @@ const Notification = () => {
                   onDelete={handleDeleteNotification}
                   reLoad={fetchData}
                   currentState={notiState}
+                  role={role_}
                 />
               ))}
           </div>

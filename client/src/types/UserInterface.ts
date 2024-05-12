@@ -7,7 +7,7 @@ export interface userInterface {
   bankAccount?: string;
   bankOwner?: string;
   email: string;
-  role?: string;
+  role: string;
   phone?: string;
   address?: string;
   state?: boolean;
