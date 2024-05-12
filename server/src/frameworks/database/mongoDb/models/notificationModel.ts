@@ -12,7 +12,8 @@ const notificationSchema = new Schema({
         type: String
     },
     state:{
-        type: Boolean
+        type: Boolean,
+        default: "false"
     },
     type:{
         type: String

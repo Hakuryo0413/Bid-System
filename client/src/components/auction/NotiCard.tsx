@@ -1,9 +1,10 @@
 import { NotificationInterface } from "../../types/NotificationInterface";
 import { Link } from "react-router-dom"; // Đảm bảo bạn import Link từ react-router-dom
 import { updateNotification } from "../../features/axios/api/notification/UpdateNotification";
-
-const NotiCard = ({ noti, onDelete, reLoad, currentState }: { noti: NotificationInterface; onDelete: (id: string) => void; reLoad: () => void; currentState: Boolean }) => {
+import { userInterface } from "../../types/UserInterface";
+const NotiCard = ({ noti, onDelete, reLoad, currentState, role}: { noti: NotificationInterface; onDelete: (id: string) => void; reLoad: () => void; currentState: Boolean; role?: string}) => {
   const { _id, from, content, created_at, type } = noti;
+  console.log("role_", role);
 
   const formatCreatedAt = (dateString: string) => {
     //const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
@@ -39,13 +40,13 @@ const NotiCard = ({ noti, onDelete, reLoad, currentState }: { noti: Notification
   const goToLink = () => {
     switch (type) {
       case "duyetProvider":
-        return "/admin/providerList";
+        return `/${role}/providerList`;
       case "yeuCauXoa":
-        return "/admin/auctionlist";
+        return `/${role}/auctionlist`;
       case "yeuCauDuyet":
-        return "/admin/auctionlist";
+        return `/${role}/auctionlist`;
       case "traTien":
-        return "auction/history";
+        return '/auction/history';
       default:
         return "/";
     }

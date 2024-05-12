@@ -9,16 +9,16 @@ import authenticationMiddleware from "../middleware/authenticationMiddleware";
 const historyRoute = () => {
   const route = express.Router();
 
-    const controller = historyController(
-        historyDbRepository,
-        historyRepositoryMongoDB,
-        History
-    );
-    route.get('/history-data/email/:email', controller.getHistoryByAccount);
-    route.get('/history-data/id',  controller.getHistoryById);
-    route.get('/all-historys', controller.getAllHistory);
-    route.put('/update-history', controller.updateHistory);
-    route.post('/create', controller.historyCreate);
+  const controller = historyController(
+    historyDbRepository,
+    historyRepositoryMongoDB,
+    History
+  );
+  route.get("/history-data/email/:email", controller.getHistoryByAccount);
+  route.get("/history-data/id/:id", controller.getHistoryById);
+  route.get("/all-historys", controller.getAllHistory);
+  route.put("/update-history", controller.updateHistory);
+  route.post("/create", controller.historyCreate);
 
   return route;
 };
