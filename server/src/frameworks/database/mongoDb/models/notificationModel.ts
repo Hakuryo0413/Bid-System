@@ -13,7 +13,7 @@ const notificationSchema = new Schema({
     },
     state:{
         type: Boolean,
-        default: "false"
+        default: false
     },
     type:{
         type: String
