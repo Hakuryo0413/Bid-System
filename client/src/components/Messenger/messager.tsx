@@ -182,7 +182,7 @@ function Messenger() {
       {/* add search user to create new conversation*/}
       <SearchConversation onSelectAccount={handleSelectedAccount} />
       <div className="pt-4 h-screen pb-[70px] flex mx-auto p-2 mt-4 rounded border border-border rounded-2xl text-white">
-        <div className="flex-auto p-3 w-1/3">
+        <div className="flex-auto p-3 w-3.5">
           <div>
             <div className="h-96 overflow-y-auto">
               {conversations?.map((c, index) => (
@@ -191,6 +191,7 @@ function Messenger() {
                     conversation={c}
                     currentUser={user}
                     onlineUsers={onlineUsers}
+                    current_conversation={currentChat?._id}
                   />
                 </div>
               ))}

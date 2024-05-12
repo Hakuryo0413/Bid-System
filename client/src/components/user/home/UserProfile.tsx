@@ -11,18 +11,24 @@ import { getAccountsByEmail } from "../../../features/axios/api/account/Accounts
 import { get } from "https";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { LoginPayload, ResetPasswordPayload } from "../../../types/PayloadInterface";
+import { set } from "lodash";
+import { resetPassword } from "../../../features/axios/api/account/ResetPassword";
+import { login } from "../../../features/axios/api/account/AccountAuthentication";
 
 // import file css
 function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: boolean) => void }) {
   const dispatch = useDispatch();
   const [password, setPassword] = useState("");
-
+  const [isFocused, setIsFocused] = useState(false);
+  const [resetPass, setResetPass] = useState<ResetPasswordPayload>();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState<userInterface>();
   const [enteredPassword, setEnteredPassword] = useState<string>("");
   const [isVisible2, setIsVisible2] = useState(false);
+  const [loginForm, setLoginForm] = useState<LoginPayload>();
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
@@ -40,28 +46,39 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
     if (token) {
       dispatch(loginSuccess());
       getAccountDetails();
+      console.log("User", user);
     }
-  }, [dispatch]);
+  }, [dispatch, enteredPassword]);
 
   const checkPassword = async () => {
     try {
-      const response = await axios.post('/api/check-password', { enteredPassword });
-      if (response.data.success) {
-        console.log('Password is correct');
-        setIsVisible2(false);
-
-      } else {
-        console.log('Password is incorrect');
-        setIsVisible2(true);
+      if (user?.email) {
+        setLoginForm({ username: user?.email, password: enteredPassword });
+        console.log("Login form", loginForm);
       }
+      if (loginForm) {
+        const response = await login(loginForm);
+        console.log("response", response);
+        if (response.status == "success") {
+          console.log('Password is correct');
+          
+          return true;
+
+        } else {
+          console.log('Password is incorrect');
+          
+        }
+      }
+      return false;
     } catch (error) {
-      console.error('Error checking password:', error);
+     
+      console.error('Error checking password:', error); 
+      return false;
     }
   };
   const compareNewPassword = () => {
     if (newPassword !== confirmPassword) {
       console.log("New password and confirm password are not the same");
-      console.log(newPassword + " " + confirmPassword);
       setIsVisible(true);
     }
     else {
@@ -69,23 +86,34 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
       setIsVisible(false);
     }
   }
-  useEffect(() => {
-    checkPassword();
-  }, [enteredPassword]);
+useEffect(() => {
+  const checkPasswordAsync = async () => {
+    const isPasswordValid = await checkPassword();
+    if (isPasswordValid) {
+      setIsVisible2(false);
+    }
+    else {
+      setIsVisible2(true);
+    }
+  };
+
+  checkPasswordAsync();
+}, [setIsFocused, enteredPassword]);
   useEffect(() => {
     compareNewPassword();
   }, [newPassword, confirmPassword]);
   const { register, handleSubmit, setValue } = useForm<userInterface>();
 
-  const submitHandler = async (formData: userInterface) => {
+  const submitHandler = async () => {
 
     if (user) {
-      user.password = formData.password;
-
+      user.password = confirmPassword;
+      console.log("user ở submit", user)
       try {
-        const response = await updateAccount(user);
-        console.log(response)
-        if (response) {
+        // const response = await updateAccount(user);
+        const response2 = await resetPassword({email: user.email, password: confirmPassword} )
+        console.log(response2)
+        if (response2) {
           notify("Cập nhật thông tin thành công", "success");
         } else {
           notify("Cập nhật thông tin thất bại", "error");
@@ -97,12 +125,7 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
 
 
   }
-  useEffect(() => {
-    if (user) {
-      setValue("password", user.password);
-      console.log(user.password);
-    }
-  }, [setValue, user]);
+
   return (
     // Create dialog to change password that place in the middle of the window and the background is blur
     // make background blur
@@ -121,9 +144,12 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
                 type="password"
                 id="old-password"
                 placeholder="Nhập mật khẩu cũ"
-                value={enteredPassword}
+                // value={enteredPassword}
                 onChange={(event) => setEnteredPassword(event.target.value)}
-              />
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+
+                />
 
               <p className={`text-red-500 ${isVisible2 ? '' : 'hidden'}`}>Mật khẩu không khớp</p>
 
@@ -143,12 +169,13 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
             <div className="flex flex-col mb-8">
               {/* <label className="text-white" htmlFor="confirm-password">Xác nhận mật khẩu</label> */}
               <input
-                {...register("password")}
+
                 className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
                 type="password"
                 id="confirm-password"
                 placeholder="Nhập lại mật khẩu mới"
-                value={confirmPassword}
+                // value={confirmPassword}
+                {...register("password")}
                 onChange={(event) => setConfirmPassword(event.target.value)}
 
               />
@@ -172,12 +199,16 @@ function ChangePassword({ setIsChangePassword }: { setIsChangePassword: (value: 
 
 
             <div className="flex justify-center mb-3">
-              <form onSubmit={handleSubmit(submitHandler)} >
+              <form  >
                 <button
-                  className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
-                >
-                  Đổi mật khẩu
-                </button>
+  className="bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
+  onClick={(event) => {
+    event.preventDefault();
+    submitHandler();
+  }}
+>
+  Đổi mật khẩu
+</button>
               </form>
             </div>
           </form>

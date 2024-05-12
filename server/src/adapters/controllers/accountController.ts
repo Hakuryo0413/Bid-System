@@ -130,6 +130,35 @@ export const accountController = (
             });
         }
     )
+    const reset_password = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const email = req.body.email;
+            const password = req.body.password;
+            const account = await findAccountByEmail(email, dbRepositoryAccount);
+            if (account._id) {
+                const id = account._id.toString();
+                const authServices = authServiceInterface(authService());
+
+                //authServices.randomPassword();
+                account.password = await authServices.encryptPassword(password ?? "");
+
+                if (account._id) {
+                    await updatedAccount(
+                        id,
+                        account,
+                        dbRepositoryAccount
+                    );
+                }
+
+                
+            }
+
+            res.json({
+                status: "success",
+                message: "Reset pass successfully"
+            });
+        }
+    )
 
     return {
         getAccountByEmail,
@@ -139,7 +168,8 @@ export const accountController = (
         updateAccount,
         deleteAccountById,
         getAccountData,
-        forgot_password
+        forgot_password,
+        reset_password
     }
 }
 

@@ -11,6 +11,7 @@ const apiConfig = {
     deleteAccountId: `${configKeys.API_URL}account/delete-account`,
     updateAccount: `${configKeys.API_URL}account/update-account`,
     forgotPassword: `${configKeys.API_URL}account/forgot-password`,
+    resetPassword: `${configKeys.API_URL}account/reset-password`,
 
     createAccount: `${configKeys.API_URL}account-auth/create`,
     login: `${configKeys.API_URL}account-auth/login`,

@@ -24,6 +24,7 @@ const accountRoute = () => {
     route.put('/update-account',  controller.updateAccount);
     route.delete('/delete-account/:id', authenticationMiddleware,  controller.deleteAccountById);
     route.put('/forgot-password',  controller.forgot_password);
+    route.put('/reset-password',  controller.reset_password);
     return route;
 }
 
