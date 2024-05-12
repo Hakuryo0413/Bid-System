@@ -58,9 +58,10 @@ export function useAuctionData(): [RoomInterface[] | undefined, RoomInterface[] 
       let auctions_intervals_in_seconds = calcTimeInSeconds(time_intervals.days, time_intervals.hours, time_intervals.minutes, time_intervals.seconds)
 
       let participant = auction.participants || []
+      let len_ = participant.length
       if ((auction.state === "Chưa gửi thông báo" || auction.state === 'Đang đấu giá' 
       || (auction.state === "Chờ đấu giá"))) {
-        if (participant.length > 0  && participant[0].highest_price > 0) {
+        if (participant.length > 0  && participant[len_ - 1].highest_price > 0) {
           const len = auction.participants?.length ?? 0;
           const successBidder = auction.participants?.[len - 1];
           console.log(successBidder, auctionInfor)
