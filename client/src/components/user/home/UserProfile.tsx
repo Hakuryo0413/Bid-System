@@ -137,7 +137,7 @@ useEffect(() => {
             <button className="text-white" onClick={() => setIsChangePassword(false)}>X</button>
           </div>
           <form className="mt-6">
-            <div className="flex flex-col mb-8">
+            <div className="flex flex-col mb-8 hidden">
               {/* <label className="text-white" htmlFor="old-password">Mật khẩu cũ</label> */}
               <input
                 className="h-12 px-4 border bg-background text-white border-gray-800 rounded-lg focus:outline-none hover:border-green-700"
