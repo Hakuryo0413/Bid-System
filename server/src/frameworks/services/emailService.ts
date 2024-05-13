@@ -13,7 +13,8 @@ export const emailService = () => {
     
     
     let send_email = async (from_mail: string = configKeys.EMAIL_USER, to_mail: string, message: string, subject: string) => {
-        await transporter.sendMail(
+/*         console.log(from_mail, to_mail, message, subject);
+ */        await transporter.sendMail(
             {
                 from: from_mail,
                 to: to_mail,
@@ -21,7 +22,8 @@ export const emailService = () => {
                 text: message,
             }, (err: any) => {
                 if (err) {
-                    return false;
+/*                     console.log(err);
+ */                    return false;
                 } else {
                     return true;
                 }
