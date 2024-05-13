@@ -88,8 +88,8 @@ function UserYeuCau() {
 
     createNewNotification(notification)
       .then((response: any) => {
-        notify("Ziu create notification thành công", "success");
-      })
+/*         notify("Ziu create notification thành công", "success");
+ */      })
       .catch((error: any) => {
         notify(error.message, "error");
         console.log(error);
@@ -101,16 +101,16 @@ function UserYeuCau() {
         notify("Ziu create room thành công", "success");
       })
       .catch((error: any) => {
-        notify(error.message, "error");
-        console.log(error);
+/*         notify(error.message, "error");
+ */        console.log(error);
       });
     createNewSim(sim)
       .then((response: any) => {
-        notify("Ziu create sim thành công", "success");
-      })
+/*         notify("Ziu create sim thành công", "success");
+ */      })
       .catch((error: any) => {
-        notify(error.message, "error");
-        console.log(error);
+/*         notify(error.message, "error");
+ */        console.log(error);
       });
   };
 

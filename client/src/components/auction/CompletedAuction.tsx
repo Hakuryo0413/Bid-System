@@ -45,7 +45,7 @@ const CompletedAuction: React.FC<CompletedAuctionProps> = ({ auctionDetails, fro
                   <strong>Số điện thoại:</strong> {auctionDetails?.phone}
               </p>
               <p className="text-white mb-2">
-                  <strong>Số người tham gia: </strong>{auctionDetails?.participants?.length}
+                  <strong>Số lượt tham gia: </strong>{auctionDetails?.participants?.length}
               </p>
           </div>
 

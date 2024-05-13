@@ -153,7 +153,7 @@ export default function StatisticRoom() {
             <option value="Chờ thanh toán">Chờ thanh toán</option>
             <option value="Đấu giá thất bại">Đấu giá thất bại</option>
             <option value="Đấu giá thành công">Đấu giá thành công</option>
-            <option value="Chờ xóa">Đã xóa</option>
+            <option value="Đã xóa">Đã xóa</option>
           </select>
         </div>
         <div className="relative border-border flex w-full gap-2 mx-4 md:w-max">
@@ -242,7 +242,7 @@ export default function StatisticRoom() {
                     textAlign: "center",
                   }}
                 >
-                  Số người tham gia
+                  Số lượt tham gia
                 </TableCell>
               </TableRow>
             </TableHead>
